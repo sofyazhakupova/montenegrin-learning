@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson - Learn Montenegrin</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .lesson-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .lesson-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .lesson-description {
+            color: var(--text-light);
+            font-size: 1.125rem;
+        }
+        
+        .exercise-card {
+            background: var(--white);
+            border: 2px solid var(--bg-light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .exercise-number {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        .exercise-type {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+        
+        .exercise-question {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+        
+        .answer-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.125rem;
+            border: 2px solid var(--bg-light);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .answer-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .submit-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #1e3d5f;
+            transform: translateY(-2px);
+        }
+        
+        .submit-btn:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+        }
+        
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            border: 1px solid var(--success-color);
+            color: #155724;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 1px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            transition: width 0.3s;
+            width: 0%;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .option-btn {
+            padding: 1rem;
+            background: var(--white);
+            border: 2px solid var(--bg-light);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .option-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .option-btn.selected {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .option-btn.correct-answer {
+            border-color: var(--success-color);
+            background: var(--success-color);
+            color: var(--white);
+        }
+        
+        .option-btn.wrong-answer {
+            border-color: #dc3545;
+            background: #dc3545;
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🇲🇪 Learn Montenegrin</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#lessons">Lessons</a>
+                <a href="index.html#about">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="lesson-container">
+            <a href="index.html" class="back-link">← Back to Home</a>
+            
+            <div class="lesson-header">
+                <h1 class="lesson-title">Lesson 1: Greetings</h1>
+                <p class="lesson-description">Learn basic greetings and introductions in Montenegrin</p>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+            
+            <!-- Exercise 1: Translation -->
+            <div class="exercise-card" id="exercise-1">
+                <div class="exercise-header">
+                    <span class="exercise-number">Exercise 1 of 3</span>
+                    <span class="exercise-type">Translation</span>
+                </div>
+                <div class="exercise-question">Translate to Montenegrin: <strong>Hello</strong></div>
+                <input type="text" class="answer-input" id="answer-1" placeholder="Type your answer here...">
+                <button class="submit-btn" onclick="checkAnswer(1, 'Zdravo')">Submit Answer</button>
+                <div class="feedback" id="feedback-1"></div>
+            </div>
+            
+            <!-- Exercise 2: Multiple Choice -->
+            <div class="exercise-card" id="exercise-2" style="display: none;">
+                <div class="exercise-header">
+                    <span class="exercise-number">Exercise 2 of 3</span>
+                    <span class="exercise-type">Multiple Choice</span>
+                </div>
+                <div class="exercise-question">What does "Hvala" mean?</div>
+                <div class="options-grid">
+                    <button class="option-btn" onclick="selectOption(2, 'Hello', false)">Hello</button>
+                    <button class="option-btn" onclick="selectOption(2, 'Thank you', true)">Thank you</button>
+                    <button class="option-btn" onclick="selectOption(2, 'Goodbye', false)">Goodbye</button>
+                    <button class="option-btn" onclick="selectOption(2, 'Please', false)">Please</button>
+                </div>
+                <button class="submit-btn" id="submit-2" onclick="checkMultipleChoice(2, 'Thank you')" disabled>Submit Answer</button>
+                <div class="feedback" id="feedback-2"></div>
+            </div>
+            
+            <!-- Exercise 3: Translation -->
+            <div class="exercise-card" id="exercise-3" style="display: none;">
+                <div class="exercise-header">
+                    <span class="exercise-number">Exercise 3 of 3</span>
+                    <span class="exercise-type">Translation</span>
+                </div>
+                <div class="exercise-question">Translate to Montenegrin: <strong>Goodbye</strong></div>
+                <input type="text" class="answer-input" id="answer-3" placeholder="Type your answer here...">
+                <button class="submit-btn" onclick="checkAnswer(3, 'Doviđenja')">Submit Answer</button>
+                <div class="feedback" id="feedback-3"></div>
+            </div>
+            
+            <!-- Completion Message -->
+            <div class="exercise-card" id="completion" style="display: none; text-align: center;">
+                <h2 style="color: var(--success-color); margin-bottom: 1rem;">🎉 Congratulations!</h2>
+                <p style="font-size: 1.125rem; color: var(--text-light); margin-bottom: 2rem;">
+                    You've completed this lesson! Great job!
+                </p>
+                <a href="index.html" class="btn btn-primary">Back to Lessons</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Learn Montenegrin. Made with ❤️ for language learners.</p>
+    </footer>
+
+    <script>
+        let currentExercise = 1;
+        let selectedOption = null;
+        let selectedOptionCorrect = false;
+        
+        function checkAnswer(exerciseNum, correctAnswer) {
+            const input = document.getElementById(`answer-${exerciseNum}`);
+            const feedback = document.getElementById(`feedback-${exerciseNum}`);
+            const userAnswer = input.value.trim().toLowerCase();
+            const correct = correctAnswer.toLowerCase();
+            
+            input.disabled = true;
+            
+            if (userAnswer === correct) {
+                feedback.className = 'feedback correct show';
+                feedback.textContent = '✓ Correct! Great job!';
+                setTimeout(() => nextExercise(exerciseNum), 1500);
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.textContent = `✗ Incorrect. The correct answer is "${correctAnswer}".`;
+            }
+            
+            updateProgress();
+        }
+        
+        function selectOption(exerciseNum, option, isCorrect) {
+            selectedOption = option;
+            selectedOptionCorrect = isCorrect;
+            
+            // Remove previous selections
+            document.querySelectorAll(`#exercise-${exerciseNum} .option-btn`).forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Mark selected
+            event.target.classList.add('selected');
+            
+            // Enable submit button
+            document.getElementById(`submit-${exerciseNum}`).disabled = false;
+        }
+        
+        function checkMultipleChoice(exerciseNum, correctAnswer) {
+            const feedback = document.getElementById(`feedback-${exerciseNum}`);
+            const buttons = document.querySelectorAll(`#exercise-${exerciseNum} .option-btn`);
+            
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === correctAnswer) {
+                    btn.classList.add('correct-answer');
+                }
+            });
+            
+            if (selectedOptionCorrect) {
+                feedback.className = 'feedback correct show';
+                feedback.textContent = '✓ Correct! Well done!';
+                setTimeout(() => nextExercise(exerciseNum), 1500);
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.textContent = `✗ Incorrect. The correct answer is "${correctAnswer}".`;
+            }
+            
+            updateProgress();
+        }
+        
+        function nextExercise(current) {
+            const currentCard = document.getElementById(`exercise-${current}`);
+            currentCard.style.display = 'none';
+            
+            if (current < 3) {
+                const nextCard = document.getElementById(`exercise-${current + 1}`);
+                nextCard.style.display = 'block';
+                currentExercise = current + 1;
+            } else {
+                // Show completion message
+                document.getElementById('completion').style.display = 'block';
+            }
+        }
+        
+        function updateProgress() {
+            const completed = currentExercise - 1;
+            const total = 3;
+            const percentage = (completed / total) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+        
+        // Allow Enter key to submit
+        document.getElementById('answer-1').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer(1, 'Zdravo');
+            }
+        });
+        
+        document.getElementById('answer-3').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer(3, 'Doviđenja');
+            }
+        });
+    </script>
+</body>
+</html>
+

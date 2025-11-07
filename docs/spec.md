@@ -43,7 +43,7 @@ Shared utility module executed on all pages:
 
 ### Page-specific hooks
 - `lesson.html`: sets lesson status to `in_progress` when the page loads, flips to `completed` when exercises finish.
-- `vocab.html`: renders per-lesson vocabulary cards (verbs include conjugation tables), lesson selector, and optional shared reference section.
+- `vocab.html`: aggregates all lessons into category tabs (verbs, nouns, etc.), renders cards with conjugations, and provides a modal with translations/notes.
 
 ## Styling (`styles.css`)
 - Global palette via CSS variables.

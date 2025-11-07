@@ -623,6 +623,67 @@
                     </div>
 
                     <div class="table-card">
+                        <h3>❓ Asking Questions with “biti”</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Da li sam...?</td><td>Am I...?</td></tr>
+                                <tr><td>Da li si...?</td><td>Are you...? (informal)</td></tr>
+                                <tr><td>Da li je...?</td><td>Is he / she / it...?</td></tr>
+                                <tr><td>Da li smo...?</td><td>Are we...?</td></tr>
+                                <tr><td>Da li ste...?</td><td>Are you...? (formal / plural)</td></tr>
+                                <tr><td>Da li su...?</td><td>Are they...?</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="color: var(--text-light); margin-top: 0.75rem;">Short forms like <strong>Jesi li?</strong> or <strong>Je li?</strong> appear in quick speech, but <strong>Da li + verb</strong> works everywhere and is easy to remember.</p>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>🚫 Negative Forms of “biti”</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Nisam</td><td>I am not</td></tr>
+                                <tr><td>Nisi</td><td>You are not (informal)</td></tr>
+                                <tr><td>Nije</td><td>He / She / It is not</td></tr>
+                                <tr><td>Nismo</td><td>We are not</td></tr>
+                                <tr><td>Niste</td><td>You are not (formal / plural)</td></tr>
+                                <tr><td>Nisu</td><td>They are not</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="color: var(--text-light); margin-top: 0.75rem;">Notice how <strong>ne + biti</strong> fuses into one word (<em>ne sam → nisam</em>). These forms are very common in everyday answers.</p>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>💬 Sample Sentences</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Da li si iz Crne Gore?</td><td>Are you from Montenegro?</td></tr>
+                                <tr><td>Jesi li student?</td><td>Are you a student?</td></tr>
+                                <tr><td>Nisam iz Engleske.</td><td>I am not from England.</td></tr>
+                                <tr><td>Mi nismo turisti.</td><td>We are not tourists.</td></tr>
+                                <tr><td>Oni su prijatelji, zar ne?</td><td>They are friends, aren’t they?</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-card">
                         <h3>1️⃣ Basic Greetings</h3>
                         <table>
                             <thead>
@@ -768,6 +829,22 @@
                                 <button class="option-btn" data-correct="false">Zdravo</button>
                                 <div class="feedback"></div>
                             </div>
+                            <div>
+                                <p><strong>Q4.</strong> Choose the correct question: “___ ti student?”</p>
+                                <button class="option-btn" data-correct="true">Da li si</button>
+                                <button class="option-btn" data-correct="false">Da li je</button>
+                                <button class="option-btn" data-correct="false">Da li ste</button>
+                                <button class="option-btn" data-correct="false">Jesi li smo</button>
+                                <div class="feedback"></div>
+                            </div>
+                            <div>
+                                <p><strong>Q5.</strong> Complete the sentence: “Mi ___ iz Srbije.”</p>
+                                <button class="option-btn" data-correct="false">nisam</button>
+                                <button class="option-btn" data-correct="false">nisi</button>
+                                <button class="option-btn" data-correct="true">nismo</button>
+                                <button class="option-btn" data-correct="false">nisu</button>
+                                <div class="feedback"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -777,6 +854,14 @@
                         <div class="matching-grid" id="matching-left"></div>
                         <div class="matching-grid" id="matching-right" style="margin-top: 0.6rem;"></div>
                         <div class="feedback" id="matching-feedback"></div>
+                    </div>
+
+                    <div class="activity-card" id="qa-section">
+                        <h3>🤝 Connect the Conversation</h3>
+                        <p style="color: var(--text-light); margin-bottom: 0.75rem;">Match the question with the most natural reply.</p>
+                        <div class="matching-grid" id="qa-left"></div>
+                        <div class="matching-grid" id="qa-right" style="margin-top: 0.6rem;"></div>
+                        <div class="feedback" id="qa-feedback"></div>
                     </div>
 
                     <div class="activity-card" id="select-section">
@@ -1274,55 +1359,49 @@
             });
         }
 
-        function wireMatching() {
-            const pairs = [
-                { word: 'Zdravo', translation: 'Hello' },
-                { word: 'Hvala', translation: 'Thank you' },
-                { word: 'Molim', translation: 'Please / You’re welcome' },
-                { word: 'Doviđenja', translation: 'Goodbye' },
-                { word: 'Dobro jutro', translation: 'Good morning' },
-                { word: 'Laku noć', translation: 'Good night' }
-            ];
+        function setupMatchingGame(pairs, leftId, rightId, feedbackId) {
+            const leftContainer = document.getElementById(leftId);
+            const rightContainer = document.getElementById(rightId);
+            const feedbackEl = document.getElementById(feedbackId);
+            if (!leftContainer || !rightContainer) return;
 
-            const leftContainer = document.getElementById('matching-left');
-            const rightContainer = document.getElementById('matching-right');
-            const feedbackEl = document.getElementById('matching-feedback');
+            leftContainer.innerHTML = '';
+            rightContainer.innerHTML = '';
+            if (feedbackEl) feedbackEl.textContent = '';
 
-            let selectedLeft = null;
+            let selectedLeftBtn = null;
             let matchedCount = 0;
 
-            pairs.forEach(pair => {
+            pairs.forEach((pair, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'matching-btn';
-                btn.textContent = pair.word;
-                btn.dataset.word = pair.word;
+                btn.textContent = pair.left;
+                btn.dataset.matchKey = String(index);
                 btn.addEventListener('click', () => {
                     if (btn.classList.contains('correct')) return;
                     leftContainer.querySelectorAll('.matching-btn').forEach(b => b.classList.remove('selected'));
                     btn.classList.add('selected');
-                    selectedLeft = pair;
+                    selectedLeftBtn = btn;
                 });
                 leftContainer.appendChild(btn);
             });
 
-            const shuffled = [...pairs].sort(() => 0.5 - Math.random());
-            shuffled.forEach(pair => {
+            const shuffled = pairs.map((pair, index) => ({ ...pair, index })).sort(() => 0.5 - Math.random());
+            shuffled.forEach(({ right, index }) => {
                 const btn = document.createElement('button');
                 btn.className = 'matching-btn';
-                btn.textContent = pair.translation;
-                btn.dataset.translation = pair.translation;
+                btn.textContent = right;
+                btn.dataset.matchKey = String(index);
                 btn.addEventListener('click', () => {
-                    if (!selectedLeft || btn.classList.contains('correct')) return;
-                    if (selectedLeft.translation === pair.translation) {
-                        btn.classList.add('correct');
-                        btn.classList.add('disabled');
-                        const leftBtn = leftContainer.querySelector(`.matching-btn[data-word="${selectedLeft.word}"]`);
-                        leftBtn.classList.remove('selected');
-                        leftBtn.classList.add('correct');
-                        leftBtn.classList.add('disabled');
-                        selectedLeft = null;
+                    if (!selectedLeftBtn || btn.classList.contains('correct')) return;
+                    const isMatch = selectedLeftBtn.dataset.matchKey === btn.dataset.matchKey;
+                    if (isMatch) {
+                        btn.classList.add('correct', 'disabled');
+                        selectedLeftBtn.classList.remove('selected');
+                        selectedLeftBtn.classList.add('correct', 'disabled');
+                        selectedLeftBtn = null;
                         matchedCount += 1;
-                        if (matchedCount === pairs.length) {
+                        if (matchedCount === pairs.length && feedbackEl) {
                             feedbackEl.textContent = '✅ Great job! All pairs matched.';
                         }
                     } else {
@@ -1332,6 +1411,30 @@
                 });
                 rightContainer.appendChild(btn);
             });
+        }
+
+        function wireMatching() {
+            const greetingPairs = [
+                { left: 'Zdravo', right: 'Hello' },
+                { left: 'Hvala', right: 'Thank you' },
+                { left: 'Molim', right: 'Please / You’re welcome' },
+                { left: 'Doviđenja', right: 'Goodbye' },
+                { left: 'Dobro jutro', right: 'Good morning' },
+                { left: 'Laku noć', right: 'Good night' }
+            ];
+            setupMatchingGame(greetingPairs, 'matching-left', 'matching-right', 'matching-feedback');
+        }
+
+        function wireQuestionMatching() {
+            const qaPairs = [
+                { left: 'Da li si iz Crne Gore?', right: 'Ne, nisam. Iz Srbije sam.' },
+                { left: 'Da li ste Ana i Marko?', right: 'Ne, mi smo Sara i Luka.' },
+                { left: 'Jesi li student?', right: 'Jesam, studiram jezike.' },
+                { left: 'Da li je on tvoj brat?', right: 'Da, on je moj brat.' },
+                { left: 'Da li smo spremni?', right: 'Nismo još, čekamo tebe.' },
+                { left: 'Da li su oni turisti?', right: 'Da, prvi put su u Podgorici.' }
+            ];
+            setupMatchingGame(qaPairs, 'qa-left', 'qa-right', 'qa-feedback');
         }
 
         function wireDialogue() {
@@ -1432,6 +1535,7 @@
             initTabs();
             wireMultipleChoice();
             wireMatching();
+            wireQuestionMatching();
             wireSelectOne();
             wireDialogue();
             wireTrueFalse();

@@ -2,11 +2,19 @@ const LESSON_PROGRESS_KEY = 'montenegrin_lesson_progress_v1';
 
 let lessonProgressCache = null;
 
+function sanitizeProgress(data) {
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+        return {};
+    }
+    return data;
+}
+
 function ensureLessonProgress() {
     if (!lessonProgressCache) {
         try {
             const stored = localStorage.getItem(LESSON_PROGRESS_KEY);
-            lessonProgressCache = stored ? JSON.parse(stored) : {};
+            const parsed = stored ? JSON.parse(stored) : {};
+            lessonProgressCache = sanitizeProgress(parsed);
         } catch (error) {
             console.warn('Could not load lesson progress from storage', error);
             lessonProgressCache = {};
@@ -17,7 +25,8 @@ function ensureLessonProgress() {
 
 function persistLessonProgress() {
     try {
-        localStorage.setItem(LESSON_PROGRESS_KEY, JSON.stringify(lessonProgressCache || {}));
+        const payload = sanitizeProgress(lessonProgressCache);
+        localStorage.setItem(LESSON_PROGRESS_KEY, JSON.stringify(payload));
     } catch (error) {
         console.warn('Could not save lesson progress', error);
     }
@@ -128,78 +137,82 @@ function updateDashboard() {
         return;
     }
 
-    const lessons = Object.values(lessonsData).sort((a, b) => a.order - b.order);
-    const summary = getLessonProgressSummary(lessons);
-    const nextLesson = getNextLessonToStudy(lessons);
+    try {
+        const lessons = Object.values(lessonsData).sort((a, b) => a.order - b.order);
+        const summary = getLessonProgressSummary(lessons);
+        const nextLesson = getNextLessonToStudy(lessons);
 
-    const progressBar = document.getElementById('dashboard-progress-bar');
-    const progressLabel = document.getElementById('dashboard-progress-percent');
-    if (progressBar) {
-        progressBar.style.width = `${summary.percentComplete}%`;
-    }
-    if (progressLabel) {
-        progressLabel.textContent = `${summary.percentComplete}%`;
-    }
-
-    const statComplete = document.getElementById('stat-lessons-complete');
-    const statInProgress = document.getElementById('stat-lessons-progress');
-    const statLocked = document.getElementById('stat-lessons-locked');
-    const statTotal = document.getElementById('stat-lessons-total');
-
-    if (statComplete) statComplete.textContent = summary.completed;
-    if (statInProgress) statInProgress.textContent = summary.inProgress;
-    if (statLocked) statLocked.textContent = summary.locked;
-    if (statTotal) statTotal.textContent = summary.available;
-
-    const chartConfig = [
-        { id: 'chart-completed', value: summary.completed },
-        { id: 'chart-progress', value: summary.inProgress },
-        { id: 'chart-not-started', value: summary.notStarted }
-    ];
-
-    chartConfig.forEach(cfg => {
-        const el = document.getElementById(cfg.id);
-        if (!el) return;
-        const height = summary.available ? Math.round((cfg.value / summary.available) * 100) : 0;
-        el.style.height = `${height}%`;
-        el.textContent = cfg.value;
-    });
-
-    const nextLessonContent = document.getElementById('next-lesson-content');
-    if (nextLessonContent) {
-        if (nextLesson) {
-            const status = getLessonStatus(nextLesson.id);
-            const statusClass = status === 'in_progress' ? 'lesson-status progress' : 'lesson-status';
-            const statusLabel = status === 'in_progress' ? 'In Progress' : 'Not Started';
-            nextLessonContent.innerHTML = `
-                <h3>${nextLesson.title}</h3>
-                <p class="lesson-row-description">${nextLesson.goal}</p>
-                <div class="lesson-meta-row" style="margin-top: 1rem;">
-                    <span class="level-badge">${nextLesson.level}</span>
-                    <span class="${statusClass}">${statusLabel}</span>
-                </div>
-                <a class="pill-btn" href="lesson.html?lesson=${nextLesson.order}">Continue Lesson</a>
-            `;
-        } else {
-            nextLessonContent.innerHTML = `
-                <h3>All lessons completed! 🎉</h3>
-                <p class="lesson-row-description">Great job! You can review lessons or jump into practice quizzes to keep your streak.</p>
-                <div class="quick-actions" style="margin-top: 1.25rem;">
-                    <a href="lessons.html">
-                        <div class="quick-link">
-                            <span>Browse Lessons</span>
-                            <span>→</span>
-                        </div>
-                    </a>
-                    <a href="quiz.html">
-                        <div class="quick-link">
-                            <span>Start a Quiz</span>
-                            <span>→</span>
-                        </div>
-                    </a>
-                </div>
-            `;
+        const progressBar = document.getElementById('dashboard-progress-bar');
+        const progressLabel = document.getElementById('dashboard-progress-percent');
+        if (progressBar) {
+            progressBar.style.width = `${summary.percentComplete}%`;
         }
+        if (progressLabel) {
+            progressLabel.textContent = `${summary.percentComplete}%`;
+        }
+
+        const statComplete = document.getElementById('stat-lessons-complete');
+        const statInProgress = document.getElementById('stat-lessons-progress');
+        const statLocked = document.getElementById('stat-lessons-locked');
+        const statTotal = document.getElementById('stat-lessons-total');
+
+        if (statComplete) statComplete.textContent = summary.completed;
+        if (statInProgress) statInProgress.textContent = summary.inProgress;
+        if (statLocked) statLocked.textContent = summary.locked;
+        if (statTotal) statTotal.textContent = summary.available;
+
+        const chartConfig = [
+            { id: 'chart-completed', value: summary.completed },
+            { id: 'chart-progress', value: summary.inProgress },
+            { id: 'chart-not-started', value: summary.notStarted }
+        ];
+
+        chartConfig.forEach(cfg => {
+            const el = document.getElementById(cfg.id);
+            if (!el) return;
+            const height = summary.available ? Math.round((cfg.value / summary.available) * 100) : 0;
+            el.style.height = `${height}%`;
+            el.textContent = cfg.value;
+        });
+
+        const nextLessonContent = document.getElementById('next-lesson-content');
+        if (nextLessonContent) {
+            if (nextLesson) {
+                const status = getLessonStatus(nextLesson.id);
+                const statusClass = status === 'in_progress' ? 'lesson-status progress' : 'lesson-status';
+                const statusLabel = status === 'in_progress' ? 'In Progress' : 'Not Started';
+                nextLessonContent.innerHTML = `
+                    <h3>${nextLesson.title}</h3>
+                    <p class="lesson-row-description">${nextLesson.goal}</p>
+                    <div class="lesson-meta-row" style="margin-top: 1rem;">
+                        <span class="level-badge">${nextLesson.level}</span>
+                        <span class="${statusClass}">${statusLabel}</span>
+                    </div>
+                    <a class="pill-btn" href="lesson.html?lesson=${nextLesson.order}">Continue Lesson</a>
+                `;
+            } else {
+                nextLessonContent.innerHTML = `
+                    <h3>All lessons completed! 🎉</h3>
+                    <p class="lesson-row-description">Great job! You can review lessons or jump into practice quizzes to keep your streak.</p>
+                    <div class="quick-actions" style="margin-top: 1.25rem;">
+                        <a href="lessons.html">
+                            <div class="quick-link">
+                                <span>Browse Lessons</span>
+                                <span>→</span>
+                            </div>
+                        </a>
+                        <a href="quiz.html">
+                            <div class="quick-link">
+                                <span>Start a Quiz</span>
+                                <span>→</span>
+                            </div>
+                        </a>
+                    </div>
+                `;
+            }
+        }
+    } catch (error) {
+        console.error('Failed to update dashboard', error);
     }
 }
 
@@ -228,72 +241,78 @@ function renderLessonsList() {
 
     function drawLessons() {
         listContainer.innerHTML = '';
-        const progress = ensureLessonProgress();
 
-        lessons.forEach(lesson => {
-            const status = lesson.available ? (progress[lesson.id] || 'not_started') : 'locked';
-            if (!matchesFilter(status)) {
-                return;
+        try {
+            const progress = ensureLessonProgress();
+
+            lessons.forEach(lesson => {
+                const status = lesson.available ? (progress[lesson.id] || 'not_started') : 'locked';
+                if (!matchesFilter(status)) {
+                    return;
+                }
+
+                const row = document.createElement('div');
+                row.className = 'lesson-row';
+
+                const number = document.createElement('div');
+                number.className = 'lesson-number';
+                number.textContent = lesson.order;
+
+                const content = document.createElement('div');
+                const title = document.createElement('h3');
+                title.textContent = lesson.title;
+
+                const metaRow = document.createElement('div');
+                metaRow.className = 'lesson-meta-row';
+
+                const levelBadge = document.createElement('span');
+                levelBadge.className = 'level-badge';
+                levelBadge.textContent = lesson.level;
+
+                const statusBadge = document.createElement('span');
+                statusBadge.className = 'lesson-status ' + getStatusClass(status);
+                statusBadge.textContent = getStatusLabel(status);
+
+                metaRow.appendChild(levelBadge);
+                metaRow.appendChild(statusBadge);
+
+                const description = document.createElement('p');
+                description.className = 'lesson-row-description';
+                description.textContent = lesson.goal;
+
+                content.appendChild(title);
+                content.appendChild(metaRow);
+                content.appendChild(description);
+
+                const actions = document.createElement('div');
+                actions.className = 'lesson-row-actions';
+
+                if (lesson.available) {
+                    const actionLink = document.createElement('a');
+                    actionLink.className = 'pill-btn';
+                    actionLink.href = `lesson.html?lesson=${lesson.order}`;
+                    actionLink.textContent = status === 'completed' ? 'Review Lesson' : 'Start Lesson';
+                    actions.appendChild(actionLink);
+                } else {
+                    const comingSoon = document.createElement('span');
+                    comingSoon.className = 'locked-badge';
+                    comingSoon.textContent = 'Coming Soon';
+                    actions.appendChild(comingSoon);
+                }
+
+                row.appendChild(number);
+                row.appendChild(content);
+                row.appendChild(actions);
+
+                listContainer.appendChild(row);
+            });
+
+            if (!listContainer.children.length) {
+                listContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">No lessons match this filter yet.</p>';
             }
-
-            const row = document.createElement('div');
-            row.className = 'lesson-row';
-
-            const number = document.createElement('div');
-            number.className = 'lesson-number';
-            number.textContent = lesson.order;
-
-            const content = document.createElement('div');
-            const title = document.createElement('h3');
-            title.textContent = lesson.title;
-
-            const metaRow = document.createElement('div');
-            metaRow.className = 'lesson-meta-row';
-
-            const levelBadge = document.createElement('span');
-            levelBadge.className = 'level-badge';
-            levelBadge.textContent = lesson.level;
-
-            const statusBadge = document.createElement('span');
-            statusBadge.className = 'lesson-status ' + getStatusClass(status);
-            statusBadge.textContent = getStatusLabel(status);
-
-            metaRow.appendChild(levelBadge);
-            metaRow.appendChild(statusBadge);
-
-            const description = document.createElement('p');
-            description.className = 'lesson-row-description';
-            description.textContent = lesson.goal;
-
-            content.appendChild(title);
-            content.appendChild(metaRow);
-            content.appendChild(description);
-
-            const actions = document.createElement('div');
-            actions.className = 'lesson-row-actions';
-
-            if (lesson.available) {
-                const actionLink = document.createElement('a');
-                actionLink.className = 'pill-btn';
-                actionLink.href = `lesson.html?lesson=${lesson.order}`;
-                actionLink.textContent = status === 'completed' ? 'Review Lesson' : 'Start Lesson';
-                actions.appendChild(actionLink);
-            } else {
-                const comingSoon = document.createElement('span');
-                comingSoon.className = 'locked-badge';
-                comingSoon.textContent = 'Coming Soon';
-                actions.appendChild(comingSoon);
-            }
-
-            row.appendChild(number);
-            row.appendChild(content);
-            row.appendChild(actions);
-
-            listContainer.appendChild(row);
-        });
-
-        if (!listContainer.children.length) {
-            listContainer.innerHTML = '<p style="text-align:center; color: var(--text-light);">No lessons match this filter yet.</p>';
+        } catch (error) {
+            console.error('Failed to render lessons list', error);
+            listContainer.innerHTML = '<p style="text-align:center; color: #dc3545;">Sorry, we could not load the lesson list. Please refresh the page.</p>';
         }
     }
 
@@ -330,9 +349,13 @@ function renderLessonsList() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    setupHeroScriptToggle();
-    setupSmoothScrolling();
-    updateDashboard();
-    renderLessonsList();
+    try {
+        setupHeroScriptToggle();
+        setupSmoothScrolling();
+        updateDashboard();
+        renderLessonsList();
+    } catch (error) {
+        console.error('Initialization error', error);
+    }
 });
 

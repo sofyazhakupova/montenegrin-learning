@@ -386,9 +386,10 @@
         <nav>
             <div class="logo">🇲🇪 Learn Montenegrin</div>
             <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="index.html#lessons">Lessons</a>
-                <a href="index.html#about">About</a>
+                <a href="index.html">Dashboard</a>
+                <a href="lessons.html">Lessons</a>
+                <a href="vocab.html">Vocabulary</a>
+                <a href="quiz.html">Quiz</a>
             </div>
         </nav>
     </header>
@@ -571,7 +572,17 @@
         <p>&copy; 2024 Learn Montenegrin. Made with ❤️ for language learners.</p>
     </footer>
 
+    <script src="lessons-data.js"></script>
+    <script src="script.js"></script>
     <script>
+        const LESSON_ID = 'lesson1';
+        if (typeof setLessonStatus === 'function') {
+            const currentStatus = getLessonStatus(LESSON_ID);
+            if (currentStatus !== 'completed') {
+                setLessonStatus(LESSON_ID, 'in_progress');
+            }
+        }
+
         let currentExercise = 1;
         let selectedOption = null;
         let selectedOptionCorrect = false;
@@ -733,6 +744,9 @@
             } else {
                 // Show completion message
                 document.getElementById('completion').style.display = 'block';
+                if (typeof setLessonStatus === 'function') {
+                    setLessonStatus(LESSON_ID, 'completed');
+                }
             }
         }
         

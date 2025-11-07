@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lessons - Learn Montenegrin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🇲🇪 Learn Montenegrin</div>
+            <div class="nav-links">
+                <a href="index.html">Dashboard</a>
+                <a href="lessons.html">Lessons</a>
+                <a href="vocab.html">Vocabulary</a>
+                <a href="quiz.html">Quiz</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="lessons-list">
+            <header>
+                <h1>All Lessons</h1>
+                <p>Follow the curriculum, track your progress, and revisit lessons anytime.</p>
+            </header>
+
+            <div class="filter-bar">
+                <button class="filter-chip active" data-filter="all">All</button>
+                <button class="filter-chip" data-filter="not-started">Not Started</button>
+                <button class="filter-chip" data-filter="in-progress">In Progress</button>
+                <button class="filter-chip" data-filter="completed">Completed</button>
+                <button class="filter-chip" data-filter="locked">Locked</button>
+            </div>
+
+            <div id="lessons-list-container">
+                <p style="text-align:center; color: var(--text-light);">Loading lessons...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Learn Montenegrin. Made with ❤️ for language learners.</p>
+    </footer>
+
+    <script src="lessons-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+

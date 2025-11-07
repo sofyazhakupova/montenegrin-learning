@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson - Learn Montenegrin</title>
+    <title>Lesson 1: Greetings and Introductions - Learn Montenegrin</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         .lesson-container {
@@ -23,9 +23,124 @@
             margin-bottom: 0.5rem;
         }
         
+        .lesson-meta {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .level-badge {
+            background: var(--accent-color);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
         .lesson-description {
             color: var(--text-light);
             font-size: 1.125rem;
+        }
+        
+        .section {
+            background: var(--white);
+            border: 2px solid var(--bg-light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .theory-content {
+            line-height: 1.8;
+        }
+        
+        .theory-content h3 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .theory-content h3:first-child {
+            margin-top: 0;
+        }
+        
+        .theory-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .theory-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .theory-content b {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .vocab-item {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .vocab-word {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .vocab-translation {
+            color: var(--text-light);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            transition: width 0.3s;
+            width: 0%;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
         }
         
         .exercise-card {
@@ -55,10 +170,11 @@
         .exercise-type {
             color: var(--text-light);
             font-size: 0.875rem;
+            text-transform: capitalize;
         }
         
         .exercise-question {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             margin-bottom: 1.5rem;
             color: var(--text-dark);
         }
@@ -76,6 +192,17 @@
         .answer-input:focus {
             outline: none;
             border-color: var(--primary-color);
+        }
+        
+        .fill-blank-input {
+            display: inline-block;
+            width: 100px;
+            padding: 0.5rem;
+            font-size: 1.25rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 6px;
+            text-align: center;
+            margin: 0 0.5rem;
         }
         
         .submit-btn {
@@ -123,34 +250,6 @@
             display: block;
         }
         
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--bg-light);
-            border-radius: 4px;
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: var(--success-color);
-            transition: width 0.3s;
-            width: 0%;
-        }
-        
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        
         .options-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -190,6 +289,96 @@
             background: #dc3545;
             color: var(--white);
         }
+        
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .matching-item {
+            padding: 1rem;
+            background: var(--bg-light);
+            border: 2px solid var(--bg-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .matching-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .matching-item.selected {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .matching-item.matched {
+            border-color: var(--success-color);
+            background: var(--success-color);
+            color: var(--white);
+            cursor: default;
+        }
+        
+        .matching-item.wrong {
+            border-color: #dc3545;
+            background: #dc3545;
+            color: var(--white);
+        }
+        
+        .practice-section {
+            margin-top: 3rem;
+        }
+        
+        .practice-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .completion-card {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        .completion-card h2 {
+            color: var(--success-color);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .completion-card p {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .matching-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .vocabulary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -209,62 +398,171 @@
             <a href="index.html" class="back-link">← Back to Home</a>
             
             <div class="lesson-header">
-                <h1 class="lesson-title">Lesson 1: Greetings</h1>
-                <p class="lesson-description">Learn basic greetings and introductions in Montenegrin</p>
-            </div>
-            
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress"></div>
-            </div>
-            
-            <!-- Exercise 1: Translation -->
-            <div class="exercise-card" id="exercise-1">
-                <div class="exercise-header">
-                    <span class="exercise-number">Exercise 1 of 3</span>
-                    <span class="exercise-type">Translation</span>
+                <h1 class="lesson-title">Greetings and Introductions</h1>
+                <div class="lesson-meta">
+                    <span class="level-badge">Level A1</span>
                 </div>
-                <div class="exercise-question">Translate to Montenegrin: <strong>Hello</strong></div>
-                <input type="text" class="answer-input" id="answer-1" placeholder="Type your answer here...">
-                <button class="submit-btn" onclick="checkAnswer(1, 'Zdravo')">Submit Answer</button>
-                <div class="feedback" id="feedback-1"></div>
+                <p class="lesson-description">Learn how to greet and introduce yourself in Montenegrin/Serbian</p>
             </div>
             
-            <!-- Exercise 2: Multiple Choice -->
-            <div class="exercise-card" id="exercise-2" style="display: none;">
-                <div class="exercise-header">
-                    <span class="exercise-number">Exercise 2 of 3</span>
-                    <span class="exercise-type">Multiple Choice</span>
+            <!-- Theory Section -->
+            <div class="section">
+                <h2 class="section-title">📖 Theory</h2>
+                <div class="theory-content">
+                    <h3>Greetings</h3>
+                    <p>In Serbian, you can greet people depending on the time of day:</p>
+                    <ul>
+                        <li><b>Dobro jutro</b> — Good morning</li>
+                        <li><b>Dobar dan</b> — Good day / Good afternoon</li>
+                        <li><b>Dobro veče</b> — Good evening</li>
+                        <li><b>Laku noć</b> — Good night</li>
+                        <li><b>Zdravo</b> — Hello (neutral)</li>
+                        <li><b>Doviđenja</b> — Goodbye</li>
+                    </ul>
+                    
+                    <h3>Introducing Yourself</h3>
+                    <p>To say your name, use <b>Ja sam...</b> (I am...)</p>
+                    <p>Example: <b>Ja sam Ana.</b> — I am Ana.</p>
+                    <p>To ask someone's name: <b>Kako se zovete?</b> (formal) or <b>Kako se zoveš?</b> (informal)</p>
+                    
+                    <h3>How are you?</h3>
+                    <p>
+                        <b>Kako ste?</b> — How are you? (formal)<br>
+                        <b>Kako si?</b> — How are you? (informal)<br>
+                        <b>Dobro, hvala.</b> — Fine, thank you.<br>
+                        <b>Nije loše.</b> — Not bad.
+                    </p>
                 </div>
-                <div class="exercise-question">What does "Hvala" mean?</div>
-                <div class="options-grid">
-                    <button class="option-btn" onclick="selectOption(2, 'Hello', false)">Hello</button>
-                    <button class="option-btn" onclick="selectOption(2, 'Thank you', true)">Thank you</button>
-                    <button class="option-btn" onclick="selectOption(2, 'Goodbye', false)">Goodbye</button>
-                    <button class="option-btn" onclick="selectOption(2, 'Please', false)">Please</button>
-                </div>
-                <button class="submit-btn" id="submit-2" onclick="checkMultipleChoice(2, 'Thank you')" disabled>Submit Answer</button>
-                <div class="feedback" id="feedback-2"></div>
             </div>
             
-            <!-- Exercise 3: Translation -->
-            <div class="exercise-card" id="exercise-3" style="display: none;">
-                <div class="exercise-header">
-                    <span class="exercise-number">Exercise 3 of 3</span>
-                    <span class="exercise-type">Translation</span>
+            <!-- Vocabulary Section -->
+            <div class="section">
+                <h2 class="section-title">📚 Vocabulary</h2>
+                <div class="vocabulary-grid">
+                    <div class="vocab-item">
+                        <div class="vocab-word">Dobro jutro</div>
+                        <div class="vocab-translation">Good morning</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-word">Dobar dan</div>
+                        <div class="vocab-translation">Good day</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-word">Dobro veče</div>
+                        <div class="vocab-translation">Good evening</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-word">Laku noć</div>
+                        <div class="vocab-translation">Good night</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-word">Zdravo</div>
+                        <div class="vocab-translation">Hello</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-word">Doviđenja</div>
+                        <div class="vocab-translation">Goodbye</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-word">Molim</div>
+                        <div class="vocab-translation">Please</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-word">Hvala</div>
+                        <div class="vocab-translation">Thank you</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-word">Kako ste?</div>
+                        <div class="vocab-translation">How are you? (formal)</div>
+                    </div>
+                    <div class="vocab-item">
+                        <div class="vocab-word">Ja sam...</div>
+                        <div class="vocab-translation">I am...</div>
+                    </div>
                 </div>
-                <div class="exercise-question">Translate to Montenegrin: <strong>Goodbye</strong></div>
-                <input type="text" class="answer-input" id="answer-3" placeholder="Type your answer here...">
-                <button class="submit-btn" onclick="checkAnswer(3, 'Doviđenja')">Submit Answer</button>
-                <div class="feedback" id="feedback-3"></div>
             </div>
             
-            <!-- Completion Message -->
-            <div class="exercise-card" id="completion" style="display: none; text-align: center;">
-                <h2 style="color: var(--success-color); margin-bottom: 1rem;">🎉 Congratulations!</h2>
-                <p style="font-size: 1.125rem; color: var(--text-light); margin-bottom: 2rem;">
-                    You've completed this lesson! Great job!
-                </p>
-                <a href="index.html" class="btn btn-primary">Back to Lessons</a>
+            <!-- Practice Section -->
+            <div class="practice-section">
+                <h2 class="practice-title">💪 Practice Exercises</h2>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+                
+                <!-- Exercise 1: Multiple Choice -->
+                <div class="exercise-card" id="exercise-1">
+                    <div class="exercise-header">
+                        <span class="exercise-number">Exercise 1 of 4</span>
+                        <span class="exercise-type">Multiple Choice</span>
+                    </div>
+                    <div class="exercise-question">How do you say 'Good night' in Serbian?</div>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="selectOption(1, 'Dobar dan', false)">Dobar dan</button>
+                        <button class="option-btn" onclick="selectOption(1, 'Dobro veče', false)">Dobro veče</button>
+                        <button class="option-btn" onclick="selectOption(1, 'Laku noć', true)">Laku noć</button>
+                        <button class="option-btn" onclick="selectOption(1, 'Zdravo', false)">Zdravo</button>
+                    </div>
+                    <button class="submit-btn" id="submit-1" onclick="checkMultipleChoice(1, 'Laku noć')" disabled>Submit Answer</button>
+                    <div class="feedback" id="feedback-1"></div>
+                </div>
+                
+                <!-- Exercise 2: Fill in the Blank -->
+                <div class="exercise-card" id="exercise-2" style="display: none;">
+                    <div class="exercise-header">
+                        <span class="exercise-number">Exercise 2 of 4</span>
+                        <span class="exercise-type">Fill in the Blank</span>
+                    </div>
+                    <div class="exercise-question">
+                        Kako <input type="text" class="fill-blank-input" id="answer-2" placeholder="?" maxlength="10">? (How are you?)
+                    </div>
+                    <button class="submit-btn" onclick="checkAnswer(2, 'ste')">Submit Answer</button>
+                    <div class="feedback" id="feedback-2"></div>
+                </div>
+                
+                <!-- Exercise 3: Matching -->
+                <div class="exercise-card" id="exercise-3" style="display: none;">
+                    <div class="exercise-header">
+                        <span class="exercise-number">Exercise 3 of 4</span>
+                        <span class="exercise-type">Matching</span>
+                    </div>
+                    <div class="exercise-question">Match the Montenegrin words with their English translations:</div>
+                    <div class="matching-container">
+                        <div class="matching-column">
+                            <div class="matching-item" data-word="Zdravo" onclick="selectMatching('left', 'Zdravo')">Zdravo</div>
+                            <div class="matching-item" data-word="Doviđenja" onclick="selectMatching('left', 'Doviđenja')">Doviđenja</div>
+                            <div class="matching-item" data-word="Hvala" onclick="selectMatching('left', 'Hvala')">Hvala</div>
+                            <div class="matching-item" data-word="Molim" onclick="selectMatching('left', 'Molim')">Molim</div>
+                        </div>
+                        <div class="matching-column">
+                            <div class="matching-item" data-translation="Hello" onclick="selectMatching('right', 'Hello')">Hello</div>
+                            <div class="matching-item" data-translation="Goodbye" onclick="selectMatching('right', 'Goodbye')">Goodbye</div>
+                            <div class="matching-item" data-translation="Thank you" onclick="selectMatching('right', 'Thank you')">Thank you</div>
+                            <div class="matching-item" data-translation="Please" onclick="selectMatching('right', 'Please')">Please</div>
+                        </div>
+                    </div>
+                    <button class="submit-btn" id="submit-3" onclick="checkMatching()" disabled>Submit Answer</button>
+                    <div class="feedback" id="feedback-3"></div>
+                </div>
+                
+                <!-- Exercise 4: Translation -->
+                <div class="exercise-card" id="exercise-4" style="display: none;">
+                    <div class="exercise-header">
+                        <span class="exercise-number">Exercise 4 of 4</span>
+                        <span class="exercise-type">Translation</span>
+                    </div>
+                    <div class="exercise-question">Translate to Serbian: <strong>I am Ana.</strong></div>
+                    <input type="text" class="answer-input" id="answer-4" placeholder="Type your answer here...">
+                    <button class="submit-btn" onclick="checkAnswer(4, 'Ja sam Ana.')">Submit Answer</button>
+                    <div class="feedback" id="feedback-4"></div>
+                </div>
+                
+                <!-- Completion Message -->
+                <div class="exercise-card completion-card" id="completion" style="display: none;">
+                    <h2>🎉 Congratulations!</h2>
+                    <p>You've completed Lesson 1: Greetings and Introductions! Great job!</p>
+                    <a href="index.html" class="btn btn-primary">Back to Lessons</a>
+                </div>
             </div>
         </div>
     </main>
@@ -277,12 +575,24 @@
         let currentExercise = 1;
         let selectedOption = null;
         let selectedOptionCorrect = false;
+        let matchingPairs = {
+            'Zdravo': 'Hello',
+            'Doviđenja': 'Goodbye',
+            'Hvala': 'Thank you',
+            'Molim': 'Please'
+        };
+        let selectedLeft = null;
+        let selectedRight = null;
+        let matchedPairs = [];
         
         function checkAnswer(exerciseNum, correctAnswer) {
             const input = document.getElementById(`answer-${exerciseNum}`);
             const feedback = document.getElementById(`feedback-${exerciseNum}`);
-            const userAnswer = input.value.trim().toLowerCase();
-            const correct = correctAnswer.toLowerCase();
+            let userAnswer = input.value.trim();
+            
+            // Normalize answers (case insensitive, remove extra spaces)
+            userAnswer = userAnswer.toLowerCase().replace(/\s+/g, ' ');
+            const correct = correctAnswer.toLowerCase().replace(/\s+/g, ' ');
             
             input.disabled = true;
             
@@ -337,11 +647,86 @@
             updateProgress();
         }
         
+        function selectMatching(side, value) {
+            if (side === 'left') {
+                // Deselect previous left selection
+                document.querySelectorAll('.matching-column:first-child .matching-item').forEach(item => {
+                    if (!item.classList.contains('matched')) {
+                        item.classList.remove('selected');
+                    }
+                });
+                selectedLeft = value;
+                event.target.classList.add('selected');
+            } else {
+                // Deselect previous right selection
+                document.querySelectorAll('.matching-column:last-child .matching-item').forEach(item => {
+                    if (!item.classList.contains('matched')) {
+                        item.classList.remove('selected');
+                    }
+                });
+                selectedRight = value;
+                event.target.classList.add('selected');
+            }
+            
+            // Check if we have a pair
+            if (selectedLeft && selectedRight) {
+                checkMatchingPair();
+            }
+            
+            // Enable submit button if all pairs are matched
+            const totalPairs = Object.keys(matchingPairs).length;
+            if (matchedPairs.length === totalPairs) {
+                document.getElementById('submit-3').disabled = false;
+            }
+        }
+        
+        function checkMatchingPair() {
+            if (matchingPairs[selectedLeft] === selectedRight) {
+                // Correct match
+                document.querySelectorAll('.matching-item').forEach(item => {
+                    if (item.dataset.word === selectedLeft || item.dataset.translation === selectedRight) {
+                        item.classList.remove('selected');
+                        item.classList.add('matched');
+                        item.onclick = null; // Disable further clicks
+                    }
+                });
+                matchedPairs.push(selectedLeft);
+                selectedLeft = null;
+                selectedRight = null;
+            } else {
+                // Wrong match - show error briefly
+                document.querySelectorAll('.matching-item.selected').forEach(item => {
+                    item.classList.add('wrong');
+                    setTimeout(() => {
+                        item.classList.remove('selected', 'wrong');
+                    }, 1000);
+                });
+                selectedLeft = null;
+                selectedRight = null;
+            }
+        }
+        
+        function checkMatching() {
+            const totalPairs = Object.keys(matchingPairs).length;
+            const feedback = document.getElementById('feedback-3');
+            
+            if (matchedPairs.length === totalPairs) {
+                feedback.className = 'feedback correct show';
+                feedback.textContent = '✓ Perfect! All matches are correct!';
+                setTimeout(() => nextExercise(3), 1500);
+            } else {
+                feedback.className = 'feedback incorrect show';
+                feedback.textContent = `✗ Please match all pairs correctly.`;
+            }
+            
+            updateProgress();
+        }
+        
         function nextExercise(current) {
             const currentCard = document.getElementById(`exercise-${current}`);
             currentCard.style.display = 'none';
             
-            if (current < 3) {
+            if (current < 4) {
                 const nextCard = document.getElementById(`exercise-${current + 1}`);
                 nextCard.style.display = 'block';
                 currentExercise = current + 1;
@@ -353,24 +738,23 @@
         
         function updateProgress() {
             const completed = currentExercise - 1;
-            const total = 3;
+            const total = 4;
             const percentage = (completed / total) * 100;
             document.getElementById('progress').style.width = percentage + '%';
         }
         
         // Allow Enter key to submit
-        document.getElementById('answer-1').addEventListener('keypress', function(e) {
+        document.getElementById('answer-2').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                checkAnswer(1, 'Zdravo');
+                checkAnswer(2, 'ste');
             }
         });
         
-        document.getElementById('answer-3').addEventListener('keypress', function(e) {
+        document.getElementById('answer-4').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                checkAnswer(3, 'Doviđenja');
+                checkAnswer(4, 'Ja sam Ana.');
             }
         });
     </script>
 </body>
 </html>
-

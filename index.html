@@ -73,30 +73,10 @@
         <!-- Lessons Preview -->
         <section id="lessons" class="lessons-preview">
             <h2>Start Your Learning Journey</h2>
-            <div class="lessons-grid">
-                <div class="lesson-card">
-                    <div class="lesson-number">1</div>
-                    <h3>Greetings</h3>
-                    <p>Learn basic greetings and introductions</p>
-                    <a href="lesson.html?lesson=1" class="lesson-link">Start Lesson →</a>
-                </div>
-                <div class="lesson-card">
-                    <div class="lesson-number">2</div>
-                    <h3>Numbers</h3>
-                    <p>Master numbers from 1 to 100</p>
-                    <a href="lesson.html?lesson=2" class="lesson-link">Start Lesson →</a>
-                </div>
-                <div class="lesson-card">
-                    <div class="lesson-number">3</div>
-                    <h3>Common Phrases</h3>
-                    <p>Essential phrases for daily conversations</p>
-                    <a href="lesson.html?lesson=3" class="lesson-link">Start Lesson →</a>
-                </div>
-                <div class="lesson-card locked">
-                    <div class="lesson-number">4</div>
-                    <h3>Food & Drinks</h3>
-                    <p>Learn vocabulary about food and beverages</p>
-                    <span class="locked-badge">🔒 Coming Soon</span>
+            <div class="lessons-grid" id="lessons-grid">
+                <!-- Lessons will be loaded dynamically from lessons-data.js -->
+                <div style="text-align: center; padding: 2rem; color: var(--text-light);">
+                    Loading lessons...
                 </div>
             </div>
         </section>
@@ -113,7 +93,57 @@
         <p>&copy; 2024 Learn Montenegrin. Made with ❤️ for language learners.</p>
     </footer>
 
+    <script src="lessons-data.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Load and display lessons on the homepage
+        document.addEventListener('DOMContentLoaded', function() {
+            const lessonsGrid = document.getElementById('lessons-grid');
+            const availableLessons = getAvailableLessons();
+            
+            if (availableLessons.length === 0) {
+                lessonsGrid.innerHTML = '<p style="text-align: center; padding: 2rem; color: var(--text-light);">No lessons available yet.</p>';
+                return;
+            }
+            
+            lessonsGrid.innerHTML = '';
+            
+            availableLessons.forEach(lesson => {
+                const lessonCard = document.createElement('div');
+                lessonCard.className = 'lesson-card';
+                
+                lessonCard.innerHTML = `
+                    <div class="lesson-number">${lesson.order}</div>
+                    <h3>${lesson.title}</h3>
+                    <p>${lesson.goal}</p>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span class="level-badge" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">${lesson.level}</span>
+                    </div>
+                    <a href="lesson.html?lesson=${lesson.order}" class="lesson-link">Start Lesson →</a>
+                `;
+                
+                lessonsGrid.appendChild(lessonCard);
+            });
+            
+            // Add locked/coming soon lessons if any
+            const allLessons = Object.values(lessonsData).sort((a, b) => a.order - b.order);
+            const lockedLessons = allLessons.filter(lesson => !lesson.available);
+            
+            lockedLessons.forEach(lesson => {
+                const lessonCard = document.createElement('div');
+                lessonCard.className = 'lesson-card locked';
+                
+                lessonCard.innerHTML = `
+                    <div class="lesson-number">${lesson.order}</div>
+                    <h3>${lesson.title}</h3>
+                    <p>${lesson.goal}</p>
+                    <span class="locked-badge">🔒 Coming Soon</span>
+                `;
+                
+                lessonsGrid.appendChild(lessonCard);
+            });
+        });
+    </script>
 </body>
 </html>
 

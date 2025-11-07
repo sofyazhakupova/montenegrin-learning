@@ -591,15 +591,15 @@
             }
             const knowBtn = card.querySelector('button.know');
             const dontBtn = card.querySelector('button.dont-know');
-            if (knowBtn) knowBtn.disabled = status === 'known';
-            if (dontBtn) dontBtn.disabled = status !== 'known';
+            if (knowBtn) knowBtn.hidden = status === 'known';
+            if (dontBtn) dontBtn.hidden = status !== 'known';
         }
 
         function updateModalStatus(key) {
             const status = getWordStatusByKey(key);
-            modalStatus.textContent = status === 'known' ? 'You marked this word as known.' : 'Tap a button to track this word.';
-            modalKnowBtn.disabled = status === 'known';
-            modalDontKnowBtn.disabled = status !== 'known';
+            modalStatus.textContent = status === 'known' ? 'You marked this word as known.' : '';
+            modalKnowBtn.hidden = status === 'known';
+            modalDontKnowBtn.hidden = status !== 'known';
         }
 
         function updateProgressBar() {
@@ -799,19 +799,19 @@
 
             const knowBtn = document.createElement('button');
             knowBtn.className = 'know';
-            knowBtn.textContent = 'I know';
+            knowBtn.textContent = 'Mark as known';
             knowBtn.addEventListener('click', event => {
                 event.stopPropagation();
-                    setWordStatus(item.word, 'known');
-                });
+                setWordStatus(item.word, 'known');
+            });
 
             const dontBtn = document.createElement('button');
             dontBtn.className = 'dont-know';
-            dontBtn.textContent = 'Practice';
+            dontBtn.textContent = 'Practice again';
             dontBtn.addEventListener('click', event => {
                 event.stopPropagation();
-                    setWordStatus(item.word, 'unknown');
-                });
+                setWordStatus(item.word, 'unknown');
+            });
 
             actions.appendChild(knowBtn);
             actions.appendChild(dontBtn);

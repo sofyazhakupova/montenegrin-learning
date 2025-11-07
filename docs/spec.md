@@ -12,7 +12,7 @@ _Last updated: 2025-11-07_
 |------|---------|-------|
 | `index.html` | Dashboard/home | Shows next lesson, progress stats, bar chart, quick actions. |
 | `lessons.html` | Lessons overview | Filterable list (all / not started / in progress / completed / locked). |
-| `lesson.html` | Lesson player | Currently hard-coded for `lesson1`; progress stored on completion. |
+| `lesson.html` | Lesson player | Lesson 1 with tabbed theory/practice/challenge sections, shared vocab cards (know/practice), interactive click-based drills, and real-life challenge badge. |
 | `vocab.html` | Vocabulary trainer | Renders category tabs from `vocab/vocab-data.js`, tracks known/unknown status, shows conjugations, shared references, and modal details. |
 | `quiz.html` | Quiz hub (placeholder) | Coming-soon message, links back to lessons/vocab. |
 
@@ -42,7 +42,7 @@ Shared utility module executed on all pages:
 5. **Error-handling**: sanitizes corrupted storage, wraps render calls in `try/catch`.
 
 ### Page-specific hooks
-- `lesson.html`: sets lesson status to `in_progress` when the page loads, flips to `completed` when exercises finish.
+- `lesson.html`: renders Lesson 1 theory, shared vocab with know/practice sync, interactive MCQ/matching/dialogue drills, flashcards, and a real-life challenge button inside tabbed theory / practice / challenge panels (progress status wiring TBD for other lessons).
 - `vocab.html`: aggregates all lessons into category tabs (verbs, nouns, etc.), renders cards with conjugations, supports known/unknown toggles, a global progress bar, and modal translations/notes.
 
 ## Styling (`styles.css`)

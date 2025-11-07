@@ -31,6 +31,43 @@
             color: var(--text-light);
         }
 
+        .lesson-tabs {
+            margin-top: 2rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-button {
+            padding: 0.6rem 1.2rem;
+            border-radius: 999px;
+            border: 1px solid var(--bg-light);
+            background: var(--white);
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-button:hover,
+        .tab-button.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: var(--shadow);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
         section {
             margin-top: 2.5rem;
         }
@@ -522,219 +559,233 @@
             <p><strong>Level:</strong> A1 &nbsp;•&nbsp; <strong>Goal:</strong> Learn how to greet people, introduce yourself, and use basic polite expressions in Montenegrin/Serbian.</p>
         </section>
 
-        <section>
-            <h2>Friendly Theory Guide</h2>
-
-            <div class="table-card">
-                <h3>1️⃣ Basic Greetings</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Serbian</th>
-                            <th>English</th>
-                            <th>When to use</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Zdravo!</td><td>Hello!</td><td>Any time, neutral</td></tr>
-                        <tr><td>Ćao!</td><td>Hi / Bye</td><td>Informal</td></tr>
-                        <tr><td>Dobro jutro!</td><td>Good morning</td><td>Before noon</td></tr>
-                        <tr><td>Dobar dan!</td><td>Good day / afternoon</td><td>Noon – 6 pm</td></tr>
-                        <tr><td>Dobro veče!</td><td>Good evening</td><td>After 6 pm</td></tr>
-                        <tr><td>Laku noć!</td><td>Good night</td><td>Before going to bed</td></tr>
-                        <tr><td>Doviđenja!</td><td>Goodbye</td><td>Polite/formal</td></tr>
-                    </tbody>
-                </table>
+        <div class="lesson-tabs">
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="theory">Friendly Theory Guide</button>
+                <button class="tab-button" data-tab="practice">Practice</button>
+                <button class="tab-button" data-tab="challenge">Real-world challenge</button>
             </div>
 
-            <div class="table-card">
-                <h3>2️⃣ Introducing Yourself</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Serbian</th>
-                            <th>English</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Ja sam Ana.</td><td>I am Ana.</td></tr>
-                        <tr><td>Ja sam iz Engleske.</td><td>I am from England.</td></tr>
-                        <tr><td>Kako se zoveš?</td><td>What’s your name? (informal)</td></tr>
-                        <tr><td>Kako se zovete?</td><td>What’s your name? (formal)</td></tr>
-                        <tr><td>Drago mi je.</td><td>Nice to meet you.</td></tr>
-                    </tbody>
-                </table>
+            <div class="tab-panel active" id="tab-theory">
+                <section>
+                    <h2>Friendly Theory Guide</h2>
+
+                    <div class="table-card">
+                        <h3>1️⃣ Basic Greetings</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                    <th>When to use</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Zdravo!</td><td>Hello!</td><td>Any time, neutral</td></tr>
+                                <tr><td>Ćao!</td><td>Hi / Bye</td><td>Informal</td></tr>
+                                <tr><td>Dobro jutro!</td><td>Good morning</td><td>Before noon</td></tr>
+                                <tr><td>Dobar dan!</td><td>Good day / afternoon</td><td>Noon – 6 pm</td></tr>
+                                <tr><td>Dobro veče!</td><td>Good evening</td><td>After 6 pm</td></tr>
+                                <tr><td>Laku noć!</td><td>Good night</td><td>Before going to bed</td></tr>
+                                <tr><td>Doviđenja!</td><td>Goodbye</td><td>Polite/formal</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>2️⃣ Introducing Yourself</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Ja sam Ana.</td><td>I am Ana.</td></tr>
+                                <tr><td>Ja sam iz Engleske.</td><td>I am from England.</td></tr>
+                                <tr><td>Kako se zoveš?</td><td>What’s your name? (informal)</td></tr>
+                                <tr><td>Kako se zovete?</td><td>What’s your name? (formal)</td></tr>
+                                <tr><td>Drago mi je.</td><td>Nice to meet you.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>3️⃣ How are you?</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Kako si?</td><td>How are you? (informal)</td></tr>
+                                <tr><td>Kako ste?</td><td>How are you? (formal/plural)</td></tr>
+                                <tr><td>Dobro, hvala.</td><td>Fine, thank you.</td></tr>
+                                <tr><td>Nije loše.</td><td>Not bad.</td></tr>
+                                <tr><td>Odlično!</td><td>Excellent!</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>4️⃣ Polite Words</h3>
+                        <ul style="color: var(--text-light); line-height: 1.7;">
+                            <li><strong>Hvala</strong> — Thank you</li>
+                            <li><strong>Molim</strong> — Please / You’re welcome</li>
+                            <li><strong>Izvinite</strong> — Excuse me / Sorry</li>
+                            <li><strong>Nema na čemu</strong> — Don’t mention it</li>
+                        </ul>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>5️⃣ Useful Phrases</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Zdravo, ja sam Marko.</td><td>Hello, I’m Marko.</td></tr>
+                                <tr><td>Kako se zoveš?</td><td>What’s your name?</td></tr>
+                                <tr><td>Drago mi je.</td><td>Nice to meet you.</td></tr>
+                                <tr><td>Odakle si?</td><td>Where are you from?</td></tr>
+                                <tr><td>Ja sam iz Crne Gore.</td><td>I’m from Montenegro.</td></tr>
+                                <tr><td>Kako si? – Dobro, hvala.</td><td>How are you? – Fine, thanks.</td></tr>
+                                <tr><td>Doviđenja!</td><td>Goodbye!</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>🧠 Core Vocabulary</h2>
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">Tap "I know" when a word feels comfortable. Progress is shared with the main vocabulary trainer.</p>
+                    <div class="progress-wrapper">
+                        <div class="progress-label" id="progress-label">Loading progress…</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                    </div>
+                    <div id="vocab-grid" class="vocab-grid"></div>
+                </section>
             </div>
 
-            <div class="table-card">
-                <h3>3️⃣ How are you?</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Serbian</th>
-                            <th>English</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Kako si?</td><td>How are you? (informal)</td></tr>
-                        <tr><td>Kako ste?</td><td>How are you? (formal/plural)</td></tr>
-                        <tr><td>Dobro, hvala.</td><td>Fine, thank you.</td></tr>
-                        <tr><td>Nije loše.</td><td>Not bad.</td></tr>
-                        <tr><td>Odlično!</td><td>Excellent!</td></tr>
-                    </tbody>
-                </table>
-            </div>
+            <div class="tab-panel" id="tab-practice">
+                <section>
+                    <h2>🎮 Practice Activities</h2>
 
-            <div class="table-card">
-                <h3>4️⃣ Polite Words</h3>
-                <ul style="color: var(--text-light); line-height: 1.7;">
-                    <li><strong>Hvala</strong> — Thank you</li>
-                    <li><strong>Molim</strong> — Please / You’re welcome</li>
-                    <li><strong>Izvinite</strong> — Excuse me / Sorry</li>
-                    <li><strong>Nema na čemu</strong> — Don’t mention it</li>
-                </ul>
-            </div>
+                    <div class="activity-card" id="mc-section">
+                        <h3>🧩 Multiple Choice</h3>
+                        <div class="options-grid" data-activity="mc">
+                            <div>
+                                <p><strong>Q1.</strong> How do you say “Good morning”?</p>
+                                <button class="option-btn" data-correct="false">Dobro veče</button>
+                                <button class="option-btn" data-correct="false">Dobar dan</button>
+                                <button class="option-btn" data-correct="true">Dobro jutro</button>
+                                <button class="option-btn" data-correct="false">Laku noć</button>
+                                <div class="feedback"></div>
+                            </div>
+                            <div>
+                                <p><strong>Q2.</strong> “Zdravo” means…</p>
+                                <button class="option-btn" data-correct="false">Goodbye</button>
+                                <button class="option-btn" data-correct="true">Hello</button>
+                                <button class="option-btn" data-correct="false">See you</button>
+                                <button class="option-btn" data-correct="false">Please</button>
+                                <div class="feedback"></div>
+                            </div>
+                            <div>
+                                <p><strong>Q3.</strong> How do you say “Good night”?</p>
+                                <button class="option-btn" data-correct="false">Dobro jutro</button>
+                                <button class="option-btn" data-correct="false">Dobar dan</button>
+                                <button class="option-btn" data-correct="true">Laku noć</button>
+                                <button class="option-btn" data-correct="false">Zdravo</button>
+                                <div class="feedback"></div>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="table-card">
-                <h3>5️⃣ Useful Phrases</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Serbian</th>
-                            <th>English</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Zdravo, ja sam Marko.</td><td>Hello, I’m Marko.</td></tr>
-                        <tr><td>Kako se zoveš?</td><td>What’s your name?</td></tr>
-                        <tr><td>Drago mi je.</td><td>Nice to meet you.</td></tr>
-                        <tr><td>Odakle si?</td><td>Where are you from?</td></tr>
-                        <tr><td>Ja sam iz Crne Gore.</td><td>I’m from Montenegro.</td></tr>
-                        <tr><td>Kako si? – Dobro, hvala.</td><td>How are you? – Fine, thanks.</td></tr>
-                        <tr><td>Doviđenja!</td><td>Goodbye!</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+                    <div class="activity-card" id="matching-section">
+                        <h3>🔁 Match the Pairs</h3>
+                        <p style="color: var(--text-light); margin-bottom: 0.75rem;">Tap one from the left column and then its match on the right.</p>
+                        <div class="matching-grid" id="matching-left"></div>
+                        <div class="matching-grid" id="matching-right" style="margin-top: 0.6rem;"></div>
+                        <div class="feedback" id="matching-feedback"></div>
+                    </div>
 
-        <section>
-            <h2>🧠 Core Vocabulary</h2>
-            <p style="color: var(--text-light); margin-bottom: 1rem;">Tap "I know" when a word feels comfortable. Progress is shared with the main vocabulary trainer.</p>
-            <div class="progress-wrapper">
-                <div class="progress-label" id="progress-label">Loading progress…</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-            </div>
-            <div id="vocab-grid" class="vocab-grid"></div>
-        </section>
-
-        <section>
-            <h2>🎮 Practice Activities</h2>
-
-            <div class="activity-card" id="mc-section">
-                <h3>🧩 Multiple Choice</h3>
-                <div class="options-grid" data-activity="mc">
-                    <div>
-                        <p><strong>Q1.</strong> How do you say “Good morning”?</p>
-                        <button class="option-btn" data-correct="false">Dobro veče</button>
-                        <button class="option-btn" data-correct="false">Dobar dan</button>
-                        <button class="option-btn" data-correct="true">Dobro jutro</button>
-                        <button class="option-btn" data-correct="false">Laku noć</button>
+                    <div class="activity-card" id="select-section">
+                        <h3>🧩 Select the Correct Answer</h3>
+                        <p><strong>Q:</strong> “Kako si?” means…</p>
+                        <div class="options-grid" data-activity="select">
+                            <button class="option-btn" data-correct="false">Who are you?</button>
+                            <button class="option-btn" data-correct="true">How are you?</button>
+                            <button class="option-btn" data-correct="false">Where are you?</button>
+                            <button class="option-btn" data-correct="false">What’s your name?</button>
+                        </div>
                         <div class="feedback"></div>
                     </div>
-                    <div>
-                        <p><strong>Q2.</strong> “Zdravo” means…</p>
-                        <button class="option-btn" data-correct="false">Goodbye</button>
-                        <button class="option-btn" data-correct="true">Hello</button>
-                        <button class="option-btn" data-correct="false">See you</button>
-                        <button class="option-btn" data-correct="false">Please</button>
-                        <div class="feedback"></div>
+
+                    <div class="activity-card" id="dialogue-section">
+                        <h3>💬 Dialogue Reconstruction</h3>
+                        <p style="color: var(--text-light); margin-bottom: 0.75rem;">Tap the cards in the correct order to make a friendly conversation.</p>
+                        <div class="dialogue-grid" id="dialogue-grid"></div>
+                        <div class="feedback" id="dialogue-feedback"></div>
                     </div>
-                    <div>
-                        <p><strong>Q3.</strong> How do you say “Good night”?</p>
-                        <button class="option-btn" data-correct="false">Dobro jutro</button>
-                        <button class="option-btn" data-correct="false">Dobar dan</button>
-                        <button class="option-btn" data-correct="true">Laku noć</button>
-                        <button class="option-btn" data-correct="false">Zdravo</button>
-                        <div class="feedback"></div>
+
+                    <div class="activity-card" id="tf-section">
+                        <h3>🧩 True or False</h3>
+                        <div class="tf-grid">
+                            <div>
+                                <p>“Dobro jutro” = Good evening</p>
+                                <button class="tf-btn" data-correct="false">True</button>
+                                <button class="tf-btn" data-correct="true">False ✅</button>
+                            </div>
+                            <div>
+                                <p>“Ćao” can mean both Hi and Bye</p>
+                                <button class="tf-btn" data-correct="true">True ✅</button>
+                                <button class="tf-btn" data-correct="false">False</button>
+                            </div>
+                            <div>
+                                <p>“Hvala” means Please</p>
+                                <button class="tf-btn" data-correct="false">True</button>
+                                <button class="tf-btn" data-correct="true">False ✅</button>
+                            </div>
+                            <div>
+                                <p>“Kako ste?” is formal for How are you</p>
+                                <button class="tf-btn" data-correct="true">True ✅</button>
+                                <button class="tf-btn" data-correct="false">False</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="activity-card" id="flashcard-section">
+                        <h3>🕹 Flashcard Game</h3>
+                        <p style="color: var(--text-light); margin-bottom: 0.75rem;">Tap each card to reveal its Montenegrin meaning.</p>
+                        <div class="flashcards" id="flashcards"></div>
+                    </div>
+                </section>
             </div>
 
-            <div class="activity-card" id="matching-section">
-                <h3>🔁 Match the Pairs</h3>
-                <p style="color: var(--text-light); margin-bottom: 0.75rem;">Tap one from the left column and then its match on the right.</p>
-                <div class="matching-grid" id="matching-left"></div>
-                <div class="matching-grid" id="matching-right" style="margin-top: 0.6rem;"></div>
-                <div class="feedback" id="matching-feedback"></div>
-            </div>
-
-            <div class="activity-card" id="select-section">
-                <h3>🧩 Select the Correct Answer</h3>
-                <p><strong>Q:</strong> “Kako si?” means…</p>
-                <div class="options-grid" data-activity="select">
-                    <button class="option-btn" data-correct="false">Who are you?</button>
-                    <button class="option-btn" data-correct="true">How are you?</button>
-                    <button class="option-btn" data-correct="false">Where are you?</button>
-                    <button class="option-btn" data-correct="false">What’s your name?</button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-
-            <div class="activity-card" id="dialogue-section">
-                <h3>💬 Dialogue Reconstruction</h3>
-                <p style="color: var(--text-light); margin-bottom: 0.75rem;">Tap the cards in the correct order to make a friendly conversation.</p>
-                <div class="dialogue-grid" id="dialogue-grid"></div>
-                <div class="feedback" id="dialogue-feedback"></div>
-            </div>
-
-            <div class="activity-card" id="tf-section">
-                <h3>🧩 True or False</h3>
-                <div class="tf-grid">
-                    <div>
-                        <p>“Dobro jutro” = Good evening</p>
-                        <button class="tf-btn" data-correct="false">True</button>
-                        <button class="tf-btn" data-correct="true">False ✅</button>
+            <div class="tab-panel" id="tab-challenge">
+                <section>
+                    <h2>🌍 Real-Life Challenge</h2>
+                    <div class="challenge-card">
+                        <p>You’ve just learned how to greet people and introduce yourself — that’s your first real conversation in Montenegrin/Serbian! 🎉</p>
+                        <ol style="text-align: left; margin: 1rem auto; color: var(--text-light); line-height: 1.7;">
+                            <li>Greet someone around you in Serbian.</li>
+                            <li>Say something simple: “Zdravo! Ja sam [your name]. Kako si?”</li>
+                            <li>Smile and enjoy the connection in a new language.</li>
+                        </ol>
+                        <button id="challenge-btn">I did it!!</button>
+                        <div class="feedback" id="challenge-feedback"></div>
                     </div>
-                    <div>
-                        <p>“Ćao” can mean both Hi and Bye</p>
-                        <button class="tf-btn" data-correct="true">True ✅</button>
-                        <button class="tf-btn" data-correct="false">False</button>
-                    </div>
-                    <div>
-                        <p>“Hvala” means Please</p>
-                        <button class="tf-btn" data-correct="false">True</button>
-                        <button class="tf-btn" data-correct="true">False ✅</button>
-                    </div>
-                    <div>
-                        <p>“Kako ste?” is formal for How are you</p>
-                        <button class="tf-btn" data-correct="true">True ✅</button>
-                        <button class="tf-btn" data-correct="false">False</button>
-                    </div>
-                </div>
+                </section>
             </div>
-
-            <div class="activity-card" id="flashcard-section">
-                <h3>🕹 Flashcard Game</h3>
-                <p style="color: var(--text-light); margin-bottom: 0.75rem;">Tap each card to reveal its Montenegrin meaning.</p>
-                <div class="flashcards" id="flashcards"></div>
-            </div>
-        </section>
-
-        <section>
-            <h2>🌍 Real-Life Challenge</h2>
-            <div class="challenge-card">
-                <p>You’ve just learned how to greet people and introduce yourself — that’s your first real conversation in Montenegrin/Serbian! 🎉</p>
-                <ol style="text-align: left; margin: 1rem auto; color: var(--text-light); line-height: 1.7;">
-                    <li>Greet someone around you in Serbian.</li>
-                    <li>Say something simple: “Zdravo! Ja sam [your name]. Kako si?”</li>
-                    <li>Smile and enjoy the connection in a new language.</li>
-                </ol>
-                <button id="challenge-btn">I did it!!</button>
-                <div class="feedback" id="challenge-feedback"></div>
-            </div>
-        </section>
+        </div>
     </main>
 
     <div class="modal-backdrop">
@@ -1292,11 +1343,31 @@
             });
         }
 
+        function initTabs() {
+            const buttons = document.querySelectorAll('.tab-button');
+            const panels = document.querySelectorAll('.tab-panel');
+            const activate = key => {
+                buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === key));
+                panels.forEach(panel => panel.classList.toggle('active', panel.id === `tab-${key}`));
+            };
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const target = button.dataset.tab;
+                    activate(target);
+                    const tabsTop = document.querySelector('.lesson-tabs');
+                    if (tabsTop) {
+                        tabsTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadProgress();
             renderVocabularyCards();
             updateProgressBar();
 
+            initTabs();
             wireMultipleChoice();
             wireMatching();
             wireSelectOne();

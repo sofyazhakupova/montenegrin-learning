@@ -490,16 +490,32 @@
         }
 
         function normalizeCategory(category) {
-            const raw = (category.type || category.name || 'other').toLowerCase();
-            if (raw.includes('pronoun')) return 'pronoun';
-            if (raw.includes('verb')) return 'verb';
-            if (raw.includes('noun')) return 'noun';
-            if (raw.includes('adjective')) return 'adjective';
-            if (raw.includes('adverb')) return 'adverb';
-            if (raw.includes('phrase')) return 'phrase';
-            if (raw.includes('reference')) return 'reference';
-            if (raw.includes('focus')) return 'focus';
-            if (raw.includes('note')) return 'note';
+            const type = (category.type || '').toLowerCase();
+            switch (type) {
+                case 'pronoun':
+                case 'verb':
+                case 'noun':
+                case 'adjective':
+                case 'adverb':
+                case 'phrase':
+                case 'reference':
+                case 'focus':
+                case 'note':
+                    return type;
+                default:
+                    break;
+            }
+
+            const name = (category.name || '').toLowerCase();
+            if (name.includes('pronoun')) return 'pronoun';
+            if (name.includes('verb')) return 'verb';
+            if (name.includes('noun')) return 'noun';
+            if (name.includes('adjective')) return 'adjective';
+            if (name.includes('adverb')) return 'adverb';
+            if (name.includes('phrase')) return 'phrase';
+            if (name.includes('reference')) return 'reference';
+            if (name.includes('focus')) return 'focus';
+            if (name.includes('note')) return 'note';
             return 'other';
         }
 

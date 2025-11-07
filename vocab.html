@@ -84,8 +84,8 @@
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.8rem;
         }
 
         .vocab-card {
@@ -93,12 +93,14 @@
             border-radius: 12px;
             border: 1px solid var(--bg-light);
             box-shadow: var(--shadow);
-            padding: 1.25rem;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.25rem;
+            min-height: 110px;
             cursor: pointer;
             transition: transform 0.2s;
+            position: relative;
         }
 
         .vocab-card:hover {
@@ -125,29 +127,27 @@
         }
 
         .vocab-word {
-            font-size: 1.45rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--primary-color);
         }
 
         .level-badge {
-            display: inline-block;
+            position: absolute;
+            top: 0.6rem;
+            right: 0.6rem;
             background: rgba(45, 90, 135, 0.08);
             color: var(--primary-color);
-            padding: 0.2rem 0.55rem;
+            padding: 0.15rem 0.5rem;
             border-radius: 999px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
         }
 
-        .vocab-translation {
-            color: var(--text-light);
-            font-size: 1rem;
-        }
-
         .note-text {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-light);
+            margin-top: 0.25rem;
         }
 
         .card-actions {
@@ -366,12 +366,12 @@
                 <p class="lesson-description">Browse every lesson’s words by category. Click any card to see translations and verb conjugations.</p>
             </div>
 
-            <div class="progress-wrapper">
+                <div class="progress-wrapper">
                 <div class="progress-label" id="progress-label">Loading progress…</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
                 </div>
-            </div>
 
             <div id="category-tabs" class="tabs"></div>
             <div id="cards-container" class="cards-grid"></div>
@@ -730,8 +730,8 @@
         });
 
         function createCard(item, categoryLabel) {
-            const card = document.createElement('div');
-            card.className = 'vocab-card';
+                const card = document.createElement('div');
+                card.className = 'vocab-card';
             card.dataset.level = (item.primaryLevel || '').toLowerCase();
             card.addEventListener('click', () => openModal(item, categoryLabel));
 
@@ -747,13 +747,6 @@
                 card.appendChild(levelEl);
             }
 
-            if (item.translation) {
-                const translationEl = document.createElement('div');
-                translationEl.className = 'vocab-translation';
-                translationEl.textContent = item.translation;
-                card.appendChild(translationEl);
-            }
-
             if (item.note || item.reference) {
                 const noteEl = document.createElement('div');
                 noteEl.className = 'note-text';
@@ -761,28 +754,28 @@
                 card.appendChild(noteEl);
             }
 
-            const actions = document.createElement('div');
-            actions.className = 'card-actions';
+                const actions = document.createElement('div');
+                actions.className = 'card-actions';
 
             const knowBtn = document.createElement('button');
             knowBtn.className = 'know';
             knowBtn.textContent = 'I know';
             knowBtn.addEventListener('click', event => {
                 event.stopPropagation();
-                setWordStatus(item.word, 'known');
-            });
+                    setWordStatus(item.word, 'known');
+                });
 
             const dontBtn = document.createElement('button');
             dontBtn.className = 'dont-know';
             dontBtn.textContent = 'Practice';
             dontBtn.addEventListener('click', event => {
                 event.stopPropagation();
-                setWordStatus(item.word, 'unknown');
-            });
+                    setWordStatus(item.word, 'unknown');
+                });
 
             actions.appendChild(knowBtn);
             actions.appendChild(dontBtn);
-            card.appendChild(actions);
+                card.appendChild(actions);
 
             const wordKey = getWordKey(item.word);
             if (!cardRegistry.has(wordKey)) {

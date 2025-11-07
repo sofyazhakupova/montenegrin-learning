@@ -56,7 +56,7 @@
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
         }
 
@@ -77,14 +77,6 @@
             transform: translateY(-3px);
         }
 
-        .card-type {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
         .vocab-word {
             font-size: 1.45rem;
             font-weight: 700;
@@ -94,20 +86,6 @@
         .vocab-translation {
             color: var(--text-light);
             font-size: 1rem;
-        }
-
-        .lesson-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.35rem;
-        }
-
-        .tag {
-            background: var(--bg-light);
-            padding: 0.15rem 0.55rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            color: var(--text-light);
         }
 
         .modal-backdrop {
@@ -159,6 +137,16 @@
         .modal-translation {
             font-size: 1.1rem;
             color: var(--text-light);
+        }
+
+        .modal-badge {
+            display: inline-block;
+            background: var(--bg-light);
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
         }
 
         .modal-section {
@@ -377,7 +365,7 @@
 
         function openModal(item, categoryLabel) {
             modalWord.textContent = item.word;
-            modalTranslation.textContent = item.translation || '—';
+            modalTranslation.innerHTML = `${item.translation || '—'} <span class="modal-badge">${categoryLabel}</span>`;
 
             if (item.conjugations) {
                 modalConjugations.hidden = false;
@@ -428,11 +416,6 @@
             card.className = 'vocab-card';
             card.addEventListener('click', () => openModal(item, categoryLabel));
 
-            const typeEl = document.createElement('div');
-            typeEl.className = 'card-type';
-            typeEl.textContent = categoryLabel;
-            card.appendChild(typeEl);
-
             const wordEl = document.createElement('div');
             wordEl.className = 'vocab-word';
             wordEl.textContent = item.word;
@@ -443,32 +426,6 @@
                 translationEl.className = 'vocab-translation';
                 translationEl.textContent = item.translation;
                 card.appendChild(translationEl);
-            }
-
-            if (item.lessons && item.lessons.length) {
-                const tags = document.createElement('div');
-                tags.className = 'lesson-tags';
-                item.lessons.slice(0, 3).forEach(lesson => {
-                    const tag = document.createElement('span');
-                    tag.className = 'tag';
-                    tag.textContent = lesson.replace('Lesson', 'L');
-                    tags.appendChild(tag);
-                });
-                if (item.lessons.length > 3) {
-                    const more = document.createElement('span');
-                    more.className = 'tag';
-                    more.textContent = `+${item.lessons.length - 3}`;
-                    tags.appendChild(more);
-                }
-                card.appendChild(tags);
-            } else if (item.shared) {
-                const sharedTag = document.createElement('div');
-                sharedTag.className = 'lesson-tags';
-                const tag = document.createElement('span');
-                tag.className = 'tag';
-                tag.textContent = 'Shared';
-                sharedTag.appendChild(tag);
-                card.appendChild(sharedTag);
             }
 
             if (item.note || item.reference) {

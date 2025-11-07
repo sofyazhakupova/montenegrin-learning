@@ -338,6 +338,12 @@
             margin-bottom: 0.35rem;
         }
 
+        .modal-meta {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
         .modal-status {
             margin-top: 0.4rem;
             color: var(--text-light);
@@ -1039,6 +1045,7 @@
                 <span class="modal-badge" id="modal-level" hidden></span>
             </div>
             <div class="modal-translation" id="modal-translation"></div>
+            <div class="modal-meta" id="modal-category" hidden></div>
             <div class="modal-status" id="modal-status"></div>
             <div class="modal-section" id="modal-conjugations" hidden>
                 <h4>Present tense</h4>
@@ -1102,6 +1109,7 @@
         const modalWord = document.getElementById('modal-word');
         const modalLevel = document.getElementById('modal-level');
         const modalTranslation = document.getElementById('modal-translation');
+        const modalCategory = document.getElementById('modal-category');
         const modalStatus = document.getElementById('modal-status');
         const modalConjugations = document.getElementById('modal-conjugations');
         const modalConjugationsBody = document.getElementById('modal-conjugations-body');
@@ -1360,6 +1368,12 @@
                 modalLevel.hidden = true;
             }
             modalTranslation.textContent = item.translation || '—';
+            if (item.categories && item.categories.length) {
+                modalCategory.textContent = item.categories.join(', ');
+                modalCategory.hidden = false;
+            } else {
+                modalCategory.hidden = true;
+            }
 
             if (item.conjugations) {
                 modalConjugations.hidden = false;

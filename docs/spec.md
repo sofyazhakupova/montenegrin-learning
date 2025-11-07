@@ -13,7 +13,7 @@ _Last updated: 2025-11-07_
 | `index.html` | Dashboard/home | Shows next lesson, progress stats, bar chart, quick actions. |
 | `lessons.html` | Lessons overview | Filterable list (all / not started / in progress / completed / locked). |
 | `lesson.html` | Lesson player | Currently hard-coded for `lesson1`; progress stored on completion. |
-| `vocab.html` | Vocabulary trainer | Renders lesson-based vocabulary cards from `vocab/vocab-data.js`, shows verb conjugations, optional shared references. |
+| `vocab.html` | Vocabulary trainer | Renders category tabs from `vocab/vocab-data.js`, tracks known/unknown status, shows conjugations, shared references, and modal details. |
 | `quiz.html` | Quiz hub (placeholder) | Coming-soon message, links back to lessons/vocab. |
 
 ## Shared Navigation
@@ -43,7 +43,7 @@ Shared utility module executed on all pages:
 
 ### Page-specific hooks
 - `lesson.html`: sets lesson status to `in_progress` when the page loads, flips to `completed` when exercises finish.
-- `vocab.html`: aggregates all lessons into category tabs (verbs, nouns, etc.), renders cards with conjugations, and provides a modal with translations/notes.
+- `vocab.html`: aggregates all lessons into category tabs (verbs, nouns, etc.), renders cards with conjugations, supports known/unknown toggles, a global progress bar, and modal translations/notes.
 
 ## Styling (`styles.css`)
 - Global palette via CSS variables.

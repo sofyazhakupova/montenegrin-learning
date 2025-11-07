@@ -29,6 +29,34 @@
             font-size: 1.125rem;
         }
 
+        .progress-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-label {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            border-radius: 999px;
+            background: var(--bg-light);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--success-color);
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+
         .tabs {
             display: flex;
             flex-wrap: wrap;
@@ -56,7 +84,7 @@
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 1rem;
         }
 
@@ -77,6 +105,11 @@
             transform: translateY(-3px);
         }
 
+        .vocab-card.known {
+            border-color: rgba(39, 174, 96, 0.4);
+            background: rgba(39, 174, 96, 0.12);
+        }
+
         .vocab-word {
             font-size: 1.45rem;
             font-weight: 700;
@@ -86,6 +119,48 @@
         .vocab-translation {
             color: var(--text-light);
             font-size: 1rem;
+        }
+
+        .note-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .card-actions button {
+            flex: 1;
+            padding: 0.45rem 0.6rem;
+            border-radius: 8px;
+            border: 1px solid var(--bg-light);
+            background: var(--white);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .card-actions button.know {
+            border-color: rgba(39, 174, 96, 0.25);
+            color: var(--success-color);
+        }
+
+        .card-actions button.dont-know {
+            border-color: rgba(243, 156, 18, 0.25);
+            color: #f39c12;
+        }
+
+        .card-actions button:hover:not(:disabled) {
+            background: var(--bg-light);
+        }
+
+        .card-actions button:disabled {
+            opacity: 0.45;
+            cursor: default;
         }
 
         .modal-backdrop {
@@ -139,6 +214,12 @@
             color: var(--text-light);
         }
 
+        .modal-status {
+            margin-top: 0.4rem;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
         .modal-badge {
             display: inline-block;
             background: var(--bg-light);
@@ -146,7 +227,7 @@
             border-radius: 999px;
             font-size: 0.75rem;
             color: var(--text-light);
-            margin-top: 0.25rem;
+            margin-left: 0.4rem;
         }
 
         .modal-section {
@@ -183,6 +264,44 @@
         .modal-list {
             color: var(--text-light);
             font-size: 0.95rem;
+        }
+
+        .modal-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            min-width: 150px;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .modal-actions button.primary {
+            background: var(--success-color);
+            color: var(--white);
+        }
+
+        .modal-actions button.secondary {
+            background: rgba(243, 156, 18, 0.15);
+            color: #c47a0f;
+        }
+
+        .modal-actions button:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .modal-actions button:disabled {
+            opacity: 0.45;
+            cursor: default;
+            transform: none;
         }
 
         @media (max-width: 700px) {
@@ -222,6 +341,13 @@
                 <p class="lesson-description">Browse every lesson’s words by category. Click any card to see translations and verb conjugations.</p>
             </div>
 
+            <div class="progress-wrapper">
+                <div class="progress-label" id="progress-label">Loading progress…</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
             <div id="category-tabs" class="tabs"></div>
             <div id="cards-container" class="cards-grid"></div>
         </div>
@@ -230,6 +356,7 @@
     <footer>
         <p>&copy; 2024 Learn Montenegrin. Made with ❤️ for language learners.</p>
     </footer>
+
     <script src="lessons-data.js"></script>
     <script src="vocab/vocab-data.js"></script>
     <script>
@@ -245,85 +372,19 @@
             focus: 'Focus',
             other: 'Other'
         };
-
         const CATEGORY_ORDER = ['pronoun', 'verb', 'noun', 'adjective', 'adverb', 'phrase', 'reference', 'focus', 'note', 'other'];
+        const PROGRESS_KEY = 'vocab_progress_all';
 
-        function normalizeCategory(category) {
-            const raw = (category.type || category.name || 'other').toLowerCase();
-            if (raw.includes('pronoun')) return 'pronoun';
-            if (raw.includes('verb')) return 'verb';
-            if (raw.includes('noun')) return 'noun';
-            if (raw.includes('adjective')) return 'adjective';
-            if (raw.includes('adverb')) return 'adverb';
-            if (raw.includes('phrase')) return 'phrase';
-            if (raw.includes('reference')) return 'reference';
-            if (raw.includes('focus')) return 'focus';
-            if (raw.includes('note')) return 'note';
-            return 'other';
-        }
-
-        function buildCategoryIndex() {
-            const index = new Map();
-
-            Object.entries(vocabularyData).forEach(([lessonKey, lesson]) => {
-                if (!lesson || !lesson.categories) return;
-                lesson.categories.forEach(category => {
-                    const typeKey = normalizeCategory(category);
-                    if (!index.has(typeKey)) {
-                        index.set(typeKey, new Map());
-                    }
-                    const bucket = index.get(typeKey);
-
-                    category.items.forEach(item => {
-                        if (!item || !item.word) return;
-                        const key = item.word.toLowerCase();
-                        if (!bucket.has(key)) {
-                            bucket.set(key, {
-                                word: item.word,
-                                translation: item.translation || '',
-                                conjugations: item.conjugations || null,
-                                note: item.note || null,
-                                reference: item.reference || null,
-                                lessons: new Set(),
-                                shared: lessonKey === 'shared'
-                            });
-                        }
-                        const entry = bucket.get(key);
-                        if (item.translation) entry.translation = item.translation;
-                        if (item.conjugations) entry.conjugations = item.conjugations;
-                        if (item.note) entry.note = item.note;
-                        if (item.reference) entry.reference = item.reference;
-                        if (lesson.title && lessonKey !== 'shared') entry.lessons.add(lesson.title);
-                        if (lessonKey === 'shared') entry.shared = true;
-                    });
-                });
-            });
-
-            const categories = [];
-            const orderedKeys = CATEGORY_ORDER.concat(Array.from(index.keys()).filter(key => !CATEGORY_ORDER.includes(key)));
-
-            orderedKeys.forEach(key => {
-                if (!index.has(key)) return;
-                const items = Array.from(index.get(key).values())
-                    .map(item => ({
-                        ...item,
-                        lessons: Array.from(item.lessons)
-                    }))
-                    .sort((a, b) => a.word.localeCompare(b.word, 'sr'));
-                if (items.length) {
-                    categories.push({
-                        key,
-                        label: CATEGORY_LABELS[key] || key,
-                        items
-                    });
-                }
-            });
-
-            return categories;
-        }
+        let wordProgress = {};
+        let cardRegistry = new Map();
+        let allWordKeys = [];
+        let currentModalWord = null;
+        let currentModalWordKey = null;
 
         const tabsEl = document.getElementById('category-tabs');
         const cardsEl = document.getElementById('cards-container');
+        const progressLabelEl = document.getElementById('progress-label');
+        const progressFillEl = document.getElementById('progress-fill');
 
         const modalBackdrop = document.createElement('div');
         modalBackdrop.className = 'modal-backdrop';
@@ -332,6 +393,7 @@
                 <button class="modal-close" aria-label="Close">×</button>
                 <div class="modal-word" id="modal-word"></div>
                 <div class="modal-translation" id="modal-translation"></div>
+                <div class="modal-status" id="modal-status"></div>
                 <div class="modal-section" id="modal-conjugations" hidden>
                     <h4>Present tense</h4>
                     <div class="verb-table">
@@ -349,6 +411,10 @@
                     <h4>Notes</h4>
                     <div class="modal-list" id="modal-note-text"></div>
                 </div>
+                <div class="modal-actions">
+                    <button class="primary" id="modal-know-btn">I know this</button>
+                    <button class="secondary" id="modal-dont-know-btn">I don't know yet</button>
+                </div>
             </div>
         `;
         document.body.appendChild(modalBackdrop);
@@ -356,14 +422,191 @@
         const modalCloseBtn = modalBackdrop.querySelector('.modal-close');
         const modalWord = document.getElementById('modal-word');
         const modalTranslation = document.getElementById('modal-translation');
+        const modalStatus = document.getElementById('modal-status');
         const modalConjugations = document.getElementById('modal-conjugations');
         const modalConjugationsBody = document.getElementById('modal-conjugations-body');
         const modalLessons = document.getElementById('modal-lessons');
         const modalLessonsList = document.getElementById('modal-lessons-list');
         const modalNotes = document.getElementById('modal-notes');
         const modalNoteText = document.getElementById('modal-note-text');
+        const modalKnowBtn = document.getElementById('modal-know-btn');
+        const modalDontKnowBtn = document.getElementById('modal-dont-know-btn');
+
+        function getWordKey(word) {
+            return (word || '').toLowerCase();
+        }
+
+        function normalizeCategory(category) {
+            const raw = (category.type || category.name || 'other').toLowerCase();
+            if (raw.includes('pronoun')) return 'pronoun';
+            if (raw.includes('verb')) return 'verb';
+            if (raw.includes('noun')) return 'noun';
+            if (raw.includes('adjective')) return 'adjective';
+            if (raw.includes('adverb')) return 'adverb';
+            if (raw.includes('phrase')) return 'phrase';
+            if (raw.includes('reference')) return 'reference';
+            if (raw.includes('focus')) return 'focus';
+            if (raw.includes('note')) return 'note';
+            return 'other';
+        }
+
+        function loadProgress() {
+            try {
+                const stored = localStorage.getItem(PROGRESS_KEY);
+                const parsed = stored ? JSON.parse(stored) : {};
+                wordProgress = (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};
+            } catch (error) {
+                wordProgress = {};
+            }
+        }
+
+        function saveProgress() {
+            try {
+                localStorage.setItem(PROGRESS_KEY, JSON.stringify(wordProgress));
+            } catch (error) {
+                // ignore storage errors
+            }
+        }
+
+        function getWordStatusByKey(key) {
+            return wordProgress[key] === 'known' ? 'known' : 'unknown';
+        }
+
+        function getWordStatus(word) {
+            return getWordStatusByKey(getWordKey(word));
+        }
+
+        function setWordStatus(word, status) {
+            setWordStatusByKey(getWordKey(word), status);
+        }
+
+        function setWordStatusByKey(key, status) {
+            wordProgress[key] = status === 'known' ? 'known' : 'unknown';
+            saveProgress();
+            updateCardGroup(key);
+            if (currentModalWordKey === key) {
+                updateModalStatus(key);
+            }
+            updateProgressBar();
+        }
+
+        function updateCardGroup(key) {
+            const status = getWordStatusByKey(key);
+            const cards = cardRegistry.get(key) || [];
+            cards.forEach(card => updateCardVisual(card, status));
+        }
+
+        function updateCardVisual(card, status) {
+            card.classList.toggle('known', status === 'known');
+            const knowBtn = card.querySelector('button.know');
+            const dontBtn = card.querySelector('button.dont-know');
+            if (knowBtn) knowBtn.disabled = status === 'known';
+            if (dontBtn) dontBtn.disabled = status !== 'known';
+        }
+
+        function updateModalStatus(key) {
+            const status = getWordStatusByKey(key);
+            modalStatus.textContent = status === 'known' ? 'Marked as known' : 'Not marked as known yet';
+            modalKnowBtn.disabled = status === 'known';
+            modalDontKnowBtn.disabled = status !== 'known';
+        }
+
+        function updateProgressBar() {
+            const total = allWordKeys.length;
+            if (!total) {
+                progressLabelEl.textContent = 'No vocabulary words available yet.';
+                progressFillEl.style.width = '0%';
+                return;
+            }
+            let knownCount = 0;
+            allWordKeys.forEach(key => {
+                if (wordProgress[key] === 'known') knownCount += 1;
+            });
+            const percent = (knownCount / total) * 100;
+            progressLabelEl.textContent = `You already know ${percent.toFixed(2)}% (${knownCount} of ${total})`;
+            progressFillEl.style.width = `${percent}%`;
+        }
+
+        function buildCategoryIndex() {
+            const categoryBuckets = new Map();
+            const masterMap = new Map();
+
+            Object.entries(vocabularyData).forEach(([lessonKey, lesson]) => {
+                if (!lesson || !lesson.categories) return;
+                const lessonTitle = lesson.title || lessonKey;
+
+                lesson.categories.forEach(category => {
+                    const typeKey = normalizeCategory(category);
+                    if (!categoryBuckets.has(typeKey)) {
+                        categoryBuckets.set(typeKey, new Map());
+                    }
+                    const bucket = categoryBuckets.get(typeKey);
+
+                    (category.items || []).forEach(item => {
+                        if (!item || !item.word) return;
+                        const wordKey = getWordKey(item.word);
+
+                        let entry = masterMap.get(wordKey);
+                        if (!entry) {
+                            entry = {
+                                word: item.word,
+                                translation: item.translation || '',
+                                conjugations: item.conjugations || null,
+                                note: item.note || null,
+                                reference: item.reference || null,
+                                lessons: new Set(),
+                                shared: lessonKey === 'shared'
+                            };
+                            masterMap.set(wordKey, entry);
+                        } else {
+                            if (item.translation) entry.translation = item.translation;
+                            if (item.conjugations) entry.conjugations = item.conjugations;
+                            if (item.note) entry.note = item.note;
+                            if (item.reference) entry.reference = item.reference;
+                            if (lessonKey === 'shared') entry.shared = true;
+                        }
+
+                        if (lessonKey !== 'shared' && lessonTitle) {
+                            entry.lessons.add(lessonTitle);
+                        }
+
+                        if (!bucket.has(wordKey)) {
+                            bucket.set(wordKey, entry);
+                        }
+                    });
+                });
+            });
+
+            allWordKeys = Array.from(masterMap.keys());
+
+            const categories = [];
+            const orderedKeys = CATEGORY_ORDER.concat(Array.from(categoryBuckets.keys()).filter(key => !CATEGORY_ORDER.includes(key)));
+
+            orderedKeys.forEach(key => {
+                if (!categoryBuckets.has(key)) return;
+                const items = Array.from(categoryBuckets.get(key).values())
+                    .map(entry => ({
+                        word: entry.word,
+                        translation: entry.translation,
+                        conjugations: entry.conjugations,
+                        note: entry.note,
+                        reference: entry.reference,
+                        lessons: Array.from(entry.lessons),
+                        shared: entry.shared
+                    }))
+                    .sort((a, b) => a.word.localeCompare(b.word, 'sr'));
+                if (items.length) {
+                    categories.push({ key, label: CATEGORY_LABELS[key] || key, items });
+                }
+            });
+
+            return categories;
+        }
 
         function openModal(item, categoryLabel) {
+            currentModalWord = item.word;
+            currentModalWordKey = getWordKey(item.word);
+
             modalWord.textContent = item.word;
             modalTranslation.innerHTML = `${item.translation || '—'} <span class="modal-badge">${categoryLabel}</span>`;
 
@@ -396,6 +639,7 @@
                 modalNotes.hidden = true;
             }
 
+            updateModalStatus(currentModalWordKey);
             modalBackdrop.classList.add('open');
         }
 
@@ -409,6 +653,14 @@
         });
         document.addEventListener('keydown', event => {
             if (event.key === 'Escape') closeModal();
+        });
+
+        modalKnowBtn.addEventListener('click', () => {
+            if (currentModalWord) setWordStatus(currentModalWord, 'known');
+        });
+
+        modalDontKnowBtn.addEventListener('click', () => {
+            if (currentModalWord) setWordStatus(currentModalWord, 'unknown');
         });
 
         function createCard(item, categoryLabel) {
@@ -435,10 +687,41 @@
                 card.appendChild(noteEl);
             }
 
+            const actions = document.createElement('div');
+            actions.className = 'card-actions';
+
+            const knowBtn = document.createElement('button');
+            knowBtn.className = 'know';
+            knowBtn.textContent = 'I know';
+            knowBtn.addEventListener('click', event => {
+                event.stopPropagation();
+                setWordStatus(item.word, 'known');
+            });
+
+            const dontBtn = document.createElement('button');
+            dontBtn.className = 'dont-know';
+            dontBtn.textContent = "Practice";
+            dontBtn.addEventListener('click', event => {
+                event.stopPropagation();
+                setWordStatus(item.word, 'unknown');
+            });
+
+            actions.appendChild(knowBtn);
+            actions.appendChild(dontBtn);
+            card.appendChild(actions);
+
+            const wordKey = getWordKey(item.word);
+            if (!cardRegistry.has(wordKey)) {
+                cardRegistry.set(wordKey, []);
+            }
+            cardRegistry.get(wordKey).push(card);
+            updateCardVisual(card, getWordStatus(item.word));
+
             return card;
         }
 
         function renderCategory(category) {
+            cardRegistry = new Map();
             cardsEl.innerHTML = '';
             if (!category || !category.items.length) {
                 cardsEl.innerHTML = '<p style="color: var(--text-light);">No words in this category yet.</p>';
@@ -450,7 +733,10 @@
         }
 
         function init() {
+            loadProgress();
             const categories = buildCategoryIndex();
+            updateProgressBar();
+
             tabsEl.innerHTML = '';
 
             if (!categories.length) {
@@ -465,7 +751,6 @@
                 button.dataset.tab = category.key;
                 button.addEventListener('click', () => {
                     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            
                     button.classList.add('active');
                     renderCategory(category);
                 });

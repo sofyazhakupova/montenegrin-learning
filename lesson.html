@@ -166,10 +166,7 @@
             font-weight: 600;
         }
 
-        .pronoun-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
+        .pronoun-grid {
             margin-bottom: 1.25rem;
         }
 
@@ -1308,62 +1305,67 @@
                 .sort((a, b) => a.word.localeCompare(b.word, 'sr'));
         }
 
+        function createVocabularyCard(item) {
+            const card = document.createElement('div');
+            card.className = 'vocab-card';
+            card.dataset.level = (item.primaryLevel || '').toLowerCase();
+            card.addEventListener('click', () => openModal(item));
+
+            const wordEl = document.createElement('div');
+            wordEl.className = 'vocab-word';
+            wordEl.textContent = item.word;
+            card.appendChild(wordEl);
+
+            if (item.primaryLevel) {
+                const levelEl = document.createElement('div');
+                levelEl.className = 'level-badge';
+                levelEl.textContent = item.primaryLevel;
+                card.appendChild(levelEl);
+            }
+
+            if (item.note || item.reference) {
+                const noteEl = document.createElement('div');
+                noteEl.className = 'note-text';
+                noteEl.textContent = item.note || item.reference;
+                card.appendChild(noteEl);
+            }
+
+            const actions = document.createElement('div');
+            actions.className = 'card-actions';
+
+            const knowBtn = document.createElement('button');
+            knowBtn.className = 'know';
+            knowBtn.textContent = 'I know';
+            knowBtn.addEventListener('click', event => {
+                event.stopPropagation();
+                setWordStatus(getWordKey(item.word), 'known');
+            });
+
+            const practiceBtn = document.createElement('button');
+            practiceBtn.className = 'practice';
+            practiceBtn.textContent = 'Practice';
+            practiceBtn.addEventListener('click', event => {
+                event.stopPropagation();
+                setWordStatus(getWordKey(item.word), 'unknown');
+            });
+
+            actions.appendChild(knowBtn);
+            actions.appendChild(practiceBtn);
+            card.appendChild(actions);
+
+            const key = getWordKey(item.word);
+            if (!cardRegistry.has(key)) cardRegistry.set(key, []);
+            cardRegistry.get(key).push(card);
+            updateCardVisual(card, getWordStatus(key));
+
+            return card;
+        }
+
         function renderVocabularyCards(vocabulary) {
             vocabGrid.innerHTML = '';
             cardRegistry = new Map();
             vocabulary.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'vocab-card';
-                card.dataset.level = (item.primaryLevel || '').toLowerCase();
-                card.addEventListener('click', () => openModal(item));
-
-                const wordEl = document.createElement('div');
-                wordEl.className = 'vocab-word';
-                wordEl.textContent = item.word;
-                card.appendChild(wordEl);
-
-                if (item.primaryLevel) {
-                    const levelEl = document.createElement('div');
-                    levelEl.className = 'level-badge';
-                    levelEl.textContent = item.primaryLevel;
-                    card.appendChild(levelEl);
-                }
-
-                if (item.note || item.reference) {
-                    const noteEl = document.createElement('div');
-                    noteEl.className = 'note-text';
-                    noteEl.textContent = item.note || item.reference;
-                    card.appendChild(noteEl);
-                }
-
-                const actions = document.createElement('div');
-                actions.className = 'card-actions';
-
-                const knowBtn = document.createElement('button');
-                knowBtn.className = 'know';
-                knowBtn.textContent = 'I know';
-                knowBtn.addEventListener('click', event => {
-                    event.stopPropagation();
-                    setWordStatus(getWordKey(item.word), 'known');
-                });
-
-                const practiceBtn = document.createElement('button');
-                practiceBtn.className = 'practice';
-                practiceBtn.textContent = 'Practice';
-                practiceBtn.addEventListener('click', event => {
-                    event.stopPropagation();
-                    setWordStatus(getWordKey(item.word), 'unknown');
-                });
-
-                actions.appendChild(knowBtn);
-                actions.appendChild(practiceBtn);
-                card.appendChild(actions);
-
-                const key = getWordKey(item.word);
-                if (!cardRegistry.has(key)) cardRegistry.set(key, []);
-                cardRegistry.get(key).push(card);
-                updateCardVisual(card, getWordStatus(key));
-                vocabGrid.appendChild(card);
+                vocabGrid.appendChild(createVocabularyCard(item));
             });
         }
 
@@ -1694,8 +1696,16 @@
                             chipWrap.appendChild(chip);
                         });
 
-                        targetSection.prepend(chipWrap);
-                        targetSection.prepend(introNote);
+                        const heading = targetSection.querySelector('h2');
+                        if (heading) {
+                            heading.insertAdjacentElement('afterend', introNote);
+                            const pronounGrid = document.createElement('div');
+                            pronounGrid.className = 'vocab-grid pronoun-grid';
+                            pronouns.forEach(item => {
+                                pronounGrid.appendChild(createVocabularyCard(item));
+                            });
+                            introNote.insertAdjacentElement('afterend', pronounGrid);
+                        }
                     }
                 }
             }

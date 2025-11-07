@@ -7,20 +7,21 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         .lesson-container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 2rem auto;
             padding: 2rem;
         }
 
         .lesson-header {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
             margin-bottom: 2rem;
         }
 
         .lesson-title {
             font-size: 2.5rem;
             color: var(--primary-color);
-            margin-bottom: 0.5rem;
         }
 
         .lesson-description {
@@ -28,22 +29,131 @@
             font-size: 1.125rem;
         }
 
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .selector {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .selector label {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .selector select {
+            padding: 0.65rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--bg-light);
+            font-size: 1rem;
+        }
+
         .section {
             background: var(--white);
-            border: 2px solid var(--bg-light);
+            border: 1px solid var(--bg-light);
             border-radius: 12px;
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: var(--shadow);
         }
 
-        .section-title {
-            font-size: 1.75rem;
+        .section-title,
+        .category-title {
             color: var(--primary-color);
-            margin-bottom: 1.5rem;
+        }
+
+        .category-title {
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.35rem;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .vocab-card {
+            background: var(--bg-light);
+            border-radius: 10px;
+            border: 1px solid transparent;
+            padding: 1.25rem;
             display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .vocab-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .card-type {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .vocab-word {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .vocab-translation {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .verb-table {
+            margin-top: 0.75rem;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(45, 90, 135, 0.12);
+        }
+
+        .verb-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .verb-table th,
+        .verb-table td {
+            padding: 0.45rem 0.6rem;
+            text-align: left;
+        }
+
+        .verb-table thead {
+            background: rgba(45, 90, 135, 0.1);
+            font-weight: 600;
+        }
+
+        .note-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .shared-toggle {
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .shared-section {
+            margin-top: 2rem;
         }
 
         .back-link {
@@ -58,163 +168,13 @@
             text-decoration: underline;
         }
 
-        .progress-wrapper {
-            margin-bottom: 1.5rem;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: var(--bg-light);
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--success-color);
-            transition: width 0.3s ease;
-        }
-
-        .vocab-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .vocab-card {
-            background: var(--bg-light);
-            border-radius: 10px;
-            border: 2px solid transparent;
-            padding: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1.5rem;
-            transition: border-color 0.3s, background 0.3s, transform 0.3s;
-        }
-
-        .vocab-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .vocab-info {
-            flex: 1;
-        }
-
-        .vocab-word {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.25rem;
-        }
-
-        .vocab-translation {
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-small {
-            padding: 0.65rem 1.25rem;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .btn-know {
-            background: var(--success-color);
-            color: var(--white);
-        }
-
-        .btn-know:hover {
-            background: #1f8a4c;
-        }
-
-        .btn-dont-know {
-            background: #f39c12;
-            color: var(--white);
-        }
-
-        .btn-dont-know:hover {
-            background: #d68102;
-        }
-
-        .vocab-card.known {
-            border-color: var(--success-color);
-            background: rgba(39, 174, 96, 0.1);
-        }
-
-        .vocab-card.unknown {
-            border-color: #f39c12;
-            background: rgba(243, 156, 18, 0.1);
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: 0.25rem 0.6rem;
-            border-radius: 999px;
-            background: var(--white);
-            border: 1px solid var(--bg-light);
-            color: var(--text-light);
-        }
-
-        .vocab-card.known .status-badge {
-            border-color: var(--success-color);
-            color: var(--success-color);
-        }
-
-        .vocab-card.unknown .status-badge {
-            border-color: #f39c12;
-            color: #f39c12;
-        }
-
-        .reset-button {
-            background: transparent;
-            color: var(--text-light);
-            border: none;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        .reset-button:hover {
-            color: var(--primary-color);
-        }
-
-        @media (max-width: 600px) {
-            .vocab-card {
-                flex-direction: column;
-                align-items: flex-start;
+        @media (max-width: 700px) {
+            .lesson-container {
+                padding: 1.5rem;
             }
 
-            .card-actions {
-                width: 100%;
-            }
-
-            .card-actions button {
-                flex: 1;
+            .vocab-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -238,177 +198,175 @@
 
             <div class="lesson-header">
                 <h1 class="lesson-title">Vocabulary Trainer</h1>
-                <p class="lesson-description">Review core A1 words and track your progress.</p>
-            </div>
-
-            <div class="section">
-                <div class="progress-wrapper">
-                    <div class="progress-label">
-                        <span id="progress-text">Loading progress...</span>
-                        <button class="reset-button" id="reset-progress" type="button">Reset progress</button>
+                <p class="lesson-description">Browse lesson vocabulary by category, with verb conjugations at a glance.</p>
+                <div class="controls-bar">
+                    <div class="selector">
+                        <label for="lesson-select">Lesson</label>
+                        <select id="lesson-select"></select>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill"></div>
-                    </div>
-                </div>
-
-                <h2 class="section-title">📚 A1 Vocabulary</h2>
-                <div id="vocab-list" class="vocab-list">
-                    <p style="color: var(--text-light);">Loading vocabulary...</p>
+                    <label class="shared-toggle">
+                        <input type="checkbox" id="toggle-shared">
+                        Include shared references
+                    </label>
                 </div>
             </div>
+
+            <div id="vocab-content"></div>
         </div>
     </main>
 
     <footer>
         <p>&copy; 2024 Learn Montenegrin. Made with ❤️ for language learners.</p>
     </footer>
-
+    <script src="lessons-data.js"></script>
+    <script src="vocab/vocab-data.js"></script>
     <script>
-        const VOCAB_FILE = 'vocab/a1.json';
-        const PROGRESS_KEY = 'vocab_progress_a1';
+        const lessonSelect = document.getElementById('lesson-select');
+        const toggleShared = document.getElementById('toggle-shared');
+        const content = document.getElementById('vocab-content');
 
-        let vocabWords = [];
-        let progress = {};
+        function createVerbTable(conjugations) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'verb-table';
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            thead.innerHTML = '<tr><th>Pronoun</th><th>Form</th></tr>';
+            table.appendChild(thead);
 
-        async function loadVocabulary() {
-            const vocabList = document.getElementById('vocab-list');
-            try {
-                const response = await fetch(VOCAB_FILE);
-                if (!response.ok) {
-                    throw new Error('Failed to load vocabulary file');
-                }
-                const data = await response.json();
-                vocabWords = data.words || [];
-
-                if (!vocabWords.length) {
-                    vocabList.innerHTML = '<p style="color: var(--text-light);">No vocabulary found in this level yet.</p>';
-                    return;
-                }
-
-                renderVocabulary();
-            } catch (error) {
-                console.error(error);
-                vocabList.innerHTML = '<p style="color: #dc3545;">Unable to load vocabulary. Please make sure the file exists.</p>';
-            }
-        }
-
-        function loadProgress() {
-            try {
-                const stored = localStorage.getItem(PROGRESS_KEY);
-                if (stored) {
-                    progress = JSON.parse(stored);
-                }
-            } catch (error) {
-                console.warn('Could not read progress from localStorage', error);
-                progress = {};
-            }
-        }
-
-        function saveProgress() {
-            localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
-        }
-
-        function setWordStatus(word, status) {
-            progress[word] = status;
-            saveProgress();
-            updateProgress();
-        }
-
-        function getWordStatus(word) {
-            return progress[word] || null;
-        }
-
-        function updateProgress() {
-            const total = vocabWords.length;
-            const known = vocabWords.filter(word => progress[word.word] === 'known').length;
-            const percent = total ? Math.round((known / total) * 100) : 0;
-
-            document.getElementById('progress-text').textContent = `Known words: ${known} / ${total} (${percent}%)`;
-            document.getElementById('progress-fill').style.width = `${percent}%`;
-        }
-
-        function renderVocabulary() {
-            const vocabList = document.getElementById('vocab-list');
-            vocabList.innerHTML = '';
-
-            vocabWords.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'vocab-card';
-                card.dataset.word = item.word;
-
-                const wordStatus = getWordStatus(item.word);
-                if (wordStatus === 'known') {
-                    card.classList.add('known');
-                } else if (wordStatus === 'unknown') {
-                    card.classList.add('unknown');
-                }
-
-                const info = document.createElement('div');
-                info.className = 'vocab-info';
-                info.innerHTML = `
-                    <div class="vocab-word">${item.word}</div>
-                    <div class="vocab-translation">${item.translation}</div>
-                `;
-
-                const actions = document.createElement('div');
-                actions.className = 'card-actions';
-
-                const statusBadge = document.createElement('span');
-                statusBadge.className = 'status-badge';
-                statusBadge.textContent = wordStatus ? (wordStatus === 'known' ? 'Known' : "Don't Know") : 'Not reviewed';
-
-                const knowButton = document.createElement('button');
-                knowButton.className = 'btn-small btn-know';
-                knowButton.type = 'button';
-                knowButton.textContent = 'I know';
-                knowButton.addEventListener('click', () => {
-                    card.classList.add('known');
-                    card.classList.remove('unknown');
-                    statusBadge.textContent = 'Known';
-                    setWordStatus(item.word, 'known');
-                });
-
-                const dontKnowButton = document.createElement('button');
-                dontKnowButton.className = 'btn-small btn-dont-know';
-                dontKnowButton.type = 'button';
-                dontKnowButton.textContent = "I don't know";
-                dontKnowButton.addEventListener('click', () => {
-                    card.classList.add('unknown');
-                    card.classList.remove('known');
-                    statusBadge.textContent = "Don't Know";
-                    setWordStatus(item.word, 'unknown');
-                });
-
-                actions.appendChild(statusBadge);
-                actions.appendChild(knowButton);
-                actions.appendChild(dontKnowButton);
-
-                card.appendChild(info);
-                card.appendChild(actions);
-                vocabList.appendChild(card);
+            const tbody = document.createElement('tbody');
+            Object.entries(conjugations).forEach(([pronoun, form]) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${pronoun}</td><td>${form}</td>`;
+                tbody.appendChild(row);
             });
-
-            updateProgress();
+            table.appendChild(tbody);
+            wrapper.appendChild(table);
+            return wrapper;
         }
 
-        function resetProgress() {
-            if (Object.keys(progress).length === 0) {
+        function createCard(item, categoryType) {
+            const card = document.createElement('div');
+            card.className = 'vocab-card';
+
+            const typeLabel = document.createElement('div');
+            typeLabel.className = 'card-type';
+            typeLabel.textContent = categoryType;
+            card.appendChild(typeLabel);
+
+            const wordEl = document.createElement('div');
+            wordEl.className = 'vocab-word';
+            wordEl.textContent = item.word;
+            card.appendChild(wordEl);
+
+            if (item.translation) {
+                const translationEl = document.createElement('div');
+                translationEl.className = 'vocab-translation';
+                translationEl.textContent = item.translation;
+                card.appendChild(translationEl);
+            }
+
+            if (item.note || item.reference) {
+                const note = document.createElement('div');
+                note.className = 'note-text';
+                note.textContent = item.note ? item.note : `See ${item.reference}`;
+                card.appendChild(note);
+            }
+
+            if (item.conjugations) {
+                card.appendChild(createVerbTable(item.conjugations));
+            }
+
+            return card;
+        }
+
+        function renderLesson(lessonKey) {
+            content.innerHTML = '';
+            const lessonData = vocabularyData[lessonKey];
+
+            if (!lessonData) {
+                content.innerHTML = '<p style="color: var(--text-light);">No vocabulary for this lesson yet.</p>';
                 return;
             }
 
-            if (confirm('Reset your vocabulary progress?')) {
-                progress = {};
-                saveProgress();
-                renderVocabulary();
+            lessonData.categories.forEach(category => {
+                const section = document.createElement('div');
+                section.className = 'section';
+
+                const title = document.createElement('h3');
+                title.className = 'category-title';
+                title.textContent = category.name;
+                section.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'vocab-grid';
+                category.items.forEach(item => {
+                    grid.appendChild(createCard(item, (category.type || category.name).toUpperCase()));
+                });
+
+                section.appendChild(grid);
+                content.appendChild(section);
+            });
+
+            if (toggleShared.checked) {
+                renderShared();
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProgress();
-            loadVocabulary();
-            document.getElementById('reset-progress').addEventListener('click', resetProgress);
-        });
+        function renderShared() {
+            const shared = vocabularyData.shared;
+            if (!shared) return;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'section shared-section';
+
+            const heading = document.createElement('h3');
+            heading.className = 'section-title';
+            heading.textContent = 'Shared Reference';
+            wrapper.appendChild(heading);
+
+            shared.categories.forEach(category => {
+                const title = document.createElement('h4');
+                title.className = 'category-title';
+                title.textContent = category.name;
+                wrapper.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'vocab-grid';
+                category.items.forEach(item => {
+                    grid.appendChild(createCard(item, (category.type || 'reference').toUpperCase()));
+                });
+                wrapper.appendChild(grid);
+            });
+
+            content.appendChild(wrapper);
+        }
+
+        function populateLessonSelect() {
+            const entries = Object.entries(vocabularyData)
+                .filter(([key]) => key !== 'shared')
+                .sort((a, b) => {
+                    const orderA = lessonsData?.[a[0]]?.order ?? Number.MAX_VALUE;
+                    const orderB = lessonsData?.[b[0]]?.order ?? Number.MAX_VALUE;
+                    return orderA - orderB;
+                });
+
+            entries.forEach(([key, value]) => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = value.title;
+                lessonSelect.appendChild(option);
+            });
+
+            if (entries.length) {
+                lessonSelect.value = entries[0][0];
+                renderLesson(entries[0][0]);
+            }
+        }
+
+        lessonSelect.addEventListener('change', () => renderLesson(lessonSelect.value));
+        toggleShared.addEventListener('change', () => renderLesson(lessonSelect.value));
+
+        document.addEventListener('DOMContentLoaded', populateLessonSelect);
     </script>
 </body>
 </html>

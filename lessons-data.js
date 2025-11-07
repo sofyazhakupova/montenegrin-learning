@@ -2,21 +2,17 @@
 const lessonsData = {
     "lesson1": {
         "id": "lesson1",
+        "vocabularySet": "lesson1",
         "title": "Greetings and Introductions",
         "level": "A1",
         "goal": "Learn how to greet and introduce yourself in Montenegrin/Serbian",
         "theory": "<h3>Greetings</h3><p>In Serbian, you can greet people depending on the time of day:</p><ul><li><b>Dobro jutro</b> — Good morning</li><li><b>Dobar dan</b> — Good day / Good afternoon</li><li><b>Dobro veče</b> — Good evening</li><li><b>Laku noć</b> — Good night</li><li><b>Zdravo</b> — Hello (neutral)</li><li><b>Doviđenja</b> — Goodbye</li></ul><h3>Introducing Yourself</h3><p>To say your name, use <b>Ja sam...</b> (I am...)</p><p>Example: <b>Ja sam Ana.</b> — I am Ana.</p><p>To ask someone's name: <b>Kako se zovete?</b> (formal) or <b>Kako se zoveš?</b> (informal)</p><h3>How are you?</h3><p><b>Kako ste?</b> — How are you? (formal)<br><b>Kako si?</b> — How are you? (informal)<br><b>Dobro, hvala.</b> — Fine, thank you.<br><b>Nije loše.</b> — Not bad.</p>",
         "vocabulary": [
-            {"word": "Dobro jutro", "translation": "Good morning"},
-            {"word": "Dobar dan", "translation": "Good day"},
-            {"word": "Dobro veče", "translation": "Good evening"},
-            {"word": "Laku noć", "translation": "Good night"},
-            {"word": "Zdravo", "translation": "Hello"},
-            {"word": "Doviđenja", "translation": "Goodbye"},
-            {"word": "Molim", "translation": "Please"},
-            {"word": "Hvala", "translation": "Thank you"},
-            {"word": "Kako ste?", "translation": "How are you? (formal)"},
-            {"word": "Ja sam...", "translation": "I am..."}
+            {"category": "Pronouns", "items": ["ja", "ti", "on", "ona", "ono", "mi", "vi", "oni"]},
+            {"category": "Verbs", "items": ["biti", "zvati se", "živeti", "razumeti"]},
+            {"category": "Nouns", "items": ["ime", "zemlja", "jezik", "čovek"]},
+            {"category": "Adverbs & Particles", "items": ["da", "ne", "hvala", "molim", "možda", "ovde", "tamo"]},
+            {"category": "Adjectives", "items": ["novi", "stari", "isti", "drugi"]}
         ],
         "practice": [
             {
@@ -50,99 +46,78 @@ const lessonsData = {
     },
     "lesson2": {
         "id": "lesson2",
-        "title": "Numbers 1-20",
+        "vocabularySet": "lesson2",
+        "title": "At the Café",
         "level": "A1",
-        "goal": "Learn numbers from 1 to 20 in Montenegrin/Serbian",
-        "theory": "<h3>Numbers 1-10</h3><p>Let's start with the basics:</p><ul><li><b>jedan</b> — one</li><li><b>dva</b> — two</li><li><b>tri</b> — three</li><li><b>četiri</b> — four</li><li><b>pet</b> — five</li><li><b>šest</b> — six</li><li><b>sedam</b> — seven</li><li><b>osam</b> — eight</li><li><b>devet</b> — nine</li><li><b>deset</b> — ten</li></ul><h3>Numbers 11-20</h3><ul><li><b>jedanaest</b> — eleven</li><li><b>dvanaest</b> — twelve</li><li><b>trinaest</b> — thirteen</li><li><b>četrnaest</b> — fourteen</li><li><b>petnaest</b> — fifteen</li><li><b>šesnaest</b> — sixteen</li><li><b>sedamnaest</b> — seventeen</li><li><b>osamnaest</b> — eighteen</li><li><b>devetnaest</b> — nineteen</li><li><b>dvadeset</b> — twenty</li></ul>",
+        "goal": "Order food or drinks politely and interact with café staff",
+        "theory": "<h3>Polite Ordering</h3><p>Use <b>Ja bih...</b> and <b>Molim</b> to soften requests. Combine with menu nouns to ask for items.</p><h3>Verbs imati & želeti</h3><p>Present tense forms help express what you have or want.</p><h3>Noun Gender</h3><p>Match adjectives and pronouns with masculine/feminine/neuter café vocabulary.</p>",
         "vocabulary": [
-            {"word": "jedan", "translation": "one"},
-            {"word": "dva", "translation": "two"},
-            {"word": "tri", "translation": "three"},
-            {"word": "četiri", "translation": "four"},
-            {"word": "pet", "translation": "five"},
-            {"word": "šest", "translation": "six"},
-            {"word": "sedam", "translation": "seven"},
-            {"word": "osam", "translation": "eight"},
-            {"word": "devet", "translation": "nine"},
-            {"word": "deset", "translation": "ten"}
+            {"category": "Verbs", "items": ["imati", "želeti", "piti", "jesti"]},
+            {"category": "Nouns", "items": ["kafa", "voda", "čaj", "sok", "mleko", "pivo", "restoran", "konobar"]},
+            {"category": "Adverbs", "items": ["sada", "kasnije", "ovde", "tamo"]},
+            {"category": "Phrases", "items": ["Koliko košta?", "Ja bih…"]}
         ],
         "practice": [
-            {
-                "type": "multiple_choice",
-                "question": "How do you say 'five' in Serbian?",
-                "options": ["tri", "pet", "sedam", "devet"],
-                "answer": "pet"
-            },
-            {
-                "type": "translate",
-                "question": "Translate to Serbian: three",
-                "answer": "tri"
-            },
-            {
-                "type": "fill_blank",
-                "question": "How do you say 'ten' in Serbian? ___",
-                "answer": "deset"
-            }
+            {"type": "dialogue", "description": "Role-play a waiter–guest conversation using polite forms."},
+            {"type": "matching", "description": "Match drinks to the correct order sentence."},
+            {"type": "listening", "description": "Identify items and prices from café audio snippets."}
         ],
         "order": 2,
-        "available": true
+        "available": false
     },
     "lesson3": {
         "id": "lesson3",
-        "title": "Common Phrases",
+        "vocabularySet": "lesson3",
+        "title": "Learning Serbian",
         "level": "A1",
-        "goal": "Learn essential phrases for daily conversations",
-        "theory": "<h3>Useful Phrases</h3><p>Here are some common phrases you'll use every day:</p><ul><li><b>Izvinite</b> — Excuse me / Sorry</li><li><b>Molim</b> — Please / You're welcome</li><li><b>Hvala</b> — Thank you</li><li><b>Nema na čemu</b> — You're welcome</li><li><b>Da</b> — Yes</li><li><b>Ne</b> — No</li><li><b>Možda</b> — Maybe</li><li><b>Razumem</b> — I understand</li><li><b>Ne razumem</b> — I don't understand</li></ul>",
+        "goal": "Talk about studying Serbian and what you can read or understand",
+        "theory": "<h3>Present Tense Patterns</h3><p>-ti verbs become <b>-m, -š, -ju</b> endings: učiti → učim.</p><h3>Study Verbs</h3><p>Focus on učiti, govoriti, čitati, pisati, znati.</p>",
         "vocabulary": [
-            {"word": "Izvinite", "translation": "Excuse me / Sorry"},
-            {"word": "Molim", "translation": "Please / You're welcome"},
-            {"word": "Hvala", "translation": "Thank you"},
-            {"word": "Nema na čemu", "translation": "You're welcome"},
-            {"word": "Da", "translation": "Yes"},
-            {"word": "Ne", "translation": "No"},
-            {"word": "Razumem", "translation": "I understand"},
-            {"word": "Ne razumem", "translation": "I don't understand"}
+            {"category": "Verbs", "items": ["učiti", "govoriti", "čitati", "pisati", "znati"]},
+            {"category": "Nouns", "items": ["škola", "knjiga", "novine", "učitelj", "učenik"]},
+            {"category": "Adverbs", "items": ["često", "malo", "mnogo"]},
+            {"category": "Adjectives", "items": ["težak", "lak"]}
         ],
         "practice": [
-            {
-                "type": "multiple_choice",
-                "question": "How do you say 'I don't understand' in Serbian?",
-                "options": ["Razumem", "Ne razumem", "Izvinite", "Molim"],
-                "answer": "Ne razumem"
-            },
-            {
-                "type": "translate",
-                "question": "Translate to Serbian: Excuse me",
-                "answer": "Izvinite"
-            }
+            {"type": "conjugation", "description": "Conjugate core study verbs in the present tense."},
+            {"type": "reading", "description": "Read a short text and answer yes/no questions with 'Da li…?'"},
+            {"type": "speaking", "description": "Describe what languages you speak and what you are learning."}
         ],
         "order": 3,
-        "available": true
+        "available": false
     },
     "lesson4": {
         "id": "lesson4",
-        "title": "Food & Drinks",
+        "vocabularySet": "lesson4",
+        "title": "Where is...? (Directions & Places)",
         "level": "A1",
-        "goal": "Learn vocabulary about food and beverages",
-        "theory": "<h3>Coming Soon</h3><p>This lesson is being prepared. Check back soon!</p>",
-        "vocabulary": [],
-        "practice": [],
+        "goal": "Ask for and give directions using common place nouns",
+        "theory": "<h3>Prepositions + Locative</h3><p>Use <b>u</b> and <b>na</b> with locations (u banci, na trgu).</p><h3>Questions</h3><p>Structure <b>Gde je...?</b> for asking where something is.</p>",
+        "vocabulary": [
+            {"category": "Verbs", "items": ["ići", "dolaziti", "videti", "tražiti", "pokazati"]},
+            {"category": "Nouns", "items": ["ulica", "trg", "banka", "pošta", "prodavnica", "restoran"]},
+            {"category": "Adverbs", "items": ["levo", "desno", "pravo", "blizu", "daleko"]}
+        ],
+        "practice": [
+            {"type": "map", "description": "Use a city map to follow and give directions."},
+            {"type": "dialogue", "description": "Ask for a location using 'Gde je...?' and respond."},
+            {"type": "listening", "description": "Identify landmarks from short direction audio clips."}
+        ],
         "order": 4,
         "available": false
     },
     "lesson5": {
         "id": "lesson5",
+        "vocabularySet": "lesson5",
         "title": "In the Room / Hotel",
         "level": "A1",
         "goal": "Describe rooms, everyday objects, and ask for permission",
         "theory": "<h3>Verb Moći</h3><p>Conjugation of <b>moći</b> (can) in present tense and polite requests.</p><h3>Adjectives & Gender</h3><p>Agreement of adjectives with masculine, feminine, and neuter nouns.</p><h3>Prepositions</h3><p>Usage of <b>na</b>, <b>ispred</b>, <b>pored</b> with locative.</p>",
         "vocabulary": [
-            {"word": "soba", "translation": "room"},
-            {"word": "sto", "translation": "table"},
-            {"word": "stolica", "translation": "chair"},
-            {"word": "krevet", "translation": "bed"},
-            {"word": "orman", "translation": "closet"},
-            {"word": "sprat", "translation": "floor (storey)"}
+            {"category": "Verbs", "items": ["moći", "spavati", "ostati"]},
+            {"category": "Nouns", "items": ["soba", "sto", "stolica", "krevet", "orman", "sprat", "ključ"]},
+            {"category": "Adjectives", "items": ["otvoren", "zatvoren", "veliki", "mali"]},
+            {"category": "Phrases", "items": ["Gde je kupatilo?"]}
         ],
         "practice": [
             {"type": "matching", "description": "Match room objects with descriptions."},
@@ -154,17 +129,16 @@ const lessonsData = {
     },
     "lesson6": {
         "id": "lesson6",
+        "vocabularySet": "lesson6",
         "title": "Shopping for Food",
         "level": "A1",
         "goal": "Buy groceries, ask for quantities, and thank the seller",
         "theory": "<h3>Quantities</h3><p>Using <b>kilo</b>, <b>litar</b>, and counting food items.</p><h3>Expressions</h3><p>Polite requests with <b>treba mi</b> and <b>želim</b>.</p>",
         "vocabulary": [
-            {"word": "voće", "translation": "fruit"},
-            {"word": "povrće", "translation": "vegetables"},
-            {"word": "hleb", "translation": "bread"},
-            {"word": "sir", "translation": "cheese"},
-            {"word": "mleko", "translation": "milk"},
-            {"word": "cena", "translation": "price"}
+            {"category": "Verbs", "items": ["kupiti", "trebati", "uzeti", "platiti"]},
+            {"category": "Nouns", "items": ["voće", "povrće", "hleb", "sir", "mleko", "cena"]},
+            {"category": "Adjectives", "items": ["skup", "jeftin", "ukusan"]},
+            {"category": "Phrases", "items": ["Koliko košta hleb?"]}
         ],
         "practice": [
             {"type": "dialogue", "description": "Market role-play using 'Dajte mi…'"},
@@ -176,16 +150,15 @@ const lessonsData = {
     },
     "lesson7": {
         "id": "lesson7",
+        "vocabularySet": "lesson7",
         "title": "Come to My Place",
         "level": "A1",
         "goal": "Talk about schedules and invite someone",
         "theory": "<h3>Time Expressions</h3><p>Days of the week and telling time.</p><h3>Verbs</h3><p>Usage of <b>voleti</b> and <b>hteti</b> in present tense.</p>",
         "vocabulary": [
-            {"word": "dan", "translation": "day"},
-            {"word": "vreme", "translation": "time"},
-            {"word": "sastanak", "translation": "meeting"},
-            {"word": "gost", "translation": "guest"},
-            {"word": "slobodno", "translation": "free (time)"}
+            {"category": "Verbs", "items": ["voleti", "hteti", "doći", "čekati"]},
+            {"category": "Nouns", "items": ["dan", "vreme", "prijatelj", "gost"]},
+            {"category": "Adverbs", "items": ["danas", "sutra", "juče"]}
         ],
         "practice": [
             {"type": "dialogue", "description": "Arrange a meeting using availability statements."},
@@ -197,16 +170,15 @@ const lessonsData = {
     },
     "lesson8": {
         "id": "lesson8",
+        "vocabularySet": "lesson8",
         "title": "Family and Friends",
         "level": "A2",
         "goal": "Discuss family relationships and use possessives",
         "theory": "<h3>Plurals</h3><p>Forming plural nouns.</p><h3>Possessives</h3><p>Using <b>moj</b>, <b>tvoj</b>, <b>naš</b>, <b>vaš</b>.</p>",
         "vocabulary": [
-            {"word": "otac", "translation": "father"},
-            {"word": "majka", "translation": "mother"},
-            {"word": "brat", "translation": "brother"},
-            {"word": "sestra", "translation": "sister"},
-            {"word": "prijatelj", "translation": "friend"}
+            {"category": "Nouns", "items": ["otac", "majka", "brat", "sestra", "dete", "porodica"]},
+            {"category": "Verbs", "items": ["imati", "voleti"]},
+            {"category": "Adjectives", "items": ["mlad", "star"]}
         ],
         "practice": [
             {"type": "diagram", "description": "Build and label a family tree."},
@@ -218,16 +190,15 @@ const lessonsData = {
     },
     "lesson9": {
         "id": "lesson9",
+        "vocabularySet": "lesson9",
         "title": "Daily Routine",
         "level": "A2",
         "goal": "Describe daily habits and routines",
         "theory": "<h3>Reflexive Verbs</h3><p>Conjugation of verbs like <b>se buditi</b>, <b>se umivati</b>.</p><h3>Genitive Singular</h3><p>Usage in time expressions.</p>",
         "vocabulary": [
-            {"word": "jutro", "translation": "morning"},
-            {"word": "veče", "translation": "evening"},
-            {"word": "navika", "translation": "habit"},
-            {"word": "aktivnost", "translation": "activity"},
-            {"word": "odmor", "translation": "rest"}
+            {"category": "Verbs", "items": ["buditi se", "ustati", "umivati se", "raditi", "spavati"]},
+            {"category": "Nouns", "items": ["jutro", "veče", "posao", "kuća"]},
+            {"category": "Adverbs", "items": ["rano", "kasno"]}
         ],
         "practice": [
             {"type": "ordering", "description": "Sequence daily activities."},
@@ -239,16 +210,14 @@ const lessonsData = {
     },
     "lesson10": {
         "id": "lesson10",
+        "vocabularySet": "lesson10",
         "title": "People and Descriptions",
         "level": "A2",
         "goal": "Describe appearance and personality",
         "theory": "<h3>Adjective Agreement</h3><p>Matching adjectives with noun gender and number.</p><h3>Questions</h3><p>Using <b>kakav/kakva/kakvo</b>.</p>",
         "vocabulary": [
-            {"word": "visok", "translation": "tall"},
-            {"word": "lep", "translation": "handsome/pretty"},
-            {"word": "zanimljiv", "translation": "interesting"},
-            {"word": "ljubazan", "translation": "kind"},
-            {"word": "dobar", "translation": "good"}
+            {"category": "Nouns", "items": ["čovek", "žena", "prijatelj"]},
+            {"category": "Adjectives", "items": ["visok", "nizak", "lep", "ružan", "pametan", "ljubazan"]}
         ],
         "practice": [
             {"type": "matching", "description": "Match photos with adjectives."},
@@ -260,17 +229,14 @@ const lessonsData = {
     },
     "lesson11": {
         "id": "lesson11",
+        "vocabularySet": "lesson11",
         "title": "Nationalities and Languages",
         "level": "A2",
         "goal": "Talk about origin and languages you speak",
         "theory": "<h3>Locative Case</h3><p>Used with country/place names.</p><h3>Adjectives</h3><p>Forming nationality adjectives; question <b>Odakle si?</b></p>",
         "vocabulary": [
-            {"word": "Srbija", "translation": "Serbia"},
-            {"word": "Crna Gora", "translation": "Montenegro"},
-            {"word": "Rusija", "translation": "Russia"},
-            {"word": "Engleska", "translation": "England"},
-            {"word": "srpski", "translation": "Serbian"},
-            {"word": "crnogorski", "translation": "Montenegrin"}
+            {"category": "Nouns", "items": ["Srbija", "Crna Gora", "Engleska", "Rusija", "jezik", "narod"]},
+            {"category": "Adjectives", "items": ["srpski", "crnogorski", "engleski", "ruski"]}
         ],
         "practice": [
             {"type": "dialogue", "description": "Introduce where you are from and languages you speak."},
@@ -282,17 +248,15 @@ const lessonsData = {
     },
     "lesson12": {
         "id": "lesson12",
+        "vocabularySet": "lesson12",
         "title": "Weather and Seasons",
         "level": "A2",
         "goal": "Describe weather conditions and seasons",
         "theory": "<h3>Instrumental Case</h3><p>Using instrumental with weather expressions.</p><h3>Seasons</h3><p>Vocabulary and adjectives.</p>",
         "vocabulary": [
-            {"word": "sunčano", "translation": "sunny"},
-            {"word": "kiša", "translation": "rain"},
-            {"word": "sneg", "translation": "snow"},
-            {"word": "hladno", "translation": "cold"},
-            {"word": "leto", "translation": "summer"},
-            {"word": "zima", "translation": "winter"}
+            {"category": "Nouns", "items": ["vreme", "sunce", "kiša", "sneg", "proleće", "leto", "jesen", "zima"]},
+            {"category": "Adjectives", "items": ["toplo", "hladno", "vetrovito"]},
+            {"category": "Verbs", "items": ["padati"]}
         ],
         "practice": [
             {"type": "listening", "description": "Listen to weather reports and answer questions."},
@@ -304,16 +268,14 @@ const lessonsData = {
     },
     "lesson13": {
         "id": "lesson13",
+        "vocabularySet": "lesson13",
         "title": "Travel and Transport",
         "level": "A2",
         "goal": "Discuss travel plans and transport options",
         "theory": "<h3>Instrumental Plural</h3><p>Formation and usage.</p><h3>Prepositions</h3><p>Using <b>sa</b>, <b>bez</b>, <b>između</b>.</p>",
         "vocabulary": [
-            {"word": "autobus", "translation": "bus"},
-            {"word": "voz", "translation": "train"},
-            {"word": "avion", "translation": "plane"},
-            {"word": "putovanje", "translation": "trip"},
-            {"word": "karta", "translation": "ticket"}
+            {"category": "Nouns", "items": ["autobus", "voz", "avion", "putovanje", "karta"]},
+            {"category": "Verbs", "items": ["putovati", "stići", "poći"]}
         ],
         "practice": [
             {"type": "dialogue", "description": "Book a ticket at the station."},
@@ -325,16 +287,14 @@ const lessonsData = {
     },
     "lesson14": {
         "id": "lesson14",
+        "vocabularySet": "lesson14",
         "title": "Health and Body",
         "level": "A2",
         "goal": "Talk about health issues and ask for help",
         "theory": "<h3>Verb Boleti</h3><p>Expressing pain with dative structures.</p><h3>Imperative</h3><p>Forming polite commands.</p>",
         "vocabulary": [
-            {"word": "glava", "translation": "head"},
-            {"word": "ruka", "translation": "arm/hand"},
-            {"word": "bol", "translation": "pain"},
-            {"word": "doktor", "translation": "doctor"},
-            {"word": "tableta", "translation": "tablet"}
+            {"category": "Nouns", "items": ["glava", "ruka", "noga", "bol", "doktor", "apoteka", "tableta"]},
+            {"category": "Verbs", "items": ["boleti", "osećati se", "uzeti"]}
         ],
         "practice": [
             {"type": "roleplay", "description": "Doctor–patient dialogues."},
@@ -346,16 +306,14 @@ const lessonsData = {
     },
     "lesson15": {
         "id": "lesson15",
+        "vocabularySet": "lesson15",
         "title": "Jobs and Professions",
         "level": "B1",
         "goal": "Discuss occupations and work responsibilities",
         "theory": "<h3>Dative Case</h3><p>Usage with indirect objects.</p><h3>Profession Vocabulary</h3><p>Common titles and verbs related to work.</p>",
         "vocabulary": [
-            {"word": "lekar", "translation": "doctor"},
-            {"word": "učitelj", "translation": "teacher"},
-            {"word": "inženjer", "translation": "engineer"},
-            {"word": "raditi", "translation": "to work"},
-            {"word": "firma", "translation": "company"}
+            {"category": "Nouns", "items": ["posao", "kompanija", "radnik", "lekar", "učitelj", "inženjer"]},
+            {"category": "Verbs", "items": ["raditi", "pomagati", "zaraditi"]}
         ],
         "practice": [
             {"type": "writing", "description": "Complete a short CV."},
@@ -367,16 +325,14 @@ const lessonsData = {
     },
     "lesson16": {
         "id": "lesson16",
+        "vocabularySet": "lesson16",
         "title": "Hobbies and Free Time",
         "level": "B1",
         "goal": "Discuss hobbies, interests, and activities",
         "theory": "<h3>Verb Voleti</h3><p>Expressing likes.</p><h3>Baviti se</h3><p>Using reflexive structures with activities.</p><h3>Infinitive</h3><p>Constructing sentences with infinitives.</p>",
         "vocabulary": [
-            {"word": "sport", "translation": "sport"},
-            {"word": "muzika", "translation": "music"},
-            {"word": "čitanje", "translation": "reading"},
-            {"word": "film", "translation": "film"},
-            {"word": "hobiji", "translation": "hobbies"}
+            {"category": "Nouns", "items": ["sport", "muzika", "knjiga", "film"]},
+            {"category": "Verbs", "items": ["svirati", "gledati", "čitati", "baviti se"]}
         ],
         "practice": [
             {"type": "survey", "description": "Ask classmates about hobbies."},
@@ -388,16 +344,15 @@ const lessonsData = {
     },
     "lesson17": {
         "id": "lesson17",
+        "vocabularySet": "lesson17",
         "title": "Future Plans",
         "level": "B1",
         "goal": "Express intentions and future schedules",
         "theory": "<h3>Future Tense</h3><p>Forming future with <b>ću + infinitive</b>.</p><h3>Time Expressions</h3><p>Using <b>sutra</b>, <b>sledeće godine</b>, etc.</p>",
         "vocabulary": [
-            {"word": "sutra", "translation": "tomorrow"},
-            {"word": "planovi", "translation": "plans"},
-            {"word": "sledeće godine", "translation": "next year"},
-            {"word": "uskoro", "translation": "soon"},
-            {"word": "namera", "translation": "intention"}
+            {"category": "Verbs", "items": ["planirati", "nadati se", "želeti", "ići"]},
+            {"category": "Adverbs", "items": ["uskoro", "sledeće nedelje"]},
+            {"category": "Nouns", "items": ["planovi", "namera"]}
         ],
         "practice": [
             {"type": "planning", "description": "Create a future schedule."},
@@ -409,16 +364,15 @@ const lessonsData = {
     },
     "lesson18": {
         "id": "lesson18",
+        "vocabularySet": "lesson18",
         "title": "Comparisons and Opinions",
         "level": "B1",
         "goal": "Compare things and share opinions",
         "theory": "<h3>Comparatives</h3><p>Forming comparative and superlative adjectives.</p><h3>Opinions</h3><p>Using structures like <b>mislim da...</b>.</p>",
         "vocabulary": [
-            {"word": "bolji", "translation": "better"},
-            {"word": "najbolji", "translation": "best"},
-            {"word": "lošiji", "translation": "worse"},
-            {"word": "mišljenje", "translation": "opinion"},
-            {"word": "prednost", "translation": "advantage"}
+            {"category": "Adjectives", "items": ["bolji", "najbolji", "lošiji", "zanimljiv"]},
+            {"category": "Nouns", "items": ["mišljenje", "prednost"]},
+            {"category": "Phrases", "items": ["Mislim da...", "Po mom mišljenju…"]}
         ],
         "practice": [
             {"type": "debate", "description": "Debate preferences with a partner."},
@@ -430,16 +384,14 @@ const lessonsData = {
     },
     "lesson19": {
         "id": "lesson19",
+        "vocabularySet": "lesson19",
         "title": "Review & Storytelling",
         "level": "B1",
         "goal": "Consolidate learned material and narrate events",
         "theory": "<h3>Verb Aspect</h3><p>Contrast perfective vs. imperfective verbs.</p><h3>Narrative Practice</h3><p>Using past tenses in storytelling.</p>",
         "vocabulary": [
-            {"word": "priča", "translation": "story"},
-            {"word": "dogadjaj", "translation": "event"},
-            {"word": "jučer", "translation": "yesterday"},
-            {"word": "pre", "translation": "before"},
-            {"word": "posle", "translation": "after"}
+            {"category": "Focus", "items": ["sva vremena", "aspekti glagola"]},
+            {"category": "Useful Words", "items": ["priča", "događaj", "juče", "pre", "posle"]}
         ],
         "practice": [
             {"type": "writing", "description": "Write a short story using mixed aspects."},

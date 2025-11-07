@@ -228,16 +228,23 @@
             color: var(--text-light);
         }
 
+        .modal-word-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.35rem;
+        }
+
         .modal-word {
             font-size: 2rem;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 0.35rem;
         }
 
         .modal-translation {
             font-size: 1.1rem;
             color: var(--text-light);
+            margin-bottom: 0.35rem;
         }
 
         .modal-status {
@@ -247,14 +254,14 @@
         }
 
         .modal-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             background: rgba(45, 90, 135, 0.08);
             color: var(--primary-color);
             padding: 0.2rem 0.65rem;
             border-radius: 999px;
             font-size: 0.75rem;
             font-weight: 600;
-            margin-left: 0.4rem;
         }
 
         .modal-section {
@@ -425,7 +432,10 @@
         modalBackdrop.innerHTML = `
             <div class="modal">
                 <button class="modal-close" aria-label="Close">×</button>
-                <div class="modal-word" id="modal-word"></div>
+                <div class="modal-word-row">
+                    <div class="modal-word" id="modal-word"></div>
+                    <span class="modal-badge" id="modal-level" hidden></span>
+                </div>
                 <div class="modal-translation" id="modal-translation"></div>
                 <div class="modal-status" id="modal-status"></div>
                 <div class="modal-section" id="modal-conjugations" hidden>
@@ -455,6 +465,7 @@
 
         const modalCloseBtn = modalBackdrop.querySelector('.modal-close');
         const modalWord = document.getElementById('modal-word');
+        const modalLevel = document.getElementById('modal-level');
         const modalTranslation = document.getElementById('modal-translation');
         const modalStatus = document.getElementById('modal-status');
         const modalConjugations = document.getElementById('modal-conjugations');
@@ -692,7 +703,13 @@
             currentModalLevel = item.primaryLevel || null;
 
             modalWord.textContent = item.word;
-            modalTranslation.innerHTML = `${item.translation || '—'} <span class="modal-badge">${categoryLabel}</span>`;
+            if (categoryLabel) {
+                modalLevel.textContent = categoryLabel;
+                modalLevel.hidden = false;
+            } else {
+                modalLevel.hidden = true;
+            }
+            modalTranslation.textContent = item.translation || '—';
 
             if (item.conjugations) {
                 modalConjugations.hidden = false;

@@ -12,7 +12,7 @@ _Last updated: 2025-11-07_
 |------|---------|-------|
 | `index.html` | Dashboard/home | Shows next lesson, progress stats, bar chart, quick actions. |
 | `lessons.html` | Lessons overview | Filterable list (all / not started / in progress / completed / locked). |
-| `lesson.html` | Lesson player | Lesson 1 with tabbed guide/vocab/practice/challenge sections, shared vocab cards (know/practice), interactive click-based drills, and real-life challenge badge. |
+| `lesson.html` | Lesson player | Lesson 1 with tabbed guide/vocab/practice/challenge sections, hero pronoun chips for quick review, shared vocab cards (know/practice), interactive click-based drills, and real-life challenge badge. |
 | `vocab.html` | Vocabulary trainer | Renders category tabs from `vocab/vocab-data.js`, tracks known/unknown status, shows conjugations, shared references, and modal details. |
 | `quiz.html` | Quiz hub (placeholder) | Coming-soon message, links back to lessons/vocab. |
 

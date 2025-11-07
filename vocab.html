@@ -597,8 +597,7 @@
 
         function updateModalStatus(key) {
             const status = getWordStatusByKey(key);
-            const levelSuffix = currentModalLevel ? ` • Level ${currentModalLevel}` : '';
-            modalStatus.textContent = (status === 'known' ? 'Marked as known' : 'Not marked as known yet') + levelSuffix;
+            modalStatus.textContent = status === 'known' ? 'You marked this word as known.' : 'Tap a button to track this word.';
             modalKnowBtn.disabled = status === 'known';
             modalDontKnowBtn.disabled = status !== 'known';
         }
@@ -737,15 +736,7 @@
                 modalConjugations.hidden = true;
             }
 
-            if (item.lessons && item.lessons.length) {
-                modalLessons.hidden = false;
-                modalLessonsList.textContent = item.lessons.join(', ');
-            } else if (item.shared) {
-                modalLessons.hidden = false;
-                modalLessonsList.textContent = 'Shared reference list';
-            } else {
-                modalLessons.hidden = true;
-            }
+            modalLessons.hidden = true;
 
             if (item.note || item.reference) {
                 modalNotes.hidden = false;

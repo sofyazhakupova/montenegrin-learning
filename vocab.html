@@ -106,14 +106,38 @@
         }
 
         .vocab-card.known {
-            border-color: rgba(39, 174, 96, 0.4);
-            background: rgba(39, 174, 96, 0.12);
+            border-width: 2px;
+        }
+
+        .vocab-card.known-level-a1 {
+            border-color: rgba(45, 90, 135, 0.45);
+            background: rgba(45, 90, 135, 0.12);
+        }
+
+        .vocab-card.known-level-a2 {
+            border-color: rgba(243, 156, 18, 0.45);
+            background: rgba(243, 156, 18, 0.12);
+        }
+
+        .vocab-card.known-level-b1 {
+            border-color: rgba(142, 68, 173, 0.45);
+            background: rgba(142, 68, 173, 0.12);
         }
 
         .vocab-word {
             font-size: 1.45rem;
             font-weight: 700;
             color: var(--primary-color);
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: rgba(45, 90, 135, 0.08);
+            color: var(--primary-color);
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
         }
 
         .vocab-translation {
@@ -222,11 +246,12 @@
 
         .modal-badge {
             display: inline-block;
-            background: var(--bg-light);
+            background: rgba(45, 90, 135, 0.08);
+            color: var(--primary-color);
             padding: 0.2rem 0.65rem;
             border-radius: 999px;
             font-size: 0.75rem;
-            color: var(--text-light);
+            font-weight: 600;
             margin-left: 0.4rem;
         }
 
@@ -374,12 +399,19 @@
         };
         const CATEGORY_ORDER = ['pronoun', 'verb', 'noun', 'adjective', 'adverb', 'phrase', 'reference', 'focus', 'note', 'other'];
         const PROGRESS_KEY = 'vocab_progress_all';
+        const LEVEL_CLASS_MAP = {
+            a1: 'known-level-a1',
+            a2: 'known-level-a2',
+            b1: 'known-level-b1',
+            b2: 'known-level-b2'
+        };
 
         let wordProgress = {};
         let cardRegistry = new Map();
         let allWordKeys = [];
         let currentModalWord = null;
         let currentModalWordKey = null;
+        let currentModalLevel = null;
 
         const tabsEl = document.getElementById('category-tabs');
         const cardsEl = document.getElementById('cards-container');
@@ -436,6 +468,27 @@
             return (word || '').toLowerCase();
         }
 
+        function levelRank(level) {
+            if (!level) return 999;
+            const match = level.match(/^([A-Ca-c])(\d)/);
+            if (!match) return 999;
+            const groupMap = { A: 0, B: 10, C: 20 };
+            const major = groupMap[match[1].toUpperCase()] ?? 99;
+            const minor = parseInt(match[2], 10) || 0;
+            return major + minor;
+        }
+
+        function primaryLevel(levels) {
+            if (!levels || !levels.length) return null;
+            return [...levels].sort((a, b) => levelRank(a) - levelRank(b))[0];
+        }
+
+        function getLevelClass(level) {
+            if (!level) return null;
+            const key = level.slice(0, 2).toLowerCase();
+            return LEVEL_CLASS_MAP[key] || null;
+        }
+
         function normalizeCategory(category) {
             const raw = (category.type || category.name || 'other').toLowerCase();
             if (raw.includes('pronoun')) return 'pronoun';
@@ -464,20 +517,12 @@
             try {
                 localStorage.setItem(PROGRESS_KEY, JSON.stringify(wordProgress));
             } catch (error) {
-                // ignore storage errors
+                // ignore storage issues
             }
         }
 
         function getWordStatusByKey(key) {
             return wordProgress[key] === 'known' ? 'known' : 'unknown';
-        }
-
-        function getWordStatus(word) {
-            return getWordStatusByKey(getWordKey(word));
-        }
-
-        function setWordStatus(word, status) {
-            setWordStatusByKey(getWordKey(word), status);
         }
 
         function setWordStatusByKey(key, status) {
@@ -490,6 +535,10 @@
             updateProgressBar();
         }
 
+        function setWordStatus(word, status) {
+            setWordStatusByKey(getWordKey(word), status);
+        }
+
         function updateCardGroup(key) {
             const status = getWordStatusByKey(key);
             const cards = cardRegistry.get(key) || [];
@@ -497,7 +546,12 @@
         }
 
         function updateCardVisual(card, status) {
-            card.classList.toggle('known', status === 'known');
+            card.classList.remove('known', 'known-level-a1', 'known-level-a2', 'known-level-b1', 'known-level-b2');
+            if (status === 'known') {
+                card.classList.add('known');
+                const levelClass = getLevelClass(card.dataset.level);
+                if (levelClass) card.classList.add(levelClass);
+            }
             const knowBtn = card.querySelector('button.know');
             const dontBtn = card.querySelector('button.dont-know');
             if (knowBtn) knowBtn.disabled = status === 'known';
@@ -506,7 +560,8 @@
 
         function updateModalStatus(key) {
             const status = getWordStatusByKey(key);
-            modalStatus.textContent = status === 'known' ? 'Marked as known' : 'Not marked as known yet';
+            const levelSuffix = currentModalLevel ? ` • Level ${currentModalLevel}` : '';
+            modalStatus.textContent = (status === 'known' ? 'Marked as known' : 'Not marked as known yet') + levelSuffix;
             modalKnowBtn.disabled = status === 'known';
             modalDontKnowBtn.disabled = status !== 'known';
         }
@@ -534,6 +589,7 @@
             Object.entries(vocabularyData).forEach(([lessonKey, lesson]) => {
                 if (!lesson || !lesson.categories) return;
                 const lessonTitle = lesson.title || lessonKey;
+                const lessonLevel = lessonsData?.[lessonKey]?.level || null;
 
                 lesson.categories.forEach(category => {
                     const typeKey = normalizeCategory(category);
@@ -555,6 +611,7 @@
                                 note: item.note || null,
                                 reference: item.reference || null,
                                 lessons: new Set(),
+                                levels: new Set(),
                                 shared: lessonKey === 'shared'
                             };
                             masterMap.set(wordKey, entry);
@@ -568,6 +625,9 @@
 
                         if (lessonKey !== 'shared' && lessonTitle) {
                             entry.lessons.add(lessonTitle);
+                        }
+                        if (lessonLevel) {
+                            entry.levels.add(lessonLevel);
                         }
 
                         if (!bucket.has(wordKey)) {
@@ -585,15 +645,20 @@
             orderedKeys.forEach(key => {
                 if (!categoryBuckets.has(key)) return;
                 const items = Array.from(categoryBuckets.get(key).values())
-                    .map(entry => ({
-                        word: entry.word,
-                        translation: entry.translation,
-                        conjugations: entry.conjugations,
-                        note: entry.note,
-                        reference: entry.reference,
-                        lessons: Array.from(entry.lessons),
-                        shared: entry.shared
-                    }))
+                    .map(entry => {
+                        const levels = entry.levels ? Array.from(entry.levels) : [];
+                        return {
+                            word: entry.word,
+                            translation: entry.translation,
+                            conjugations: entry.conjugations,
+                            note: entry.note,
+                            reference: entry.reference,
+                            lessons: Array.from(entry.lessons),
+                            shared: entry.shared,
+                            levels,
+                            primaryLevel: primaryLevel(levels)
+                        };
+                    })
                     .sort((a, b) => a.word.localeCompare(b.word, 'sr'));
                 if (items.length) {
                     categories.push({ key, label: CATEGORY_LABELS[key] || key, items });
@@ -606,6 +671,7 @@
         function openModal(item, categoryLabel) {
             currentModalWord = item.word;
             currentModalWordKey = getWordKey(item.word);
+            currentModalLevel = item.primaryLevel || null;
 
             modalWord.textContent = item.word;
             modalTranslation.innerHTML = `${item.translation || '—'} <span class="modal-badge">${categoryLabel}</span>`;
@@ -666,12 +732,20 @@
         function createCard(item, categoryLabel) {
             const card = document.createElement('div');
             card.className = 'vocab-card';
+            card.dataset.level = (item.primaryLevel || '').toLowerCase();
             card.addEventListener('click', () => openModal(item, categoryLabel));
 
             const wordEl = document.createElement('div');
             wordEl.className = 'vocab-word';
             wordEl.textContent = item.word;
             card.appendChild(wordEl);
+
+            if (item.primaryLevel) {
+                const levelEl = document.createElement('div');
+                levelEl.className = 'level-badge';
+                levelEl.textContent = item.primaryLevel;
+                card.appendChild(levelEl);
+            }
 
             if (item.translation) {
                 const translationEl = document.createElement('div');
@@ -700,7 +774,7 @@
 
             const dontBtn = document.createElement('button');
             dontBtn.className = 'dont-know';
-            dontBtn.textContent = "Practice";
+            dontBtn.textContent = 'Practice';
             dontBtn.addEventListener('click', event => {
                 event.stopPropagation();
                 setWordStatus(item.word, 'unknown');
@@ -715,13 +789,16 @@
                 cardRegistry.set(wordKey, []);
             }
             cardRegistry.get(wordKey).push(card);
-            updateCardVisual(card, getWordStatus(item.word));
+            updateCardVisual(card, getWordStatusByKey(wordKey));
 
             return card;
         }
 
+        let currentCategory = null;
+
         function renderCategory(category) {
             cardRegistry = new Map();
+            currentCategory = category;
             cardsEl.innerHTML = '';
             if (!category || !category.items.length) {
                 cardsEl.innerHTML = '<p style="color: var(--text-light);">No words in this category yet.</p>';

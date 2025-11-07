@@ -159,6 +159,20 @@
             color: var(--primary-color);
         }
 
+        .pronoun-intro {
+            margin: 1rem 0 0.75rem;
+            max-width: 540px;
+            color: rgba(15, 23, 42, 0.7);
+            font-weight: 600;
+        }
+
+        .pronoun-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
         .mini-task {
             margin-top: 1rem;
             padding: 0.9rem 1rem;
@@ -1660,29 +1674,29 @@
             wireChallenge();
 
             if (pronouns.length) {
-                const heroList = document.createElement('div');
-                heroList.style.display = 'flex';
-                heroList.style.flexWrap = 'wrap';
-                heroList.style.gap = '0.75rem';
-                heroList.style.marginTop = '1rem';
+                const guidePanel = document.getElementById('tab-guide');
+                if (guidePanel) {
+                    const targetSection = guidePanel.querySelector('section');
+                    if (targetSection) {
+                        const introNote = document.createElement('p');
+                        introNote.className = 'pronoun-intro';
+                        introNote.textContent = 'Start with the personal pronouns. Tap any form to review pronunciation, level, and notes.';
 
-                pronouns.forEach(item => {
-                    const chip = document.createElement('button');
-                    chip.className = 'pill-btn';
-                    chip.type = 'button';
-                    chip.textContent = item.word;
-                    chip.addEventListener('click', () => openModal(item));
-                    heroList.appendChild(chip);
-                });
+                        const chipWrap = document.createElement('div');
+                        chipWrap.className = 'pronoun-chips';
 
-                const heroSection = document.querySelector('.hero');
-                if (heroSection) {
-                    const introNote = document.createElement('p');
-                    introNote.style.marginTop = '1rem';
-                    introNote.style.maxWidth = '540px';
-                    introNote.textContent = 'Start with the personal pronouns. Tap any form to review pronunciation, level, and notes.';
-                    heroSection.appendChild(introNote);
-                    heroSection.appendChild(heroList);
+                        pronouns.forEach(item => {
+                            const chip = document.createElement('button');
+                            chip.className = 'pill-btn';
+                            chip.type = 'button';
+                            chip.textContent = item.word;
+                            chip.addEventListener('click', () => openModal(item));
+                            chipWrap.appendChild(chip);
+                        });
+
+                        targetSection.prepend(chipWrap);
+                        targetSection.prepend(introNote);
+                    }
                 }
             }
         });

@@ -1,20 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1 – Greetings and Introductions</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary-color: #2d5a87;
+            --secondary-color: #4a90a4;
+            --accent-color: #f39c12;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg-light: #f5f7fa;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(18, 38, 63, 0.07);
+            --shadow-hover: 0 12px 40px rgba(18, 38, 63, 0.12);
+        }
+
+        body {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .lesson-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .lesson-progress-floating {
+            position: sticky;
+            top: 64px;
+            z-index: 70;
+            padding: 0.55rem 0;
+            margin: 0 -2rem 1.5rem;
+            background: rgba(245, 247, 250, 0.92);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(45, 90, 135, 0.1);
+        }
+
+        .lesson-progress-floating .floating-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .lesson-progress-floating .progress-info {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .lesson-progress-bar {
+            display: flex;
+            width: 190px;
+            height: 7px;
+            border-radius: 999px;
+            background: rgba(45, 90, 135, 0.1);
+            overflow: hidden;
+        }
+
         .lesson-progress-bar.compact {
             height: 6px;
         }
 
-        .lesson-progress-summary.compact {
-            gap: 0.5rem;
+        .lesson-progress-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
         }
 
-        .lesson-progress-badge.compact {
-            padding: 0.25rem 0.65rem;
-            font-size: 0.85rem;
+        .lesson-progress-fill-success {
+            background: var(--success-color);
+        }
+
+        .lesson-progress-fill-mistake {
+            background: rgba(231, 76, 60, 0.8);
         }
 
         .lesson-progress-pill {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.45rem;
             padding: 0.35rem 0.7rem;
             border-radius: 999px;
             background: rgba(45, 90, 135, 0.08);
@@ -29,113 +143,56 @@
         }
 
         .lesson-progress-pill.warning {
-            background: rgba(243, 156, 18, 0.2);
+            background: rgba(243, 156, 18, 0.18);
             color: #c47a0f;
         }
 
         .lesson-progress-pill.danger {
-            background: rgba(231, 76, 60, 0.15);
+            background: rgba(231, 76, 60, 0.18);
             color: #c0392b;
         }
 
-        .lesson-progress-floating {
-            position: sticky;
-            top: 0;
-            z-index: 80;
-            background: rgba(245, 247, 250, 0.9);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(45, 90, 135, 0.1);
-            padding: 0.6rem 0;
-            margin: 0 -2rem 1rem;
-        }
-
-        .lesson-progress-floating .floating-content {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .lesson-progress-floating .floating-content .progress-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 1 – Greetings and Introductions</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        .lesson-wrapper {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 2rem 4rem;
-        }
-
         .hero {
-            position: relative;
-            border-radius: 18px;
-            padding: 1.75rem 2.5rem;
-            margin-bottom: 2rem;
-            min-height: 240px;
-            box-shadow: var(--shadow);
-            background: linear-gradient(120deg, rgba(15, 32, 54, 0.8), rgba(45, 90, 135, 0.6)), url('assets/lesson-hero.jpg');
-            background-size: cover;
-            background-position: center;
+            margin-top: 1.5rem;
+            background: linear-gradient(125deg, rgba(45, 90, 135, 0.92), rgba(15, 32, 54, 0.75)), url('assets/lesson-hero.jpg') center/cover;
             color: var(--white);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 0.75rem;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: linear-gradient(90deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0));
-            pointer-events: none;
-        }
-
-        .hero * {
-            position: relative;
-            z-index: 1;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
         }
 
         .hero h1 {
-            font-size: 2.25rem;
-            color: var(--white);
-            margin-bottom: 0.25rem;
+            font-size: 2.4rem;
+            margin-bottom: 0.35rem;
         }
 
         .hero p {
-            font-size: 1.05rem;
+            max-width: 720px;
+            line-height: 1.6;
             color: rgba(255, 255, 255, 0.85);
         }
 
-        .lesson-tabs {
-            margin-top: 2rem;
-        }
-
         .lesson-progress-card {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
             background: var(--white);
-            border: 1px solid var(--bg-light);
-            border-radius: 18px;
+            padding: 1.75rem 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(45, 90, 135, 0.08);
             box-shadow: var(--shadow);
-            padding: 1.5rem 1.75rem;
-            margin-bottom: 2.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.25rem;
+            transition: border-color 0.2s;
+        }
+
+        .lesson-progress-card.completed {
+            border-color: rgba(39, 174, 96, 0.3);
+        }
+
+        .lesson-progress-card.has-mistake {
+            border-color: rgba(231, 76, 60, 0.25);
+            box-shadow: 0 0 0 1px rgba(231, 76, 60, 0.1), var(--shadow);
         }
 
         .lesson-progress-header {
@@ -147,132 +204,81 @@
 
         .lesson-progress-header h2 {
             margin: 0;
-            color: var(--primary-color);
-        }
-
-        .lesson-progress-header p {
-            margin-top: 0.15rem;
-            color: var(--text-light);
+            font-size: 1.5rem;
         }
 
         .lesson-progress-summary {
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            flex-wrap: wrap;
         }
 
         .lesson-progress-badge {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.4rem 0.85rem;
+            padding: 0.45rem 0.95rem;
             border-radius: 999px;
-            background: rgba(45, 90, 135, 0.12);
+            background: rgba(45, 90, 135, 0.08);
             color: var(--primary-color);
             font-weight: 700;
         }
 
-        .lesson-progress-card.completed .lesson-progress-badge {
-            background: rgba(39, 174, 96, 0.15);
-            color: var(--success-color);
-        }
-
-        .lesson-progress-card.has-mistake {
-            border-color: rgba(231, 76, 60, 0.35);
-            box-shadow: 0 0 0 1px rgba(231, 76, 60, 0.2), var(--shadow);
-        }
-
-        .lesson-progress-bar {
-            display: flex;
-            width: 100%;
-            height: 10px;
-            border-radius: 999px;
-            background: rgba(45, 90, 135, 0.08);
-            overflow: hidden;
-        }
-
-        .lesson-progress-fill {
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .lesson-progress-fill-success {
-            background: var(--success-color);
-        }
-
-        .lesson-progress-fill-mistake {
-            background: rgba(231, 76, 60, 0.75);
+        .lesson-progress-badge.compact {
+            padding: 0.25rem 0.65rem;
+            font-size: 0.85rem;
         }
 
         .lesson-progress-metrics {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 1rem;
         }
 
         .lesson-progress-metrics .metric {
             background: rgba(45, 90, 135, 0.06);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 0.85rem 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.35rem;
         }
 
         .lesson-progress-metrics .metric-label {
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            font-size: 0.75rem;
             color: var(--text-light);
             font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
         }
 
         .lesson-progress-metrics .metric-value {
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             font-weight: 700;
-            color: var(--primary-color);
         }
 
-        .lesson-progress-card.completed .metric-value {
-            color: var(--success-color);
-        }
-
-        .lesson-progress-bar, .lesson-progress-fill {
-            position: relative;
-        }
-
-        .pill-btn.outline {
-            background: transparent;
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-        }
-
-        .pill-btn.outline:hover {
-            background: var(--primary-color);
-            color: var(--white);
+        .lesson-tabs {
+            margin-top: 2.5rem;
         }
 
         .tab-buttons {
             display: flex;
             flex-wrap: wrap;
             gap: 0.75rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.75rem;
         }
 
         .tab-button {
-            padding: 0.6rem 1.2rem;
+            padding: 0.6rem 1.4rem;
             border-radius: 999px;
-            border: 1px solid var(--bg-light);
+            border: 1px solid rgba(45, 90, 135, 0.22);
             background: var(--white);
-            color: var(--text-light);
+            color: var(--text-dark);
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
-        .tab-button:hover,
-        .tab-button.active {
+        .tab-button.active,
+        .tab-button:hover {
             border-color: var(--primary-color);
             color: var(--primary-color);
             box-shadow: var(--shadow);
@@ -286,55 +292,23 @@
             display: block;
         }
 
-        section {
-            margin-top: 2.5rem;
-        }
-
         section h2 {
             color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .progress-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .progress-label {
-            font-weight: 600;
-            color: var(--text-light);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 12px;
-            border-radius: 999px;
-            background: var(--bg-light);
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--success-color);
-            border-radius: 999px;
-            transition: width 0.3s ease;
+            margin-bottom: 1.25rem;
         }
 
         .table-card {
             background: var(--white);
-            border-radius: 16px;
-            border: 1px solid var(--bg-light);
+            border-radius: 18px;
+            border: 1px solid rgba(45, 90, 135, 0.08);
             box-shadow: var(--shadow);
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
         }
 
         .table-card h3 {
-            margin-bottom: 1rem;
             color: var(--primary-color);
+            margin-bottom: 0.85rem;
         }
 
         .table-card table {
@@ -344,119 +318,72 @@
 
         .table-card th,
         .table-card td {
-            padding: 0.6rem;
+            padding: 0.6rem 0.75rem;
             border-bottom: 1px solid rgba(45, 90, 135, 0.12);
             text-align: left;
         }
 
         .table-card th {
             background: rgba(45, 90, 135, 0.08);
-            color: var(--primary-color);
-        }
-
-        .pronoun-intro {
-            margin: 1rem 0 0.75rem;
-            max-width: 540px;
-            color: rgba(15, 23, 42, 0.7);
-            font-weight: 600;
-        }
-
-        .pronoun-grid {
-            margin-bottom: 1.25rem;
         }
 
         .mini-task {
-            margin-top: 1rem;
-            padding: 0.9rem 1rem;
-            border-radius: 12px;
-            background: rgba(45, 90, 135, 0.05);
-            border: 1px dashed rgba(45, 90, 135, 0.2);
-            color: var(--text-light);
+            margin-top: 1.2rem;
+            padding: 1rem 1.1rem;
+            border-radius: 14px;
+            background: rgba(45, 90, 135, 0.06);
+            border: 1px dashed rgba(45, 90, 135, 0.25);
         }
 
         .mini-task h4 {
             margin-bottom: 0.5rem;
-            font-size: 1rem;
             color: var(--primary-color);
+            font-size: 1rem;
         }
 
-        .mini-task ol,
-        .mini-task ul {
-            margin-left: 1.2rem;
-            line-height: 1.55;
+        .mini-options {
+            margin-top: 0.6rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.55rem;
         }
 
-        .mini-task-intro {
-            color: rgba(15, 23, 42, 0.7);
-            margin-top: 0.35rem;
-        }
-
-        .mini-question {
-            margin-top: 0.75rem;
-            padding: 0.75rem 0.9rem;
+        .mini-option {
+            border: 1px solid rgba(45, 90, 135, 0.2);
             border-radius: 10px;
-            background: rgba(45, 90, 135, 0.06);
-            border: 1px solid rgba(45, 90, 135, 0.18);
+            background: var(--white);
+            padding: 0.55rem 0.75rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .mini-question + .mini-question {
-            margin-top: 0.8rem;
+        .mini-option:hover:not(.disabled) {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
         }
 
-        .mini-question p {
-            margin: 0;
-            color: var(--text-light);
+        .mini-option.correct {
+            background: rgba(39, 174, 96, 0.14);
+            border-color: rgba(39, 174, 96, 0.45);
+            color: var(--success-color);
+        }
+
+        .mini-option.incorrect {
+            background: rgba(231, 76, 60, 0.12);
+            border-color: rgba(231, 76, 60, 0.45);
+            color: #c0392b;
         }
 
         .mini-question.completed-success {
             background: rgba(39, 174, 96, 0.12);
-            border-color: rgba(39, 174, 96, 0.45);
+            border-color: rgba(39, 174, 96, 0.4);
         }
 
         .mini-question.has-mistake {
             background: rgba(231, 76, 60, 0.08);
             border-color: rgba(231, 76, 60, 0.35);
-        }
-
-        .mini-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 0.5rem;
-            margin-top: 0.6rem;
-        }
-
-        .mini-option {
-            padding: 0.55rem 0.75rem;
-            border-radius: 10px;
-            border: 1px solid rgba(45, 90, 135, 0.2);
-            background: var(--white);
-            color: var(--text-dark);
-            font-weight: 600;
-            text-align: left;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s, transform 0.2s;
-        }
-
-        .mini-option:hover:not(.disabled) {
-            transform: translateY(-1px);
-            border-color: var(--primary-color);
-        }
-
-        .mini-option.correct {
-            border-color: rgba(39, 174, 96, 0.4);
-            background: rgba(39, 174, 96, 0.12);
-            color: var(--success-color);
-        }
-
-        .mini-option.incorrect {
-            border-color: rgba(231, 76, 60, 0.4);
-            background: rgba(231, 76, 60, 0.12);
-            color: #c0392b;
-        }
-
-        .mini-option.disabled {
-            opacity: 0.55;
-            cursor: default;
         }
 
         .mini-feedback {
@@ -465,33 +392,14 @@
             color: var(--text-light);
         }
 
-        [data-task-id].completed-success {
-            box-shadow: inset 0 0 0 1px rgba(39, 174, 96, 0.35);
-            border-radius: 12px;
-            background: rgba(39, 174, 96, 0.08);
-        }
-
-        [data-task-id].has-mistake {
-            box-shadow: inset 0 0 0 1px rgba(231, 76, 60, 0.35);
-            border-radius: 12px;
-            background: rgba(231, 76, 60, 0.06);
-        }
-
-        .mini-task-actions {
-            margin-top: 0.75rem;
-            display: flex;
-            justify-content: flex-end;
-        }
-
         .mini-task-reset {
             border: none;
             background: transparent;
             color: var(--primary-color);
             font-weight: 600;
             cursor: pointer;
-            padding: 0.25rem 0.6rem;
-            border-radius: 6px;
-            transition: background 0.2s;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
         }
 
         .mini-task-reset:hover {
@@ -500,101 +408,52 @@
 
         .vocab-grid {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 0.8rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
         }
 
         .vocab-card {
             background: var(--white);
-            border-radius: 12px;
-            border: 1px solid var(--bg-light);
-            box-shadow: var(--shadow);
+            border: 1px solid rgba(45, 90, 135, 0.12);
+            border-radius: 14px;
             padding: 1rem;
-            min-height: 110px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
             display: flex;
             flex-direction: column;
-            gap: 0.25rem;
-            position: relative;
-            transition: transform 0.2s;
-            cursor: pointer;
-        }
-
-        .vocab-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .vocab-card.known {
-            border-width: 2px;
-        }
-
-        .known-level-a1 {
-            border-color: rgba(45, 90, 135, 0.45);
-            background: rgba(45, 90, 135, 0.12);
-        }
-
-        .known-level-a2 {
-            border-color: rgba(243, 156, 18, 0.45);
-            background: rgba(243, 156, 18, 0.12);
-        }
-
-        .known-level-b1 {
-            border-color: rgba(142, 68, 173, 0.45);
-            background: rgba(142, 68, 173, 0.12);
+            gap: 0.4rem;
         }
 
         .vocab-word {
-            font-size: 1.25rem;
+            font-size: 1.35rem;
             font-weight: 700;
             color: var(--primary-color);
         }
 
-        .level-badge {
-            position: absolute;
-            top: 0.6rem;
-            right: 0.6rem;
-            background: rgba(45, 90, 135, 0.08);
-            color: var(--primary-color);
-            padding: 0.15rem 0.5rem;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
         .card-actions {
+            margin-top: auto;
             display: flex;
             gap: 0.5rem;
-            margin-top: auto;
         }
 
         .card-actions button {
             flex: 1;
-            padding: 0.4rem;
+            border: 1px solid rgba(45, 90, 135, 0.12);
             border-radius: 8px;
-            border: 1px solid var(--bg-light);
+            padding: 0.45rem 0.65rem;
             background: var(--white);
-            font-size: 0.85rem;
-            font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            font-weight: 600;
         }
 
         .card-actions button.know {
             color: var(--success-color);
-            border-color: rgba(39, 174, 96, 0.25);
+            border-color: rgba(39, 174, 96, 0.35);
         }
 
         .card-actions button.practice {
-            color: #f39c12;
-            border-color: rgba(243, 156, 18, 0.25);
-        }
-
-        .card-actions button:hover:not(:disabled) {
-            background: var(--bg-light);
-        }
-
-        .card-actions button:disabled {
-            opacity: 0.45;
-            cursor: default;
+            color: #c47a0f;
+            border-color: rgba(243, 156, 18, 0.35);
         }
 
         .modal-backdrop {
@@ -619,9 +478,8 @@
             background: var(--white);
             border-radius: 16px;
             padding: 2rem;
-            max-width: 520px;
-            width: calc(100% - 3rem);
-            max-height: min(600px, 90vh);
+            width: min(520px, calc(100% - 2.5rem));
+            max-height: 85vh;
             overflow-y: auto;
             box-shadow: var(--shadow-hover);
             position: relative;
@@ -631,18 +489,11 @@
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: transparent;
             border: none;
+            background: transparent;
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-light);
-        }
-
-        .modal-word-row {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.35rem;
         }
 
         .modal-word {
@@ -652,115 +503,23 @@
         }
 
         .modal-translation {
-            font-size: 1.1rem;
+            margin-top: 0.35rem;
             color: var(--text-light);
-            margin-bottom: 0.35rem;
         }
 
         .modal-meta {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-status {
-            margin-top: 0.4rem;
+            margin-top: 0.3rem;
             color: var(--text-light);
             font-size: 0.95rem;
-        }
-
-        .modal-badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(45, 90, 135, 0.08);
-            color: var(--primary-color);
-            padding: 0.2rem 0.65rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .modal-section {
-            margin-top: 1.3rem;
-        }
-
-        .modal-section h4 {
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
-        }
-
-        .verb-table {
-            border: 1px solid rgba(45, 90, 135, 0.12);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .verb-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .verb-table th,
-        .verb-table td {
-            padding: 0.45rem 0.6rem;
-            text-align: left;
-        }
-
-        .verb-table thead {
-            background: rgba(45, 90, 135, 0.1);
-            font-weight: 600;
-        }
-
-        .modal-list {
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-
-        .modal-actions {
-            margin-top: 1.5rem;
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .modal-actions button {
-            flex: 1;
-            min-width: 150px;
-            padding: 0.6rem 1rem;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .modal-actions button.primary {
-            background: var(--success-color);
-            color: var(--white);
-        }
-
-        .modal-actions button.secondary {
-            background: rgba(243, 156, 18, 0.15);
-            color: #c47a0f;
-        }
-
-        .modal-actions button:hover:not(:disabled) {
-            transform: translateY(-1px);
-        }
-
-        .modal-actions button:disabled {
-            opacity: 0.45;
-            cursor: default;
-            transform: none;
         }
 
         .activity-card {
             background: var(--white);
             border-radius: 16px;
-            border: 1px solid var(--bg-light);
+            border: 1px solid rgba(45, 90, 135, 0.12);
             box-shadow: var(--shadow);
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.6rem;
         }
 
         .activity-card.has-mistake {
@@ -768,63 +527,16 @@
             box-shadow: 0 0 0 1px rgba(231, 76, 60, 0.25), var(--shadow);
         }
 
-        .activity-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .options-grid,
-        .tf-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.75rem;
-        }
-
-        .option-btn,
-        .tf-btn,
-        .dialogue-btn {
-            padding: 0.75rem 1rem;
-            border-radius: 12px;
-            border: 1px solid var(--bg-light);
-            background: var(--white);
-            text-align: left;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-        }
-
-        .option-btn.correct,
-        .tf-btn.correct,
-        .dialogue-btn.correct {
-            border-color: rgba(39, 174, 96, 0.35);
-            background: rgba(39, 174, 96, 0.12);
-            color: var(--success-color);
-        }
-
-        .option-btn.incorrect,
-        .tf-btn.incorrect,
-        .dialogue-btn.incorrect {
-            border-color: rgba(231, 76, 60, 0.35);
-            background: rgba(231, 76, 60, 0.12);
-            color: #c0392b;
-        }
-
-        .feedback {
-            margin-top: 0.75rem;
-            font-weight: 600;
-            color: var(--text-light);
-        }
-
         .matching-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 0.6rem;
         }
 
         .matching-btn {
-            padding: 0.6rem;
+            padding: 0.6rem 0.7rem;
             border-radius: 10px;
-            border: 1px solid var(--bg-light);
+            border: 1px solid rgba(45, 90, 135, 0.18);
             background: var(--white);
             cursor: pointer;
         }
@@ -842,7 +554,7 @@
         }
 
         .matching-btn.disabled {
-            opacity: 0.45;
+            opacity: 0.55;
             cursor: default;
         }
 
@@ -854,28 +566,49 @@
 
         .dialogue-btn {
             flex: 1;
-            min-width: 140px;
-            text-align: center;
+            min-width: 150px;
+            border: 1px solid rgba(45, 90, 135, 0.2);
+            border-radius: 12px;
+            padding: 0.65rem 1rem;
+            cursor: pointer;
+            background: var(--white);
+            transition: transform 0.2s;
+        }
+
+        .dialogue-btn:hover:not(.correct):not(.incorrect) {
+            transform: translateY(-2px);
+        }
+
+        .dialogue-btn.correct {
+            border-color: rgba(39, 174, 96, 0.35);
+            background: rgba(39, 174, 96, 0.12);
+            color: var(--success-color);
+        }
+
+        .dialogue-btn.incorrect {
+            border-color: rgba(231, 76, 60, 0.35);
+            background: rgba(231, 76, 60, 0.12);
+            color: #c0392b;
         }
 
         .flashcards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 0.8rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
         }
 
         .flashcard {
             border-radius: 14px;
-            border: 1px solid var(--bg-light);
+            border: 1px solid rgba(45, 90, 135, 0.12);
             background: var(--white);
             box-shadow: var(--shadow);
-            padding: 1.2rem;
+            padding: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.3s, background 0.3s;
         }
 
         .flashcard.flipped {
@@ -886,7 +619,7 @@
         .challenge-card {
             background: var(--white);
             border-radius: 16px;
-            border: 1px solid var(--bg-light);
+            border: 1px solid rgba(45, 90, 135, 0.12);
             box-shadow: var(--shadow);
             padding: 1.5rem;
             text-align: center;
@@ -901,7 +634,7 @@
             color: var(--white);
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.2s;
         }
 
         .challenge-card button.done {
@@ -912,18 +645,18 @@
             transform: translateY(-1px);
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 768px) {
             .lesson-wrapper {
-                padding: 0 1.5rem 3rem;
+                padding: 0 1.25rem 3rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 0.75rem;
             }
 
             .hero {
-                padding: 1.5rem;
-                min-height: 200px;
-            }
-
-            .lesson-progress-card {
-                padding: 1.25rem;
+                padding: 2rem;
             }
 
             .lesson-progress-header {
@@ -933,11 +666,10 @@
 
             .lesson-progress-summary {
                 width: 100%;
-                justify-content: flex-start;
             }
 
-            .vocab-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+            .lesson-progress-floating {
+                top: 56px;
             }
         }
     </style>
@@ -982,12 +714,12 @@
                 </div>
                 <div class="lesson-progress-summary">
                     <span class="lesson-progress-badge" id="lesson-completion-badge">0%</span>
+                    <div class="lesson-progress-bar">
+                        <div class="lesson-progress-fill lesson-progress-fill-success" id="lesson-progress-fill-success"></div>
+                        <div class="lesson-progress-fill lesson-progress-fill-mistake" id="lesson-progress-fill-mistake"></div>
+                    </div>
                     <button type="button" class="pill-btn outline" id="lesson-retake-btn">Retake lesson</button>
                 </div>
-            </div>
-            <div class="lesson-progress-bar">
-                <div class="lesson-progress-fill lesson-progress-fill-success" id="lesson-progress-fill-success"></div>
-                <div class="lesson-progress-fill lesson-progress-fill-mistake" id="lesson-progress-fill-mistake"></div>
             </div>
             <div class="lesson-progress-metrics">
                 <div class="metric">
@@ -1090,8 +822,7 @@
                         <p style="color: var(--text-light); margin-top: 0.75rem;">
                             In everyday speech you will also hear short forms such as <strong>Jesi li?</strong> (Are you?) or <strong>Je li?</strong> (Is he/she/it?).
                             They simply switch the verb and pronoun—<em>Jesi li</em> = <em>Da li si</em>. When people speak even faster, these can shrink further to
-                            <strong>Je l’ si?</strong> or just <strong>Je l’?</strong> with a raised tone. As a learner you can safely use <strong>Da li + verb</strong> everywhere,
-                            but recognising the short forms will help you follow native conversations.
+                            <strong>Je l’ si?</strong> or just <strong>Je l’?</strong>. As a learner you can safely use <strong>Da li + verb</strong> everywhere, but recognising the short forms will help you follow native conversations.
                         </p>
                         <div class="mini-task" data-task-id="biti-questions">
                             <h4>Quick check</h4>
@@ -1139,7 +870,6 @@
                                 <tr><td>Nisu</td><td>They are not</td></tr>
                             </tbody>
                         </table>
-                        <p style="color: var(--text-light); margin-top: 0.75rem;">Notice how <strong>ne + biti</strong> fuses into one word (<em>ne sam → nisam</em>). These forms are very common in everyday answers.</p>
                         <div class="mini-task" data-task-id="biti-negative">
                             <h4>Try this</h4>
                             <p class="mini-task-intro">Choose the correct negative form in each sentence.</p>
@@ -1444,9 +1174,9 @@
                     <h2>🧠 Core Vocabulary</h2>
                     <p style="color: var(--text-light); margin-bottom: 1rem;">Tap "I know" when a word feels comfortable. Progress is shared with the main vocabulary trainer.</p>
                     <div class="progress-wrapper">
-                        <div class="progress-label" id="progress-label">Loading progress…</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progress-fill"></div>
+                        <div class="progress-label lesson-progress-pill" id="progress-label">Loading progress…</div>
+                        <div class="lesson-progress-bar" style="width: 100%;">
+                            <div class="lesson-progress-fill lesson-progress-fill-success" id="progress-fill"></div>
                         </div>
                     </div>
                     <div id="vocab-grid" class="vocab-grid"></div>
@@ -1642,378 +1372,17 @@
         };
         const CATEGORY_ORDER = ['pronoun', 'verb', 'noun', 'adjective', 'adverb', 'phrase', 'reference', 'focus', 'note', 'other'];
         const PROGRESS_KEY = 'vocab_progress_all';
-        const LEVEL_CLASS_MAP = {
-            a1: 'known-level-a1',
-            a2: 'known-level-a2',
-            b1: 'known-level-b1',
-            b2: 'known-level-b2'
-        };
         const LESSON_TASK_PROGRESS_KEY = 'lesson1_task_progress_v1';
         const LESSON_OVERVIEW_PROGRESS_KEY = 'lesson_overview_progress_v1';
 
-        const NOUN_PLURAL_OVERRIDES = {
-            'apoteka': 'apoteke',
-            'autobus': 'autobusi',
-            'avion': 'avioni',
-            'banka': 'banke',
-            'bol': 'bolovi',
-            'brat': 'braća',
-            'cena': 'cene',
-            'crna gora': 'Crne Gore',
-            'čaj': 'čajevi',
-            'čovek': 'ljudi',
-            'dan': 'dani',
-            'dete': 'deca',
-            'doktor': 'doktori',
-            'engleska': 'Engleske',
-            'film': 'filmovi',
-            'glava': 'glave',
-            'gost': 'gosti',
-            'hleb': 'hlebovi',
-            'ime': 'imena',
-            'inženjer': 'inženjeri',
-            'jesen': 'jeseni',
-            'jezik': 'jezici',
-            'jutro': 'jutra',
-            'kafa': 'kafe',
-            'karta': 'karte',
-            'kiša': 'kiše',
-            'ključ': 'ključevi',
-            'knjiga': 'knjige',
-            'kompanija': 'kompanije',
-            'konobar': 'konobari',
-            'krevet': 'kreveti',
-            'kuća': 'kuće',
-            'lekar': 'lekari',
-            'leto': 'leta',
-            'majka': 'majke',
-            'mleko': 'mleka',
-            'muzika': 'muzike',
-            'narod': 'narodi',
-            'noga': 'noge',
-            'novine': 'novine',
-            'orman': 'ormani',
-            'otac': 'očevi',
-            'pivo': 'piva',
-            'porodica': 'porodice',
-            'posao': 'poslovi',
-            'pošta': 'pošte',
-            'povrće': 'povrća',
-            'prijatelj': 'prijatelji',
-            'prodavnica': 'prodavnice',
-            'proleće': 'proleća',
-            'putovanje': 'putovanja',
-            'radnik': 'radnici',
-            'restoran': 'restorani',
-            'ruka': 'ruke',
-            'rusija': 'Rusije',
-            'sestra': 'sestre',
-            'sir': 'sirevi',
-            'sneg': 'snegovi',
-            'soba': 'sobe',
-            'sok': 'sokovi',
-            'sport': 'sportovi',
-            'sprat': 'spratovi',
-            'srbija': 'Srbije',
-            'sto': 'stolovi',
-            'stolica': 'stolice',
-            'sunce': 'sunca',
-            'škola': 'škole',
-            'trg': 'trgovi',
-            'učenik': 'učenici',
-            'učitelj': 'učitelji',
-            'ulica': 'ulice',
-            'veče': 'večeri',
-            'voće': 'voća',
-            'voda': 'vode',
-            'voz': 'vozovi',
-            'vreme': 'vremena',
-            'zemlja': 'zemlje',
-            'zima': 'zime',
-            'žena': 'žene'
-        };
-
-        function matchPluralCasing(word, plural) {
-            if (!word || !plural) return plural || null;
-            const firstChar = word.charAt(0);
-            if (firstChar && firstChar === firstChar.toUpperCase()) {
-                return plural.charAt(0).toUpperCase() + plural.slice(1);
-            }
-            return plural;
-        }
-
-        function deriveNounPlural(word) {
-            if (!word) return null;
-            const lower = word.toLowerCase();
-            if (NOUN_PLURAL_OVERRIDES[lower]) {
-                return NOUN_PLURAL_OVERRIDES[lower];
-            }
-            let plural = null;
-            if (lower.endsWith('ac') || lower.endsWith('ak')) {
-                plural = lower.slice(0, -2) + 'ci';
-            } else if (lower.endsWith('ik')) {
-                plural = lower.slice(0, -2) + 'ici';
-            } else if (lower.endsWith('ok')) {
-                plural = lower + 'ovi';
-            } else if (lower.endsWith('aj') || lower.endsWith('oj') || lower.endsWith('ej')) {
-                plural = lower + 'evi';
-            } else if (lower.endsWith('ar') || lower.endsWith('er') || lower.endsWith('or') || lower.endsWith('ur')) {
-                plural = lower + 'i';
-            } else if (lower.endsWith('an') || lower.endsWith('en') || lower.endsWith('on')) {
-                plural = lower + 'i';
-            } else if (lower.endsWith('el') || lower.endsWith('ol') || lower.endsWith('al')) {
-                plural = lower + 'i';
-            } else if (lower.endsWith('a')) {
-                plural = lower.slice(0, -1) + 'e';
-            } else if (lower.endsWith('o')) {
-                plural = lower.slice(0, -1) + 'a';
-            } else if (lower.endsWith('e')) {
-                plural = lower.slice(0, -1) + 'a';
-            } else if (lower.endsWith('j') || lower.endsWith('ć') || lower.endsWith('č') || lower.endsWith('đ') || lower.endsWith('š') || lower.endsWith('ž')) {
-                plural = lower + 'evi';
-            } else {
-                plural = lower + 'i';
-            }
-            return matchPluralCasing(word, plural);
-        }
-
-        function resolveNounPlural(word, explicit) {
-            if (explicit) return explicit;
-            return deriveNounPlural(word);
-        }
-
-        function loadLessonTaskProgress() {
-            try {
-                const stored = localStorage.getItem(LESSON_TASK_PROGRESS_KEY);
-                if (!stored) {
-                    lessonTaskProgress = { tasks: {} };
-                    return;
-                }
-                const parsed = JSON.parse(stored);
-                if (parsed && typeof parsed === 'object') {
-                    const tasks = parsed.tasks && typeof parsed.tasks === 'object' ? parsed.tasks : parsed;
-                    lessonTaskProgress = { tasks: tasks || {} };
-                } else {
-                    lessonTaskProgress = { tasks: {} };
-                }
-            } catch (error) {
-                lessonTaskProgress = { tasks: {} };
-            }
-            normalizeTaskEntries();
-        }
-
-        function normalizeTaskEntries() {
-            if (!lessonTaskProgress || typeof lessonTaskProgress !== 'object') {
-                lessonTaskProgress = { tasks: {} };
-                return;
-            }
-            if (!lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') {
-                lessonTaskProgress.tasks = {};
-                return;
-            }
-            Object.keys(lessonTaskProgress.tasks).forEach(key => {
-                const entry = lessonTaskProgress.tasks[key];
-                if (!entry || typeof entry !== 'object') {
-                    lessonTaskProgress.tasks[key] = { completed: false, success: false, mistakes: 0 };
-                    return;
-                }
-                lessonTaskProgress.tasks[key] = {
-                    completed: entry.completed === true,
-                    success: entry.success === true,
-                    mistakes: Number.isFinite(entry.mistakes) ? entry.mistakes : Number(entry.mistakes) || 0
-                };
-            });
-        }
-
-        function saveLessonTaskProgress() {
-            try {
-                localStorage.setItem(LESSON_TASK_PROGRESS_KEY, JSON.stringify(lessonTaskProgress));
-            } catch (error) {
-                // ignore storage issues
-            }
-        }
-
-        function ensureTaskEntry(taskId) {
-            if (!taskId) return null;
-            if (!lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') {
-                lessonTaskProgress.tasks = {};
-            }
-            if (!lessonTaskProgress.tasks[taskId]) {
-                lessonTaskProgress.tasks[taskId] = { completed: false, success: false, mistakes: 0 };
-            }
-            return lessonTaskProgress.tasks[taskId];
-        }
-
-        function registerTask(taskId) {
-            if (!taskId) return;
-            trackedTaskIds.add(taskId);
-        }
-
-        function markTaskSuccess(taskId) {
-            if (!taskId) return;
-            const entry = ensureTaskEntry(taskId);
-            if (!entry) return;
-            entry.completed = true;
-            entry.success = true;
-            saveLessonTaskProgress();
-            updateLessonProgressUI();
-        }
-
-        function recordTaskMistake(taskId) {
-            if (!taskId) return;
-            const entry = ensureTaskEntry(taskId);
-            if (!entry || entry.success) return;
-            entry.completed = true;
-            entry.success = entry.success === true;
-            entry.mistakes = (entry.mistakes || 0) + 1;
-            saveLessonTaskProgress();
-            updateLessonProgressUI();
-        }
-
-        function resetTaskProgress(taskId) {
-            if (!taskId || !lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') return;
-            if (lessonTaskProgress.tasks[taskId]) {
-                delete lessonTaskProgress.tasks[taskId];
-                saveLessonTaskProgress();
-                updateLessonProgressUI();
-            }
-        }
-
-        function getTaskEntry(taskId) {
-            if (!taskId || !lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') return null;
-            return lessonTaskProgress.tasks[taskId] || null;
-        }
-
-        function applyTaskStyling(element, entry) {
-            if (!element) return;
-            const hasMistake = !!(entry && !entry.success && entry.mistakes > 0);
-            const isSuccess = !!(entry && entry.success);
-            element.classList.toggle('has-mistake', hasMistake);
-            element.classList.toggle('completed-success', isSuccess);
-        }
-
-        function applyMiniQuestionState(question) {
-            if (!question) return;
-            const taskId = question.dataset.questionId || question.dataset.taskId;
-            if (!taskId) return;
-            const entry = getTaskEntry(taskId);
-            applyTaskStyling(question, entry);
-            const options = question.querySelectorAll('.mini-option');
-            const feedback = question.querySelector('.mini-feedback');
-            if (!entry) {
-                question.dataset.completed = 'false';
-                return;
-            }
-
-            options.forEach(option => option.classList.remove('correct', 'incorrect', 'disabled'));
-            if (entry.success) {
-                question.dataset.completed = 'true';
-                options.forEach(option => {
-                    option.disabled = true;
-                    if (option.dataset.correct === 'true') {
-                        option.classList.add('correct');
-                    } else {
-                        option.classList.add('incorrect');
-                    }
-                });
-                if (feedback) feedback.textContent = '✅ Completed earlier';
-            } else if (entry.mistakes > 0) {
-                question.dataset.completed = 'false';
-                options.forEach(option => option.disabled = false);
-                if (feedback && !feedback.textContent) feedback.textContent = '❌ Needs another try';
-            }
-        }
-
-        function updateVocabularyIndicator() {
-            if (!lessonVocabIndicator) return;
-            const { known = 0, total = 0, percent = 0 } = vocabularySummary || {};
-            if (!total) {
-                lessonVocabIndicator.textContent = '0 / 0 known';
-            } else {
-                lessonVocabIndicator.textContent = `${known} / ${total} known (${Math.round(percent)}%)`;
-            }
-        }
-
-        function updateLessonProgressUI() {
-            if (!lessonProgressCard || !lessonStatusText || !lessonCompletionBadge || !lessonProgressFillSuccess || !lessonProgressFillMistake || !lessonCompletedCount || !lessonSuccessCount || !lessonMistakeCount) return;
-            const total = trackedTaskIds.size;
-            const tasks = lessonTaskProgress.tasks || {};
-            let completed = 0;
-            let success = 0;
-            let mistakes = 0;
-            trackedTaskIds.forEach(id => {
-                const entry = tasks[id];
-                if (entry?.completed) completed += 1;
-                if (entry?.success) success += 1;
-                if (entry?.mistakes) mistakes += entry.mistakes;
-            });
-            const percent = total ? (success / total) * 100 : 0;
-            const clamped = Math.max(0, Math.min(100, percent));
-            const finished = total > 0 && percent >= 80;
-            let status = 'Not started';
-            if (completed > 0 && !finished) status = `In progress — ${Math.round(clamped)}% success`;
-            if (finished) status = 'Lesson completed (80% success reached)';
-            lessonStatusText.textContent = status;
-            lessonCompletionBadge.textContent = `${Math.round(clamped)}%`;
-            const pending = Math.max(0, completed - success);
-            const successPercent = total ? (success / total) * 100 : 0;
-            const pendingPercent = total ? (pending / total) * 100 : 0;
-            const mistakeExists = pending > 0;
-            lessonCompletionBadge.classList.toggle('completed', finished);
-            lessonProgressCard.classList.toggle('completed', finished);
-            if (lessonProgressFillSuccess) lessonProgressFillSuccess.style.width = total ? `${successPercent}%` : '0%';
-            if (lessonProgressFillMistake) lessonProgressFillMistake.style.width = total ? `${pendingPercent}%` : '0%';
-            if (lessonProgressCard) {
-                lessonProgressCard.classList.toggle('has-mistake', mistakeExists);
-            }
-            lessonCompletedCount.textContent = `${completed} / ${total}`;
-            lessonSuccessCount.textContent = `${success} / ${total}`;
-            lessonMistakeCount.textContent = `${mistakes}`;
-            updateVocabularyIndicator();
-            if (floatingProgress) {
-                if (floatingProgressFillSuccess) floatingProgressFillSuccess.style.width = total ? `${successPercent}%` : '0%';
-                if (floatingProgressFillMistake) floatingProgressFillMistake.style.width = total ? `${pendingPercent}%` : '0%';
-                const pill = floatingProgressPill;
-                if (pill) {
-                    pill.textContent = finished ? 'Lesson completed' : `${Math.round(clamped)}% ready`;
-                    pill.classList.remove('completed', 'warning', 'danger');
-                    if (finished) {
-                        pill.classList.add('completed');
-                    } else if (mistakeExists) {
-                        pill.classList.add('danger');
-                    } else if (completed > 0) {
-                        pill.classList.add('warning');
-                    }
-                }
-            }
-            persistLessonOverviewSummary({
-                success,
-                total,
-                mistakes,
-                percent: Math.round(successPercent),
-                status
-            });
-        }
-
-        function persistLessonOverviewSummary(snapshot) {
-            try {
-                const stored = localStorage.getItem(LESSON_OVERVIEW_PROGRESS_KEY);
-                const data = stored ? JSON.parse(stored) : {};
-                data['lesson1'] = snapshot;
-                localStorage.setItem(LESSON_OVERVIEW_PROGRESS_KEY, JSON.stringify(data));
-                updateLessonProgressPills();
-            } catch (error) {
-                console.warn('Failed to persist lesson overview summary', error);
-            }
-        }
-        let lessonTaskProgress = { tasks: {} };
-        const trackedTaskIds = new Set();
-        let vocabularySummary = { known: 0, total: 0, percent: 0 };
         let wordProgress = {};
         let cardRegistry = new Map();
         let allWordKeys = [];
         let currentModalWordKey = null;
         let currentModalLevel = null;
+        let lessonTaskProgress = { tasks: {} };
+        const trackedTaskIds = new Set();
+        let vocabularySummary = { known: 0, total: 0, percent: 0 };
 
         const vocabGrid = document.getElementById('vocab-grid');
         const progressLabelEl = document.getElementById('progress-label');
@@ -2073,7 +1442,12 @@
         function getLevelClass(level) {
             if (!level) return null;
             const key = level.slice(0, 2).toLowerCase();
-            return LEVEL_CLASS_MAP[key] || null;
+            return {
+                a1: 'known-level-a1',
+                a2: 'known-level-a2',
+                b1: 'known-level-b1',
+                b2: 'known-level-b2'
+            }[key] || null;
         }
 
         function loadProgress() {
@@ -2089,9 +1463,7 @@
         function saveProgress() {
             try {
                 localStorage.setItem(PROGRESS_KEY, JSON.stringify(wordProgress));
-            } catch (error) {
-                // ignore storage errors
-            }
+            } catch (error) {}
         }
 
         function getWordStatus(key) {
@@ -2121,9 +1493,7 @@
 
         function updateCardGroup(key) {
             const status = getWordStatus(key);
-            (cardRegistry.get(key) || []).forEach(card => {
-                updateCardVisual(card, status);
-            });
+            (cardRegistry.get(key) || []).forEach(card => updateCardVisual(card, status));
         }
 
         function updateModalStatus(key) {
@@ -2137,22 +1507,21 @@
 
         function updateProgressBar() {
             const total = allWordKeys.length;
-            let knownCount = 0;
-            let percent = 0;
             if (!total) {
                 progressLabelEl.textContent = 'No vocabulary words available yet.';
-                progressFillEl.style.width = '0%';
+                if (progressFillEl) progressFillEl.style.width = '0%';
                 vocabularySummary = { known: 0, total: 0, percent: 0 };
                 updateVocabularyIndicator();
                 updateLessonProgressUI();
                 return;
             }
+            let knownCount = 0;
             allWordKeys.forEach(key => {
                 if (wordProgress[key] === 'known') knownCount += 1;
             });
-            percent = (knownCount / total) * 100;
+            const percent = (knownCount / total) * 100;
             progressLabelEl.textContent = `You already know ${percent.toFixed(2)}% (${knownCount} of ${total})`;
-            progressFillEl.style.width = `${percent}%`;
+            if (progressFillEl) progressFillEl.style.width = `${percent}%`;
             vocabularySummary = { known: knownCount, total, percent };
             updateVocabularyIndicator();
             updateLessonProgressUI();
@@ -2160,19 +1529,8 @@
 
         function normalizeCategory(category) {
             const type = (category.type || '').toLowerCase();
-            switch (type) {
-                case 'pronoun':
-                case 'verb':
-                case 'noun':
-                case 'adjective':
-                case 'adverb':
-                case 'phrase':
-                case 'reference':
-                case 'focus':
-                case 'note':
-                    return type;
-                default:
-                    break;
+            if (['pronoun', 'verb', 'noun', 'adjective', 'adverb', 'phrase', 'reference', 'focus', 'note'].includes(type)) {
+                return type;
             }
             const name = (category.name || '').toLowerCase();
             if (name.includes('pronoun')) return 'pronoun';
@@ -2185,6 +1543,56 @@
             if (name.includes('focus')) return 'focus';
             if (name.includes('note')) return 'note';
             return 'other';
+        }
+
+        const NOUN_PLURAL_OVERRIDES = {
+            'apoteka': 'apoteke', 'autobus': 'autobusi', 'avion': 'avioni', 'banka': 'banke', 'bol': 'bolovi',
+            'brat': 'braća', 'cena': 'cene', 'crna gora': 'Crne Gore', 'čaj': 'čajevi', 'čovek': 'ljudi',
+            'dan': 'dani', 'dete': 'deca', 'doktor': 'doktori', 'engleska': 'Engleske', 'film': 'filmovi',
+            'glava': 'glave', 'gost': 'gosti', 'hleb': 'hlebovi', 'ime': 'imena', 'inženjer': 'inženjeri',
+            'jesen': 'jeseni', 'jezik': 'jezici', 'jutro': 'jutra', 'kafa': 'kafe', 'karta': 'karte', 'kiša': 'kiše',
+            'ključ': 'ključevi', 'knjiga': 'knjige', 'kompanija': 'kompanije', 'konobar': 'konobari', 'krevet': 'kreveti',
+            'kuća': 'kuće', 'lekar': 'lekari', 'leto': 'leta', 'majka': 'majke', 'mleko': 'mleka', 'muzika': 'muzike',
+            'narod': 'narodi', 'noga': 'noge', 'novine': 'novine', 'orman': 'ormani', 'otac': 'očevi', 'pivo': 'piva',
+            'porodica': 'porodice', 'posao': 'poslovi', 'pošta': 'pošte', 'povrće': 'povrća', 'prijatelj': 'prijatelji',
+            'prodavnica': 'prodavnice', 'proleće': 'proleća', 'putovanje': 'putovanja', 'radnik': 'radnici', 'restoran': 'restorani',
+            'ruka': 'ruke', 'rusija': 'Rusije', 'sestra': 'sestre', 'sir': 'sirevi', 'sneg': 'snegovi', 'soba': 'sobe',
+            'sok': 'sokovi', 'sport': 'sportovi', 'sprat': 'spratovi', 'srbija': 'Srbije', 'sto': 'stolovi', 'stolica': 'stolice',
+            'sunce': 'sunca', 'škola': 'škole', 'trg': 'trgovi', 'učenik': 'učenici', 'učitelj': 'učitelji', 'ulica': 'ulice',
+            'veče': 'večeri', 'voće': 'voća', 'voda': 'vode', 'voz': 'vozovi', 'vreme': 'vremena', 'zemlja': 'zemlje', 'zima': 'zime', 'žena': 'žene'
+        };
+
+        function matchPluralCasing(word, plural) {
+            if (!word || !plural) return plural || null;
+            const first = word.charAt(0);
+            if (first === first.toUpperCase()) {
+                return plural.charAt(0).toUpperCase() + plural.slice(1);
+            }
+            return plural;
+        }
+
+        function deriveNounPlural(word) {
+            if (!word) return null;
+            const lower = word.toLowerCase();
+            if (NOUN_PLURAL_OVERRIDES[lower]) return NOUN_PLURAL_OVERRIDES[lower];
+            let plural = null;
+            if (lower.endsWith('ac') || lower.endsWith('ak')) plural = lower.slice(0, -2) + 'ci';
+            else if (lower.endsWith('ik')) plural = lower.slice(0, -2) + 'ici';
+            else if (lower.endsWith('ok')) plural = lower + 'ovi';
+            else if (lower.endsWith('aj') || lower.endsWith('oj') || lower.endsWith('ej')) plural = lower + 'evi';
+            else if (lower.endsWith('ar') || lower.endsWith('er') || lower.endsWith('or') || lower.endsWith('ur')) plural = lower + 'i';
+            else if (lower.endsWith('an') || lower.endsWith('en') || lower.endsWith('on')) plural = lower + 'i';
+            else if (lower.endsWith('el') || lower.endsWith('ol') || lower.endsWith('al')) plural = lower + 'i';
+            else if (lower.endsWith('a')) plural = lower.slice(0, -1) + 'e';
+            else if (lower.endsWith('o') || lower.endsWith('e')) plural = lower.slice(0, -1) + 'a';
+            else if (lower.endsWith('j') || lower.endsWith('ć') || lower.endsWith('č') || lower.endsWith('đ') || lower.endsWith('š') || lower.endsWith('ž')) plural = lower + 'evi';
+            else plural = lower + 'i';
+            return matchPluralCasing(word, plural);
+        }
+
+        function resolveNounPlural(word, explicit) {
+            if (explicit) return explicit;
+            return deriveNounPlural(word);
         }
 
         function collectLessonVocabulary() {
@@ -2207,28 +1615,23 @@
                             note: item.note || null,
                             reference: item.reference || null,
                             levels: new Set([lessonData.level]),
-                            categories: new Set(),
-                            categoryTypes: new Set(),
+                            categories: new Set([category.name || CATEGORY_LABELS[typeKey] || typeKey || 'Other']),
+                            categoryTypes: new Set([typeKey]),
                             plural: typeKey === 'noun' ? resolveNounPlural(item.word, item.plural) : null
                         });
                     } else {
-                        if (item.translation) master.get(key).translation = item.translation;
-                        if (item.conjugations) master.get(key).conjugations = item.conjugations;
-                        if (item.note) master.get(key).note = item.note;
-                        if (item.reference) master.get(key).reference = item.reference;
-                        if (typeKey === 'noun') {
-                            const existingPlural = master.get(key).plural;
-                            const computedPlural = resolveNounPlural(item.word, item.plural);
-                            if (!existingPlural && computedPlural) {
-                                master.get(key).plural = computedPlural;
-                            }
+                        const entry = master.get(key);
+                        if (item.translation) entry.translation = item.translation;
+                        if (item.conjugations) entry.conjugations = item.conjugations;
+                        if (item.note) entry.note = item.note;
+                        if (item.reference) entry.reference = item.reference;
+                        entry.levels.add(lessonData.level);
+                        if (category.name) entry.categories.add(category.name);
+                        entry.categoryTypes.add(typeKey);
+                        if (typeKey === 'noun' && !entry.plural) {
+                            entry.plural = resolveNounPlural(item.word, item.plural);
                         }
-                        master.get(key).levels.add(lessonData.level);
                     }
-                    const entry = master.get(key);
-                    const categoryLabel = category.name || (CATEGORY_LABELS[typeKey] || (typeKey ? typeKey.charAt(0).toUpperCase() + typeKey.slice(1) : ''));
-                    if (categoryLabel) entry.categories.add(categoryLabel);
-                    if (typeKey) entry.categoryTypes.add(typeKey);
                 });
             });
 
@@ -2261,7 +1664,7 @@
 
             if (item.primaryLevel) {
                 const levelEl = document.createElement('div');
-                levelEl.className = 'level-badge';
+                levelEl.className = 'lesson-progress-pill warning';
                 levelEl.textContent = item.primaryLevel;
                 card.appendChild(levelEl);
             }
@@ -2325,7 +1728,7 @@
                 modalLevel.hidden = true;
             }
             modalTranslation.textContent = item.translation || '—';
-                modalCategory.hidden = true;
+            modalCategory.hidden = true;
             if (item.categoryTypes && item.categoryTypes.includes('noun')) {
                 const pluralForm = resolveNounPlural(item.word, item.plural);
                 if (pluralForm) {
@@ -2383,603 +1786,60 @@
             if (currentModalWordKey) setWordStatus(currentModalWordKey, 'unknown');
         });
 
-        /* ---- Practice Activities ---- */
-        function wireMultipleChoice() {
-            document.querySelectorAll('[data-activity="mc"] [data-task-id]').forEach(container => registerTask(container.dataset.taskId));
-            document.querySelectorAll('[data-activity="mc"] .option-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
-                    const correct = button.dataset.correct === 'true';
-                    const container = button.closest('[data-task-id]');
-                    if (!container) return;
-                    const taskId = container?.dataset.taskId;
-                    const feedback = container ? container.querySelector('.feedback') : null;
-                    container.querySelectorAll('.option-btn').forEach(btn => {
-                        btn.disabled = true;
-                        if (btn.dataset.correct === 'true') {
-                            btn.classList.add('correct');
-                        } else {
-                            btn.classList.add('incorrect');
-                        }
-                    });
-                    if (feedback) feedback.textContent = correct ? '✅ Correct!' : '❌ Not quite. The highlighted answer is correct.';
-                    if (correct) {
-                        container.classList.add('completed-success');
-                        container.classList.remove('has-mistake');
-                    } else {
-                        container.classList.add('has-mistake');
-                        container.classList.remove('completed-success');
-                    }
-                    if (taskId) {
-                        if (correct) {
-                            markTaskSuccess(taskId);
-                        } else {
-                            recordTaskMistake(taskId);
-                        }
-                        applyTaskStyling(container, getTaskEntry(taskId));
-                    }
-                });
-            });
-            restoreMultipleChoiceState();
+        function ensureTaskEntry(taskId) {
+            if (!taskId) return null;
+            if (!lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') lessonTaskProgress.tasks = {};
+            if (!lessonTaskProgress.tasks[taskId]) {
+                lessonTaskProgress.tasks[taskId] = { completed: false, success: false, mistakes: 0 };
+            }
+            return lessonTaskProgress.tasks[taskId];
         }
 
-        function wireSelectOne() {
-            document.querySelectorAll('[data-activity="select"][data-task-id]').forEach(container => registerTask(container.dataset.taskId));
-            document.querySelectorAll('[data-activity="select"] .option-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
-                    const correct = button.dataset.correct === 'true';
-                    const container = button.closest('[data-activity="select"]');
-                    if (!container) return;
-                    const taskId = container?.dataset.taskId;
-                    const feedback = container.nextElementSibling;
-                    container.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-                    button.classList.add(correct ? 'correct' : 'incorrect');
-                    if (feedback) feedback.textContent = correct ? '✅ Well done!' : '❌ Try again next time.';
-                    if (correct) {
-                        container.classList.add('completed-success');
-                        container.classList.remove('has-mistake');
-                    } else {
-                        container.classList.add('has-mistake');
-                        container.classList.remove('completed-success');
-                    }
-                    if (taskId) {
-                        if (correct) {
-                            markTaskSuccess(taskId);
-                        } else {
-                            recordTaskMistake(taskId);
-                        }
-                        applyTaskStyling(container, getTaskEntry(taskId));
-                    }
-                });
-            });
-            restoreSelectState();
+        function registerTask(taskId) {
+            if (!taskId) return;
+            trackedTaskIds.add(taskId);
+            ensureTaskEntry(taskId);
         }
 
-        function wireTrueFalse() {
-            document.querySelectorAll('.tf-grid > div[data-task-id]').forEach(group => registerTask(group.dataset.taskId));
-            document.querySelectorAll('.tf-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
-                    const correct = button.dataset.correct === 'true';
-                    const group = button.parentElement;
-                    const taskId = group?.dataset.taskId;
-                    group.querySelectorAll('.tf-btn').forEach(btn => btn.disabled = true);
-                    if (correct) {
-                        button.classList.add('correct');
-                        group.classList.add('completed-success');
-                        group.classList.remove('has-mistake');
-                        if (taskId) {
-                            markTaskSuccess(taskId);
-                            applyTaskStyling(group, getTaskEntry(taskId));
-                        }
-                    } else {
-                        button.classList.add('incorrect');
-                        const correctBtn = group.querySelector('.tf-btn[data-correct="true"]');
-                        if (correctBtn) correctBtn.classList.add('correct');
-                        group.classList.add('has-mistake');
-                        group.classList.remove('completed-success');
-                        if (taskId) {
-                            recordTaskMistake(taskId);
-                            applyTaskStyling(group, getTaskEntry(taskId));
-                        }
-                    }
-                });
-            });
-            restoreTrueFalseState();
-        }
-
-        function restoreMultipleChoiceState() {
-            document.querySelectorAll('[data-activity="mc"] [data-task-id]').forEach(container => {
-                const taskId = container.dataset.taskId;
-                const entry = getTaskEntry(taskId);
-                const options = container.querySelectorAll('.option-btn');
-                const feedback = container.querySelector('.feedback');
-                options.forEach(btn => {
-                    btn.classList.remove('correct', 'incorrect');
-                    btn.disabled = false;
-                });
-                if (feedback) feedback.textContent = '';
-                applyTaskStyling(container, entry);
-                if (!entry) return;
-                if (entry.success) {
-                    options.forEach(btn => {
-                        btn.disabled = true;
-                        if (btn.dataset.correct === 'true') {
-                            btn.classList.add('correct');
-                        } else {
-                            btn.classList.add('incorrect');
-                        }
-                    });
-                    if (feedback) feedback.textContent = '✅ Completed earlier';
+        function loadLessonTaskProgress() {
+            try {
+                const stored = localStorage.getItem(LESSON_TASK_PROGRESS_KEY);
+                if (!stored) {
+                    lessonTaskProgress = { tasks: {} };
+                    return;
+                }
+                const parsed = JSON.parse(stored);
+                if (parsed && typeof parsed === 'object') {
+                    const tasks = parsed.tasks && typeof parsed.tasks === 'object' ? parsed.tasks : parsed;
+                    lessonTaskProgress = { tasks: tasks || {} };
                 } else {
-                    if (entry.mistakes > 0 && feedback) {
-                        feedback.textContent = '❌ Needs another try';
-                    }
+                    lessonTaskProgress = { tasks: {} };
                 }
-            });
-        }
-
-        function restoreSelectState() {
-            document.querySelectorAll('[data-activity="select"][data-task-id]').forEach(container => {
-                const taskId = container.dataset.taskId;
-                const entry = getTaskEntry(taskId);
-                const options = container.querySelectorAll('.option-btn');
-                const feedback = container.nextElementSibling;
-                options.forEach(btn => {
-                    btn.classList.remove('correct', 'incorrect');
-                    btn.disabled = false;
-                });
-                if (feedback && feedback.classList.contains('feedback')) feedback.textContent = '';
-                applyTaskStyling(container, entry);
-                if (!entry) return;
-                if (entry.success) {
-                    options.forEach(btn => {
-                        btn.disabled = true;
-                        if (btn.dataset.correct === 'true') {
-                            btn.classList.add('correct');
-                        } else {
-                            btn.classList.add('incorrect');
-                        }
-                    });
-                    if (feedback && feedback.classList.contains('feedback')) feedback.textContent = '✅ Completed earlier';
+            } catch (error) {
+                lessonTaskProgress = { tasks: {} };
+            }
+            Object.keys(lessonTaskProgress.tasks).forEach(key => {
+                const entry = lessonTaskProgress.tasks[key];
+                if (!entry || typeof entry !== 'object') {
+                    lessonTaskProgress.tasks[key] = { completed: false, success: false, mistakes: 0 };
                 } else {
-                    if (entry.mistakes > 0 && feedback && feedback.classList.contains('feedback')) {
-                        feedback.textContent = '❌ Needs another try';
-                    }
+                    lessonTaskProgress.tasks[key] = {
+                        completed: entry.completed === true,
+                        success: entry.success === true,
+                        mistakes: Number(entry.mistakes) || 0
+                    };
                 }
             });
         }
 
-        function restoreTrueFalseState() {
-            document.querySelectorAll('.tf-grid > div[data-task-id]').forEach(group => {
-                const taskId = group.dataset.taskId;
-                const entry = getTaskEntry(taskId);
-                const buttons = group.querySelectorAll('.tf-btn');
-                applyTaskStyling(group, entry);
-                buttons.forEach(btn => {
-                    btn.classList.remove('correct', 'incorrect');
-                    btn.disabled = false;
-                });
-                if (!entry) return;
-                if (entry.success) {
-                    buttons.forEach(btn => {
-                        btn.disabled = true;
-                        if (btn.dataset.correct === 'true') {
-                            btn.classList.add('correct');
-                        } else {
-                            btn.classList.add('incorrect');
-                        }
-                    });
-                } else if (entry.mistakes > 0) {
-                    // leave buttons enabled, just indicate needs retry
-                }
-            });
+        function saveLessonTaskProgress() {
+            try {
+                localStorage.setItem(LESSON_TASK_PROGRESS_KEY, JSON.stringify(lessonTaskProgress));
+            } catch (error) {}
         }
 
-        function setupMatchingGame(pairs, leftId, rightId, feedbackId, taskId, containerId) {
-            const leftContainer = document.getElementById(leftId);
-            const rightContainer = document.getElementById(rightId);
-            const feedbackEl = document.getElementById(feedbackId);
-            if (!leftContainer || !rightContainer) return;
-
-            leftContainer.innerHTML = '';
-            rightContainer.innerHTML = '';
-            if (feedbackEl) feedbackEl.textContent = '';
-
-            let selectedLeftBtn = null;
-            let matchedCount = 0;
-            let finished = false;
-
-            if (taskId) registerTask(taskId);
-            const containerEl = containerId ? document.getElementById(containerId) : null;
-
-            pairs.forEach((pair, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'matching-btn';
-                btn.textContent = pair.left;
-                btn.dataset.matchKey = String(index);
-                btn.addEventListener('click', () => {
-                    if (btn.classList.contains('correct')) return;
-                    leftContainer.querySelectorAll('.matching-btn').forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    selectedLeftBtn = btn;
-                });
-                leftContainer.appendChild(btn);
-            });
-
-            const shuffled = pairs.map((pair, index) => ({ ...pair, index })).sort(() => 0.5 - Math.random());
-            shuffled.forEach(({ right, index }) => {
-                const btn = document.createElement('button');
-                btn.className = 'matching-btn';
-                btn.textContent = right;
-                btn.dataset.matchKey = String(index);
-                btn.addEventListener('click', () => {
-                    if (!selectedLeftBtn || btn.classList.contains('correct')) return;
-                    const isMatch = selectedLeftBtn.dataset.matchKey === btn.dataset.matchKey;
-                    if (isMatch) {
-                        btn.classList.add('correct', 'disabled');
-                        selectedLeftBtn.classList.remove('selected');
-                        selectedLeftBtn.classList.add('correct', 'disabled');
-                        selectedLeftBtn = null;
-                        matchedCount += 1;
-                        if (matchedCount === pairs.length && feedbackEl) {
-                            feedbackEl.textContent = '✅ Great job! All pairs matched.';
-                            if (containerEl) {
-                                containerEl.classList.add('completed-success');
-                                containerEl.classList.remove('has-mistake');
-                            }
-                            if (taskId && !finished) {
-                                finished = true;
-                                markTaskSuccess(taskId);
-                                applyTaskStyling(containerEl, getTaskEntry(taskId));
-                            }
-                        }
-                    } else {
-                        btn.classList.add('incorrect');
-                        if (containerEl) {
-                            containerEl.classList.add('has-mistake');
-                            containerEl.classList.remove('completed-success');
-                        }
-                        if (taskId && !finished) recordTaskMistake(taskId);
-                        if (taskId) applyTaskStyling(containerEl, getTaskEntry(taskId));
-                        setTimeout(() => btn.classList.remove('incorrect'), 600);
-                    }
-                });
-                rightContainer.appendChild(btn);
-            });
-
-            if (taskId) {
-                const entry = getTaskEntry(taskId);
-                applyTaskStyling(containerEl, entry);
-                if (entry?.success) {
-                    finished = true;
-                    if (feedbackEl) feedbackEl.textContent = '✅ Completed earlier';
-                    [...leftContainer.querySelectorAll('button'), ...rightContainer.querySelectorAll('button')].forEach(btn => {
-                        btn.classList.add('correct', 'disabled');
-                        btn.disabled = true;
-                    });
-                } else if (entry && entry.mistakes > 0) {
-                    if (feedbackEl && !feedbackEl.textContent) feedbackEl.textContent = '❌ Needs another try';
-                }
-            }
-        }
-
-        function wireMatching() {
-            const greetingPairs = [
-                { left: 'Zdravo', right: 'Hello' },
-                { left: 'Hvala', right: 'Thank you' },
-                { left: 'Molim', right: 'Please / You’re welcome' },
-                { left: 'Doviđenja', right: 'Goodbye' },
-                { left: 'Dobro jutro', right: 'Good morning' },
-                { left: 'Laku noć', right: 'Good night' }
-            ];
-            setupMatchingGame(greetingPairs, 'matching-left', 'matching-right', 'matching-feedback', 'practice-match-greetings', 'matching-section');
-        }
-
-        function wireQuestionMatching() {
-            const qaPairs = [
-                { left: 'Da li si iz Crne Gore?', right: 'Ne, nisam. Iz Srbije sam.' },
-                { left: 'Da li ste Ana i Marko?', right: 'Ne, mi smo Sara i Luka.' },
-                { left: 'Jesi li student?', right: 'Jesam, studiram jezike.' },
-                { left: 'Da li je on tvoj brat?', right: 'Da, on je moj brat.' },
-                { left: 'Da li smo spremni?', right: 'Nismo još, čekamo tebe.' },
-                { left: 'Da li su oni turisti?', right: 'Da, prvi put su u Podgorici.' }
-            ];
-            setupMatchingGame(qaPairs, 'qa-left', 'qa-right', 'qa-feedback', 'practice-match-qa', 'qa-section');
-        }
-
-        function wireDialogue() {
-            const sequence = [
-                'Zdravo!',
-                'Kako se zoveš?',
-                'Ja sam Ana.',
-                'Drago mi je!'
-            ];
-            const taskId = 'practice-dialogue';
-            registerTask(taskId);
-            const shuffled = [...sequence].sort(() => 0.5 - Math.random());
-            const grid = document.getElementById('dialogue-grid');
-            const feedback = document.getElementById('dialogue-feedback');
-            const card = document.getElementById('dialogue-section');
-            let index = 0;
-            let finished = false;
-
-            shuffled.forEach(text => {
-                const btn = document.createElement('button');
-                btn.className = 'dialogue-btn';
-                btn.textContent = text;
-                btn.addEventListener('click', () => {
-                    if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) return;
-                    const expected = sequence[index];
-                    if (text === expected) {
-                        btn.classList.add('correct');
-                        btn.disabled = true;
-                        index += 1;
-                        if (index === sequence.length) {
-                            feedback.textContent = '✅ Conversation in perfect order!';
-                            if (!finished) {
-                                finished = true;
-                                markTaskSuccess(taskId);
-                                applyTaskStyling(card, getTaskEntry(taskId));
-                            }
-                        }
-                    } else {
-                        btn.classList.add('incorrect');
-                        if (!finished) {
-                            recordTaskMistake(taskId);
-                            applyTaskStyling(card, getTaskEntry(taskId));
-                        }
-                        setTimeout(() => btn.classList.remove('incorrect'), 600);
-                        feedback.textContent = '❌ Try selecting the cards in order.';
-                    }
-                });
-                grid.appendChild(btn);
-            });
-
-            const entry = getTaskEntry(taskId);
-            applyTaskStyling(card, entry);
-            if (entry?.success) {
-                finished = true;
-                if (feedback) feedback.textContent = '✅ Completed earlier';
-                grid.querySelectorAll('button').forEach(button => {
-                    button.classList.add('correct');
-                    button.disabled = true;
-                });
-            } else if (entry && entry.mistakes > 0) {
-                if (feedback && !feedback.textContent) feedback.textContent = '❌ Needs another try';
-            }
-        }
-
-        function wireFlashcards() {
-            const words = [
-                { front: 'Hello', back: 'Zdravo' },
-                { front: 'Goodbye', back: 'Doviđenja' },
-                { front: 'Good morning', back: 'Dobro jutro' },
-                { front: 'Thank you', back: 'Hvala' },
-                { front: 'Please', back: 'Molim' },
-                { front: 'How are you?', back: 'Kako si?' }
-            ];
-            const container = document.getElementById('flashcards');
-            words.forEach(({ front, back }) => {
-                const card = document.createElement('div');
-                card.className = 'flashcard';
-                card.textContent = front;
-                card.dataset.front = front;
-                card.dataset.back = back;
-                card.addEventListener('click', () => {
-                    const flipped = card.classList.toggle('flipped');
-                    card.textContent = flipped ? back : front;
-                });
-                container.appendChild(card);
-            });
-        }
-
-        function wireChallenge() {
-            const btn = document.getElementById('challenge-btn');
-            const feedback = document.getElementById('challenge-feedback');
-            if (!btn) return;
-            const taskId = 'practice-challenge';
-            registerTask(taskId);
-            const card = document.querySelector('#tab-challenge .challenge-card');
-            const entry = getTaskEntry(taskId);
-            applyTaskStyling(card, entry);
-            if (entry?.success) {
-                btn.classList.add('done');
-                btn.textContent = 'Great job! ✅';
-                if (feedback) feedback.textContent = '🎉 Bravo! Keep practicing in real life.';
-            }
-            btn.addEventListener('click', () => {
-                btn.classList.toggle('done');
-                const done = btn.classList.contains('done');
-                btn.textContent = done ? 'Great job! ✅' : 'I did it!!';
-                feedback.textContent = done ? '🎉 Bravo! Keep practicing in real life.' : '';
-                if (done) {
-                    markTaskSuccess(taskId);
-                } else {
-                    resetTaskProgress(taskId);
-                }
-                applyTaskStyling(card, getTaskEntry(taskId));
-            });
-        }
-
-        function initTabs() {
-            const buttons = document.querySelectorAll('.tab-button');
-            const panels = document.querySelectorAll('.tab-panel');
-            const activate = key => {
-                buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === key));
-                panels.forEach(panel => panel.classList.toggle('active', panel.id === `tab-${key}`));
-            };
-            buttons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const target = button.dataset.tab;
-                    activate(target);
-                    const tabsTop = document.querySelector('.lesson-tabs');
-                    if (tabsTop) {
-                        tabsTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadLessonTaskProgress();
-            loadProgress();
-        function handleRetake() {
-            localStorage.removeItem(LESSON_TASK_PROGRESS_KEY);
-            lessonTaskProgress = { tasks: {} };
-            updateLessonProgressUI();
-            window.location.reload();
-        }
-
-        if (lessonRetakeBtn) {
-            lessonRetakeBtn.addEventListener('click', handleRetake);
-        }
-        if (floatingRetakeBtn) {
-            floatingRetakeBtn.addEventListener('click', handleRetake);
-        }
-            const fullVocab = collectLessonVocabulary();
-            const pronounWords = ['ja', 'ti', 'on', 'ona', 'ono', 'mi', 'vi', 'oni', 'one', 'ona'];
-            const pronouns = fullVocab.filter(item => pronounWords.includes(item.word.toLowerCase()));
-
-            renderVocabularyCards(fullVocab);
-            updateProgressBar();
-
-            initTabs();
-            initMiniTaskQuizzes();
-            wireMultipleChoice();
-            wireMatching();
-            wireQuestionMatching();
-            wireSelectOne();
-            wireDialogue();
-            wireTrueFalse();
-            wireFlashcards();
-            wireChallenge();
-            updateLessonProgressUI();
-
-            if (pronouns.length) {
-                const guidePanel = document.getElementById('tab-guide');
-                if (guidePanel) {
-                    const targetSection = guidePanel.querySelector('section');
-                    if (targetSection) {
-                        const introNote = document.createElement('p');
-                        introNote.className = 'pronoun-intro';
-                        introNote.textContent = 'Start with the personal pronouns. Tap any form to review pronunciation, level, and notes.';
-
-                        const chipWrap = document.createElement('div');
-                        chipWrap.className = 'pronoun-chips';
-
-                        pronouns.forEach(item => {
-                            const chip = document.createElement('button');
-                            chip.className = 'pill-btn';
-                            chip.type = 'button';
-                            chip.textContent = item.word;
-                            chip.addEventListener('click', () => openModal(item));
-                            chipWrap.appendChild(chip);
-                        });
-
-                        const heading = targetSection.querySelector('h2');
-                        if (heading) {
-                            heading.insertAdjacentElement('afterend', introNote);
-                            const pronounGrid = document.createElement('div');
-                            pronounGrid.className = 'vocab-grid pronoun-grid';
-                            pronouns.forEach(item => {
-                                pronounGrid.appendChild(createVocabularyCard(item));
-                            });
-                            introNote.insertAdjacentElement('afterend', pronounGrid);
-                        }
-                    }
-                }
-            }
-        });
-
-        function handleMiniOptionClick(option, question) {
-            if (question.dataset.completed === 'true') return;
-            const taskId = question.dataset.questionId || question.dataset.taskId;
-            const options = question.querySelectorAll('.mini-option');
-            const feedback = question.querySelector('.mini-feedback');
-            const isCorrect = option.dataset.correct === 'true';
-
-            options.forEach(btn => {
-                const btnCorrect = btn.dataset.correct === 'true';
-                if (btnCorrect) {
-                    btn.classList.add('correct');
-                } else if (btn === option && !isCorrect) {
-                    btn.classList.add('incorrect');
-                } else if (btn !== option) {
-                    btn.classList.add('disabled');
-                }
-                btn.disabled = true;
-            });
-
-            if (isCorrect) {
-                feedback.textContent = '✅ Bravo! You nailed it.';
-                question.classList.add('completed-success');
-                question.classList.remove('has-mistake');
-                if (taskId) markTaskSuccess(taskId);
-            } else {
-                feedback.textContent = '❌ Not quite. Look for the highlighted answer.';
-                question.classList.add('has-mistake');
-                question.classList.remove('completed-success');
-                if (taskId) recordTaskMistake(taskId);
-                setTimeout(() => {
-                    options.forEach(btn => {
-                        btn.disabled = false;
-                        btn.classList.remove('incorrect', 'disabled', 'correct');
-                    });
-                    question.dataset.completed = 'false';
-                }, 600);
-            }
-
-            if (isCorrect) {
-                question.dataset.completed = 'true';
-            } else if (question.dataset.completed !== 'false') {
-                question.dataset.completed = 'false';
-            }
-
-            if (taskId) {
-                applyTaskStyling(question, getTaskEntry(taskId));
-            }
-        }
-
-        function resetMiniQuestion(question, resetProgress = false) {
-            const options = question.querySelectorAll('.mini-option');
-            const feedback = question.querySelector('.mini-feedback');
-            options.forEach(option => {
-                option.classList.remove('correct', 'incorrect', 'disabled');
-                option.disabled = false;
-            });
-            if (feedback) feedback.textContent = '';
-            question.dataset.completed = 'false';
-            question.classList.remove('completed-success', 'has-mistake');
-            if (resetProgress) {
-                const taskId = question.dataset.questionId || question.dataset.taskId;
-                if (taskId) resetTaskProgress(taskId);
-            }
-        }
-
-        function initMiniTaskQuizzes() {
-            const tasks = document.querySelectorAll('.mini-task');
-            tasks.forEach(task => {
-                const questions = task.querySelectorAll('.mini-question');
-                questions.forEach(question => {
-                    const taskId = question.dataset.questionId || question.dataset.taskId;
-                    if (taskId) registerTask(taskId);
-                    resetMiniQuestion(question);
-                    question.querySelectorAll('.mini-option').forEach(option => {
-                        option.addEventListener('click', () => handleMiniOptionClick(option, question));
-                    });
-                    applyMiniQuestionState(question);
-                });
-
-                const resetBtn = task.querySelector('.mini-task-reset');
-                if (resetBtn) {
-                    resetBtn.addEventListener('click', () => {
-                        questions.forEach(question => resetMiniQuestion(question, true));
-                    });
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+        function markTaskSuccess(taskId) {
+            if (!taskId) return;
+            const entry = ensureTaskEntry(taskId);
+            if (!entry) return;
+            entry.compl d?

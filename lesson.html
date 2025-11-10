@@ -2791,9 +2791,24 @@
                 question.classList.add('has-mistake');
                 question.classList.remove('completed-success');
                 if (taskId) recordTaskMistake(taskId);
+                setTimeout(() => {
+                    options.forEach(btn => {
+                        btn.disabled = false;
+                        btn.classList.remove('incorrect', 'disabled', 'correct');
+                    });
+                    question.dataset.completed = 'false';
+                }, 600);
             }
 
-            question.dataset.completed = 'true';
+            if (isCorrect) {
+                question.dataset.completed = 'true';
+            } else if (question.dataset.completed !== 'false') {
+                question.dataset.completed = 'false';
+            }
+
+            if (taskId) {
+                applyTaskStyling(question, getTaskEntry(taskId));
+            }
         }
 
         function resetMiniQuestion(question, resetProgress = false) {

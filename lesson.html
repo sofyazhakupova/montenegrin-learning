@@ -58,6 +58,123 @@
             margin-top: 2rem;
         }
 
+        .lesson-progress-card {
+            background: var(--white);
+            border: 1px solid var(--bg-light);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .lesson-progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lesson-progress-header h2 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .lesson-progress-header p {
+            margin-top: 0.15rem;
+            color: var(--text-light);
+        }
+
+        .lesson-progress-summary {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .lesson-progress-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(45, 90, 135, 0.12);
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .lesson-progress-card.completed .lesson-progress-badge {
+            background: rgba(39, 174, 96, 0.15);
+            color: var(--success-color);
+        }
+
+        .lesson-progress-bar {
+            position: relative;
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(45, 90, 135, 0.08);
+            overflow: hidden;
+        }
+
+        .lesson-progress-fill {
+            position: absolute;
+            inset: 0;
+            background: var(--primary-color);
+            transform-origin: left center;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .lesson-progress-card.completed .lesson-progress-fill {
+            background: var(--success-color);
+        }
+
+        .lesson-progress-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .lesson-progress-metrics .metric {
+            background: rgba(45, 90, 135, 0.06);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .lesson-progress-metrics .metric-label {
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .lesson-progress-metrics .metric-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .lesson-progress-card.completed .metric-value {
+            color: var(--success-color);
+        }
+
+        .pill-btn.outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .pill-btn.outline:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
         .tab-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -700,6 +817,20 @@
                 min-height: 200px;
             }
 
+            .lesson-progress-card {
+                padding: 1.25rem;
+            }
+
+            .lesson-progress-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .lesson-progress-summary {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
             .vocab-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
@@ -723,6 +854,40 @@
         <section class="hero">
             <h1>Lesson 1: Greetings and Introductions</h1>
             <p><strong>Level:</strong> A1 &nbsp;•&nbsp; <strong>Goal:</strong> Learn how to greet people, introduce yourself, and use basic polite expressions in Montenegrin/Serbian.</p>
+        </section>
+
+        <section class="lesson-progress-card" id="lesson-progress-card">
+            <div class="lesson-progress-header">
+                <div>
+                    <h2>Lesson Progress</h2>
+                    <p id="lesson-status-text">Not started</p>
+                </div>
+                <div class="lesson-progress-summary">
+                    <span class="lesson-progress-badge" id="lesson-completion-badge">0%</span>
+                    <button type="button" class="pill-btn outline" id="lesson-retake-btn">Retake lesson</button>
+                </div>
+            </div>
+            <div class="lesson-progress-bar">
+                <div class="lesson-progress-fill" id="lesson-progress-fill"></div>
+            </div>
+            <div class="lesson-progress-metrics">
+                <div class="metric">
+                    <span class="metric-label">Completed</span>
+                    <span class="metric-value" id="lesson-completed-count">0 / 0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Successfully completed</span>
+                    <span class="metric-value" id="lesson-success-count">0 / 0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Mistakes</span>
+                    <span class="metric-value" id="lesson-mistake-count">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Vocabulary</span>
+                    <span class="metric-value" id="lesson-vocab-indicator">0 / 0</span>
+                </div>
+            </div>
         </section>
 
         <div class="lesson-tabs">
@@ -1176,7 +1341,7 @@
                     <div class="activity-card" id="mc-section">
                         <h3>🧩 Multiple Choice</h3>
                         <div class="options-grid" data-activity="mc">
-                            <div>
+                            <div data-task-id="practice-mc-1">
                                 <p><strong>Q1.</strong> How do you say “Good morning”?</p>
                                 <button class="option-btn" data-correct="false">Dobro veče</button>
                                 <button class="option-btn" data-correct="false">Dobar dan</button>
@@ -1184,7 +1349,7 @@
                                 <button class="option-btn" data-correct="false">Laku noć</button>
                                 <div class="feedback"></div>
                             </div>
-                            <div>
+                            <div data-task-id="practice-mc-2">
                                 <p><strong>Q2.</strong> “Zdravo” means…</p>
                                 <button class="option-btn" data-correct="false">Goodbye</button>
                                 <button class="option-btn" data-correct="true">Hello</button>
@@ -1192,7 +1357,7 @@
                                 <button class="option-btn" data-correct="false">Please</button>
                                 <div class="feedback"></div>
                             </div>
-                            <div>
+                            <div data-task-id="practice-mc-3">
                                 <p><strong>Q3.</strong> How do you say “Good night”?</p>
                                 <button class="option-btn" data-correct="false">Dobro jutro</button>
                                 <button class="option-btn" data-correct="false">Dobar dan</button>
@@ -1200,7 +1365,7 @@
                                 <button class="option-btn" data-correct="false">Zdravo</button>
                                 <div class="feedback"></div>
                             </div>
-                            <div>
+                            <div data-task-id="practice-mc-4">
                                 <p><strong>Q4.</strong> Choose the correct question: “___ ti student?”</p>
                                 <button class="option-btn" data-correct="true">Da li si</button>
                                 <button class="option-btn" data-correct="false">Da li je</button>
@@ -1208,7 +1373,7 @@
                                 <button class="option-btn" data-correct="false">Jesi li smo</button>
                                 <div class="feedback"></div>
                             </div>
-                            <div>
+                            <div data-task-id="practice-mc-5">
                                 <p><strong>Q5.</strong> Complete the sentence: “Mi ___ iz Srbije.”</p>
                                 <button class="option-btn" data-correct="false">nisam</button>
                                 <button class="option-btn" data-correct="false">nisi</button>
@@ -1238,7 +1403,7 @@
                     <div class="activity-card" id="select-section">
                         <h3>🧩 Select the Correct Answer</h3>
                         <p><strong>Q:</strong> “Kako si?” means…</p>
-                        <div class="options-grid" data-activity="select">
+                        <div class="options-grid" data-activity="select" data-task-id="practice-select-1">
                             <button class="option-btn" data-correct="false">Who are you?</button>
                             <button class="option-btn" data-correct="true">How are you?</button>
                             <button class="option-btn" data-correct="false">Where are you?</button>
@@ -1257,22 +1422,22 @@
                     <div class="activity-card" id="tf-section">
                         <h3>🧩 True or False</h3>
                         <div class="tf-grid">
-                            <div>
+                            <div data-task-id="practice-tf-1">
                                 <p>“Dobro jutro” = Good evening</p>
                                 <button class="tf-btn" data-correct="false">True</button>
                                 <button class="tf-btn" data-correct="true">False ✅</button>
                             </div>
-                            <div>
+                            <div data-task-id="practice-tf-2">
                                 <p>“Ćao” can mean both Hi and Bye</p>
                                 <button class="tf-btn" data-correct="true">True ✅</button>
                                 <button class="tf-btn" data-correct="false">False</button>
                             </div>
-                            <div>
+                            <div data-task-id="practice-tf-3">
                                 <p>“Hvala” means Please</p>
                                 <button class="tf-btn" data-correct="false">True</button>
                                 <button class="tf-btn" data-correct="true">False ✅</button>
                             </div>
-                            <div>
+                            <div data-task-id="practice-tf-4">
                                 <p>“Kako ste?” is formal for How are you</p>
                                 <button class="tf-btn" data-correct="true">True ✅</button>
                                 <button class="tf-btn" data-correct="false">False</button>
@@ -1364,6 +1529,7 @@
             b1: 'known-level-b1',
             b2: 'known-level-b2'
         };
+        const LESSON_TASK_PROGRESS_KEY = 'lesson1_task_progress_v1';
 
         const NOUN_PLURAL_OVERRIDES = {
             'apoteka': 'apoteke',
@@ -1496,6 +1662,145 @@
             return deriveNounPlural(word);
         }
 
+        function loadLessonTaskProgress() {
+            try {
+                const stored = localStorage.getItem(LESSON_TASK_PROGRESS_KEY);
+                if (!stored) {
+                    lessonTaskProgress = { tasks: {} };
+                    return;
+                }
+                const parsed = JSON.parse(stored);
+                if (parsed && typeof parsed === 'object') {
+                    const tasks = parsed.tasks && typeof parsed.tasks === 'object' ? parsed.tasks : parsed;
+                    lessonTaskProgress = { tasks: tasks || {} };
+                } else {
+                    lessonTaskProgress = { tasks: {} };
+                }
+            } catch (error) {
+                lessonTaskProgress = { tasks: {} };
+            }
+            normalizeTaskEntries();
+        }
+
+        function normalizeTaskEntries() {
+            if (!lessonTaskProgress || typeof lessonTaskProgress !== 'object') {
+                lessonTaskProgress = { tasks: {} };
+                return;
+            }
+            if (!lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') {
+                lessonTaskProgress.tasks = {};
+                return;
+            }
+            Object.keys(lessonTaskProgress.tasks).forEach(key => {
+                const entry = lessonTaskProgress.tasks[key];
+                if (!entry || typeof entry !== 'object') {
+                    lessonTaskProgress.tasks[key] = { completed: false, success: false, mistakes: 0 };
+                    return;
+                }
+                lessonTaskProgress.tasks[key] = {
+                    completed: entry.completed === true,
+                    success: entry.success === true,
+                    mistakes: Number.isFinite(entry.mistakes) ? entry.mistakes : Number(entry.mistakes) || 0
+                };
+            });
+        }
+
+        function saveLessonTaskProgress() {
+            try {
+                localStorage.setItem(LESSON_TASK_PROGRESS_KEY, JSON.stringify(lessonTaskProgress));
+            } catch (error) {
+                // ignore storage issues
+            }
+        }
+
+        function ensureTaskEntry(taskId) {
+            if (!taskId) return null;
+            if (!lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') {
+                lessonTaskProgress.tasks = {};
+            }
+            if (!lessonTaskProgress.tasks[taskId]) {
+                lessonTaskProgress.tasks[taskId] = { completed: false, success: false, mistakes: 0 };
+            }
+            return lessonTaskProgress.tasks[taskId];
+        }
+
+        function registerTask(taskId) {
+            if (!taskId) return;
+            trackedTaskIds.add(taskId);
+        }
+
+        function markTaskSuccess(taskId) {
+            if (!taskId) return;
+            const entry = ensureTaskEntry(taskId);
+            if (!entry) return;
+            entry.completed = true;
+            entry.success = true;
+            saveLessonTaskProgress();
+            updateLessonProgressUI();
+        }
+
+        function recordTaskMistake(taskId) {
+            if (!taskId) return;
+            const entry = ensureTaskEntry(taskId);
+            if (!entry || entry.success) return;
+            entry.completed = true;
+            entry.success = entry.success === true;
+            entry.mistakes = (entry.mistakes || 0) + 1;
+            saveLessonTaskProgress();
+            updateLessonProgressUI();
+        }
+
+        function resetTaskProgress(taskId) {
+            if (!taskId || !lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') return;
+            if (lessonTaskProgress.tasks[taskId]) {
+                delete lessonTaskProgress.tasks[taskId];
+                saveLessonTaskProgress();
+                updateLessonProgressUI();
+            }
+        }
+
+        function updateVocabularyIndicator() {
+            if (!lessonVocabIndicator) return;
+            const { known = 0, total = 0, percent = 0 } = vocabularySummary || {};
+            if (!total) {
+                lessonVocabIndicator.textContent = '0 / 0 known';
+            } else {
+                lessonVocabIndicator.textContent = `${known} / ${total} known (${Math.round(percent)}%)`;
+            }
+        }
+
+        function updateLessonProgressUI() {
+            if (!lessonProgressCard || !lessonStatusText || !lessonCompletionBadge || !lessonProgressFill || !lessonCompletedCount || !lessonSuccessCount || !lessonMistakeCount) return;
+            const total = trackedTaskIds.size;
+            const tasks = lessonTaskProgress.tasks || {};
+            let completed = 0;
+            let success = 0;
+            let mistakes = 0;
+            trackedTaskIds.forEach(id => {
+                const entry = tasks[id];
+                if (entry?.completed) completed += 1;
+                if (entry?.success) success += 1;
+                if (entry?.mistakes) mistakes += entry.mistakes;
+            });
+            const percent = total ? (success / total) * 100 : 0;
+            const clamped = Math.max(0, Math.min(100, percent));
+            const finished = total > 0 && percent >= 80;
+            let status = 'Not started';
+            if (completed > 0 && !finished) status = `In progress — ${Math.round(clamped)}% success`;
+            if (finished) status = 'Lesson completed (80% success reached)';
+            lessonStatusText.textContent = status;
+            lessonCompletionBadge.textContent = `${Math.round(clamped)}%`;
+            lessonCompletionBadge.classList.toggle('completed', finished);
+            lessonProgressCard.classList.toggle('completed', finished);
+            lessonProgressFill.style.transform = `scaleX(${clamped / 100})`;
+            lessonCompletedCount.textContent = `${completed} / ${total}`;
+            lessonSuccessCount.textContent = `${success} / ${total}`;
+            lessonMistakeCount.textContent = `${mistakes}`;
+            updateVocabularyIndicator();
+        }
+        let lessonTaskProgress = { tasks: {} };
+        const trackedTaskIds = new Set();
+        let vocabularySummary = { known: 0, total: 0, percent: 0 };
         let wordProgress = {};
         let cardRegistry = new Map();
         let allWordKeys = [];
@@ -1505,6 +1810,15 @@
         const vocabGrid = document.getElementById('vocab-grid');
         const progressLabelEl = document.getElementById('progress-label');
         const progressFillEl = document.getElementById('progress-fill');
+        const lessonProgressCard = document.getElementById('lesson-progress-card');
+        const lessonStatusText = document.getElementById('lesson-status-text');
+        const lessonCompletionBadge = document.getElementById('lesson-completion-badge');
+        const lessonProgressFill = document.getElementById('lesson-progress-fill');
+        const lessonCompletedCount = document.getElementById('lesson-completed-count');
+        const lessonSuccessCount = document.getElementById('lesson-success-count');
+        const lessonMistakeCount = document.getElementById('lesson-mistake-count');
+        const lessonVocabIndicator = document.getElementById('lesson-vocab-indicator');
+        const lessonRetakeBtn = document.getElementById('lesson-retake-btn');
 
         const modalBackdrop = document.querySelector('.modal-backdrop');
         const modalWord = document.getElementById('modal-word');
@@ -1609,18 +1923,25 @@
 
         function updateProgressBar() {
             const total = allWordKeys.length;
+            let knownCount = 0;
+            let percent = 0;
             if (!total) {
                 progressLabelEl.textContent = 'No vocabulary words available yet.';
                 progressFillEl.style.width = '0%';
+                vocabularySummary = { known: 0, total: 0, percent: 0 };
+                updateVocabularyIndicator();
+                updateLessonProgressUI();
                 return;
             }
-            let knownCount = 0;
             allWordKeys.forEach(key => {
                 if (wordProgress[key] === 'known') knownCount += 1;
             });
-            const percent = (knownCount / total) * 100;
+            percent = (knownCount / total) * 100;
             progressLabelEl.textContent = `You already know ${percent.toFixed(2)}% (${knownCount} of ${total})`;
             progressFillEl.style.width = `${percent}%`;
+            vocabularySummary = { known: knownCount, total, percent };
+            updateVocabularyIndicator();
+            updateLessonProgressUI();
         }
 
         function normalizeCategory(category) {
@@ -1790,17 +2111,11 @@
                 modalLevel.hidden = true;
             }
             modalTranslation.textContent = item.translation || '—';
-            if (item.categories && item.categories.length) {
-                modalCategory.textContent = item.categories.join(', ');
-                modalCategory.hidden = false;
-            } else {
                 modalCategory.hidden = true;
-            }
-
             if (item.categoryTypes && item.categoryTypes.includes('noun')) {
                 const pluralForm = resolveNounPlural(item.word, item.plural);
                 if (pluralForm) {
-                    modalPlural.textContent = `Plural: ${pluralForm}`;
+                    modalPlural.textContent = `pl: ${pluralForm}`;
                     modalPlural.hidden = false;
                 } else {
                     modalPlural.hidden = true;
@@ -1856,12 +2171,15 @@
 
         /* ---- Practice Activities ---- */
         function wireMultipleChoice() {
+            document.querySelectorAll('[data-activity="mc"] [data-task-id]').forEach(container => registerTask(container.dataset.taskId));
             document.querySelectorAll('[data-activity="mc"] .option-btn').forEach(button => {
                 button.addEventListener('click', () => {
                     if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
                     const correct = button.dataset.correct === 'true';
-                    const container = button.closest('div');
-                    const feedback = container.querySelector('.feedback');
+                    const container = button.closest('[data-task-id]');
+                    if (!container) return;
+                    const taskId = container?.dataset.taskId;
+                    const feedback = container ? container.querySelector('.feedback') : null;
                     container.querySelectorAll('.option-btn').forEach(btn => {
                         btn.disabled = true;
                         if (btn.dataset.correct === 'true') {
@@ -1870,44 +2188,65 @@
                             btn.classList.add('incorrect');
                         }
                     });
-                    feedback.textContent = correct ? '✅ Correct!' : '❌ Not quite. The highlighted answer is correct.';
-                });
-            });
-        }
-
-        function wireSelectOne() {
-            document.querySelectorAll('[data-activity="select"] .option-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
-                    const correct = button.dataset.correct === 'true';
-                    const container = button.closest('[data-activity="select"]');
-                    const feedback = container.nextElementSibling;
-                    container.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-                    button.classList.add(correct ? 'correct' : 'incorrect');
-                    feedback.textContent = correct ? '✅ Well done!' : '❌ Try again next time.';
-                });
-            });
-        }
-
-        function wireTrueFalse() {
-            document.querySelectorAll('.tf-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
-                    const correct = button.dataset.correct === 'true';
-                    const group = button.parentElement;
-                    group.querySelectorAll('.tf-btn').forEach(btn => btn.disabled = true);
-                    if (correct) {
-                        button.classList.add('correct');
-                    } else {
-                        button.classList.add('incorrect');
-                        const correctBtn = group.querySelector('.tf-btn[data-correct="true"]');
-                        if (correctBtn) correctBtn.classList.add('correct');
+                    if (feedback) feedback.textContent = correct ? '✅ Correct!' : '❌ Not quite. The highlighted answer is correct.';
+                    if (taskId) {
+                        if (correct) {
+                            markTaskSuccess(taskId);
+                        } else {
+                            recordTaskMistake(taskId);
+                        }
                     }
                 });
             });
         }
 
-        function setupMatchingGame(pairs, leftId, rightId, feedbackId) {
+        function wireSelectOne() {
+            document.querySelectorAll('[data-activity="select"][data-task-id]').forEach(container => registerTask(container.dataset.taskId));
+            document.querySelectorAll('[data-activity="select"] .option-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
+                    const correct = button.dataset.correct === 'true';
+                    const container = button.closest('[data-activity="select"]');
+                    if (!container) return;
+                    const taskId = container?.dataset.taskId;
+                    const feedback = container.nextElementSibling;
+                    container.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+                    button.classList.add(correct ? 'correct' : 'incorrect');
+                    if (feedback) feedback.textContent = correct ? '✅ Well done!' : '❌ Try again next time.';
+                    if (taskId) {
+                        if (correct) {
+                            markTaskSuccess(taskId);
+                        } else {
+                            recordTaskMistake(taskId);
+                        }
+                    }
+                });
+            });
+        }
+
+        function wireTrueFalse() {
+            document.querySelectorAll('.tf-grid > div[data-task-id]').forEach(group => registerTask(group.dataset.taskId));
+            document.querySelectorAll('.tf-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
+                    const correct = button.dataset.correct === 'true';
+                    const group = button.parentElement;
+                    const taskId = group?.dataset.taskId;
+                    group.querySelectorAll('.tf-btn').forEach(btn => btn.disabled = true);
+                    if (correct) {
+                        button.classList.add('correct');
+                        if (taskId) markTaskSuccess(taskId);
+                    } else {
+                        button.classList.add('incorrect');
+                        const correctBtn = group.querySelector('.tf-btn[data-correct="true"]');
+                        if (correctBtn) correctBtn.classList.add('correct');
+                        if (taskId) recordTaskMistake(taskId);
+                    }
+                });
+            });
+        }
+
+        function setupMatchingGame(pairs, leftId, rightId, feedbackId, taskId) {
             const leftContainer = document.getElementById(leftId);
             const rightContainer = document.getElementById(rightId);
             const feedbackEl = document.getElementById(feedbackId);
@@ -1919,6 +2258,9 @@
 
             let selectedLeftBtn = null;
             let matchedCount = 0;
+            let finished = false;
+
+            if (taskId) registerTask(taskId);
 
             pairs.forEach((pair, index) => {
                 const btn = document.createElement('button');
@@ -1951,9 +2293,14 @@
                         matchedCount += 1;
                         if (matchedCount === pairs.length && feedbackEl) {
                             feedbackEl.textContent = '✅ Great job! All pairs matched.';
+                            if (taskId && !finished) {
+                                finished = true;
+                                markTaskSuccess(taskId);
+                            }
                         }
                     } else {
                         btn.classList.add('incorrect');
+                        if (taskId && !finished) recordTaskMistake(taskId);
                         setTimeout(() => btn.classList.remove('incorrect'), 600);
                     }
                 });
@@ -1970,7 +2317,7 @@
                 { left: 'Dobro jutro', right: 'Good morning' },
                 { left: 'Laku noć', right: 'Good night' }
             ];
-            setupMatchingGame(greetingPairs, 'matching-left', 'matching-right', 'matching-feedback');
+            setupMatchingGame(greetingPairs, 'matching-left', 'matching-right', 'matching-feedback', 'practice-match-greetings');
         }
 
         function wireQuestionMatching() {
@@ -1982,7 +2329,7 @@
                 { left: 'Da li smo spremni?', right: 'Nismo još, čekamo tebe.' },
                 { left: 'Da li su oni turisti?', right: 'Da, prvi put su u Podgorici.' }
             ];
-            setupMatchingGame(qaPairs, 'qa-left', 'qa-right', 'qa-feedback');
+            setupMatchingGame(qaPairs, 'qa-left', 'qa-right', 'qa-feedback', 'practice-match-qa');
         }
 
         function wireDialogue() {
@@ -1992,10 +2339,13 @@
                 'Ja sam Ana.',
                 'Drago mi je!'
             ];
+            const taskId = 'practice-dialogue';
+            registerTask(taskId);
             const shuffled = [...sequence].sort(() => 0.5 - Math.random());
             const grid = document.getElementById('dialogue-grid');
             const feedback = document.getElementById('dialogue-feedback');
             let index = 0;
+            let finished = false;
 
             shuffled.forEach(text => {
                 const btn = document.createElement('button');
@@ -2010,9 +2360,14 @@
                         index += 1;
                         if (index === sequence.length) {
                             feedback.textContent = '✅ Conversation in perfect order!';
+                            if (!finished) {
+                                finished = true;
+                                markTaskSuccess(taskId);
+                            }
                         }
                     } else {
                         btn.classList.add('incorrect');
+                        if (!finished) recordTaskMistake(taskId);
                         setTimeout(() => btn.classList.remove('incorrect'), 600);
                         feedback.textContent = '❌ Try selecting the cards in order.';
                     }
@@ -2048,11 +2403,19 @@
         function wireChallenge() {
             const btn = document.getElementById('challenge-btn');
             const feedback = document.getElementById('challenge-feedback');
+            if (!btn) return;
+            const taskId = 'practice-challenge';
+            registerTask(taskId);
             btn.addEventListener('click', () => {
                 btn.classList.toggle('done');
                 const done = btn.classList.contains('done');
                 btn.textContent = done ? 'Great job! ✅' : 'I did it!!';
                 feedback.textContent = done ? '🎉 Bravo! Keep practicing in real life.' : '';
+                if (done) {
+                    markTaskSuccess(taskId);
+                } else {
+                    resetTaskProgress(taskId);
+                }
             });
         }
 
@@ -2076,7 +2439,16 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            loadLessonTaskProgress();
             loadProgress();
+            if (lessonRetakeBtn) {
+                lessonRetakeBtn.addEventListener('click', () => {
+                    localStorage.removeItem(LESSON_TASK_PROGRESS_KEY);
+                    lessonTaskProgress = { tasks: {} };
+                    updateLessonProgressUI();
+                    window.location.reload();
+                });
+            }
             const fullVocab = collectLessonVocabulary();
             const pronounWords = ['ja', 'ti', 'on', 'ona', 'ono', 'mi', 'vi', 'oni', 'one', 'ona'];
             const pronouns = fullVocab.filter(item => pronounWords.includes(item.word.toLowerCase()));
@@ -2094,6 +2466,7 @@
             wireTrueFalse();
             wireFlashcards();
             wireChallenge();
+            updateLessonProgressUI();
 
             if (pronouns.length) {
                 const guidePanel = document.getElementById('tab-guide');
@@ -2133,6 +2506,7 @@
 
         function handleMiniOptionClick(option, question) {
             if (question.dataset.completed === 'true') return;
+            const taskId = question.dataset.questionId || question.dataset.taskId;
             const options = question.querySelectorAll('.mini-option');
             const feedback = question.querySelector('.mini-feedback');
             const isCorrect = option.dataset.correct === 'true';
@@ -2151,14 +2525,16 @@
 
             if (isCorrect) {
                 feedback.textContent = '✅ Bravo! You nailed it.';
+                if (taskId) markTaskSuccess(taskId);
             } else {
                 feedback.textContent = '❌ Not quite. Look for the highlighted answer.';
+                if (taskId) recordTaskMistake(taskId);
             }
 
             question.dataset.completed = 'true';
         }
 
-        function resetMiniQuestion(question) {
+        function resetMiniQuestion(question, resetProgress = false) {
             const options = question.querySelectorAll('.mini-option');
             const feedback = question.querySelector('.mini-feedback');
             options.forEach(option => {
@@ -2167,6 +2543,10 @@
             });
             if (feedback) feedback.textContent = '';
             question.dataset.completed = 'false';
+            if (resetProgress) {
+                const taskId = question.dataset.questionId || question.dataset.taskId;
+                if (taskId) resetTaskProgress(taskId);
+            }
         }
 
         function initMiniTaskQuizzes() {
@@ -2174,6 +2554,8 @@
             tasks.forEach(task => {
                 const questions = task.querySelectorAll('.mini-question');
                 questions.forEach(question => {
+                    const taskId = question.dataset.questionId || question.dataset.taskId;
+                    if (taskId) registerTask(taskId);
                     resetMiniQuestion(question);
                     question.querySelectorAll('.mini-option').forEach(option => {
                         option.addEventListener('click', () => handleMiniOptionClick(option, question));
@@ -2183,7 +2565,7 @@
                 const resetBtn = task.querySelector('.mini-task-reset');
                 if (resetBtn) {
                     resetBtn.addEventListener('click', () => {
-                        questions.forEach(question => resetMiniQuestion(question));
+                        questions.forEach(question => resetMiniQuestion(question, true));
                     });
                 }
             });

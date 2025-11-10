@@ -866,21 +866,13 @@
             }
             modalTranslation.textContent = item.translation || '—';
 
-            const categoryText = (item.categories && item.categories.length)
-                ? item.categories.join(', ')
-                : (categoryLabel || '');
-            if (categoryText) {
-                modalCategory.textContent = categoryText;
-                modalCategory.hidden = false;
-            } else {
-                modalCategory.hidden = true;
-            }
+            modalCategory.hidden = true;
 
             const isNoun = (item.categoryTypes && item.categoryTypes.includes('noun')) || categoryLabel === (CATEGORY_LABELS.noun || 'Nouns');
             if (isNoun) {
                 const pluralForm = resolveNounPlural(item.word, item.plural);
                 if (pluralForm) {
-                    modalPlural.textContent = `Plural: ${pluralForm}`;
+                    modalPlural.textContent = `pl: ${pluralForm}`;
                     modalPlural.hidden = false;
                 } else {
                     modalPlural.hidden = true;

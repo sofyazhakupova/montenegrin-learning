@@ -191,6 +191,99 @@
             line-height: 1.55;
         }
 
+        .mini-task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .mini-task-item {
+            display: flex;
+            gap: 0.6rem;
+            align-items: flex-start;
+            border: 1px solid rgba(45, 90, 135, 0.15);
+            border-radius: 10px;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255, 255, 255, 0.65);
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .mini-task-item.completed {
+            border-color: rgba(39, 174, 96, 0.4);
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .mini-task-item input[type="checkbox"] {
+            margin-top: 0.15rem;
+            width: 18px;
+            height: 18px;
+        }
+
+        .mini-task-item-content {
+            flex: 1;
+            color: var(--text-light);
+        }
+
+        .mini-task-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.35rem;
+        }
+
+        .mini-task-note {
+            width: 100%;
+            min-height: 70px;
+            border-radius: 8px;
+            border: 1px solid rgba(45, 90, 135, 0.15);
+            padding: 0.5rem 0.65rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .mini-task-progress {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .mini-task-progress-meter {
+            flex: 1;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(45, 90, 135, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mini-task-progress-fill {
+            position: absolute;
+            inset: 0;
+            background: var(--success-color);
+            transform-origin: left center;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .mini-task-reset {
+            border: none;
+            background: transparent;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .mini-task-reset:hover {
+            background: rgba(45, 90, 135, 0.12);
+        }
+
         .vocab-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1105,12 +1198,14 @@
             b1: 'known-level-b1',
             b2: 'known-level-b2'
         };
+        const MINI_TASK_STORAGE_KEY = 'lesson1_mini_tasks_v1';
 
         let wordProgress = {};
         let cardRegistry = new Map();
         let allWordKeys = [];
         let currentModalWordKey = null;
         let currentModalLevel = null;
+        let miniTaskProgress = {};
 
         const vocabGrid = document.getElementById('vocab-grid');
         const progressLabelEl = document.getElementById('progress-label');
@@ -1657,6 +1752,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadProgress();
+            initMiniTasks();
             const fullVocab = collectLessonVocabulary();
             const pronounWords = ['ja', 'ti', 'on', 'ona', 'ono', 'mi', 'vi', 'oni', 'one', 'ona'];
             const pronouns = fullVocab.filter(item => pronounWords.includes(item.word.toLowerCase()));
@@ -1710,6 +1806,127 @@
                 }
             }
         });
+
+        function loadMiniTaskProgress() {
+            try {
+                const stored = localStorage.getItem(MINI_TASK_STORAGE_KEY);
+                const parsed = stored ? JSON.parse(stored) : {};
+                miniTaskProgress = (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};
+            } catch (error) {
+                miniTaskProgress = {};
+            }
+        }
+
+        function saveMiniTaskProgress() {
+            try {
+                localStorage.setItem(MINI_TASK_STORAGE_KEY, JSON.stringify(miniTaskProgress));
+            } catch (error) {
+                // ignore storage issues
+            }
+        }
+
+        function initMiniTasks() {
+            loadMiniTaskProgress();
+            const sections = document.querySelectorAll('.mini-task');
+            sections.forEach((section, sectionIndex) => {
+                const list = section.querySelector('ol, ul');
+                if (!list) return;
+
+                const items = Array.from(list.querySelectorAll('li'));
+                if (!items.length) return;
+
+                const sectionKey = `section-${sectionIndex}`;
+                if (!miniTaskProgress[sectionKey]) {
+                    miniTaskProgress[sectionKey] = {};
+                }
+
+                const progressRow = document.createElement('div');
+                progressRow.className = 'mini-task-progress';
+
+                const statusLabel = document.createElement('span');
+                statusLabel.textContent = '0 of 0 completed';
+                progressRow.appendChild(statusLabel);
+
+                const meter = document.createElement('div');
+                meter.className = 'mini-task-progress-meter';
+                const meterFill = document.createElement('div');
+                meterFill.className = 'mini-task-progress-fill';
+                meter.appendChild(meterFill);
+                progressRow.appendChild(meter);
+
+                const resetBtn = document.createElement('button');
+                resetBtn.className = 'mini-task-reset';
+                resetBtn.type = 'button';
+                resetBtn.textContent = 'Reset';
+                progressRow.appendChild(resetBtn);
+
+                section.insertBefore(progressRow, list);
+
+                const interactiveList = document.createElement('div');
+                interactiveList.className = 'mini-task-list';
+
+                items.forEach((item, itemIndex) => {
+                    const stepKey = `step-${itemIndex}`;
+                    const stored = miniTaskProgress[sectionKey][stepKey];
+
+                    const label = document.createElement('label');
+                    label.className = 'mini-task-item';
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = stored?.checked === true;
+
+                    const content = document.createElement('div');
+                    content.className = 'mini-task-item-content';
+                    content.innerHTML = item.innerHTML;
+
+                    label.appendChild(checkbox);
+                    label.appendChild(content);
+                    interactiveList.appendChild(label);
+
+                    if (checkbox.checked) {
+                        label.classList.add('completed');
+                    }
+
+                    checkbox.addEventListener('change', () => {
+                        if (checkbox.checked) {
+                            miniTaskProgress[sectionKey][stepKey] = {
+                                checked: true
+                            };
+                            label.classList.add('completed');
+                        } else {
+                            delete miniTaskProgress[sectionKey][stepKey];
+                            label.classList.remove('completed');
+                        }
+                        saveMiniTaskProgress();
+                        updateMiniTaskSummary(sectionKey, statusLabel, meterFill, items.length);
+                    });
+                });
+
+                list.after(interactiveList);
+                list.hidden = true;
+
+                resetBtn.addEventListener('click', () => {
+                    miniTaskProgress[sectionKey] = {};
+                    interactiveList.querySelectorAll('input[type="checkbox"]').forEach(input => {
+                        input.checked = false;
+                        input.dispatchEvent(new Event('change'));
+                    });
+                    saveMiniTaskProgress();
+                    updateMiniTaskSummary(sectionKey, statusLabel, meterFill, items.length);
+                });
+
+                updateMiniTaskSummary(sectionKey, statusLabel, meterFill, items.length);
+            });
+        }
+
+        function updateMiniTaskSummary(sectionKey, labelEl, fillEl, total) {
+            const sectionState = miniTaskProgress[sectionKey] || {};
+            const completed = Object.values(sectionState).filter(value => value?.checked).length;
+            labelEl.textContent = `${completed} of ${total} completed`;
+            const ratio = total ? completed / total : 0;
+            fillEl.style.transform = `scaleX(${ratio})`;
+        }
     </script>
 </body>
 </html>

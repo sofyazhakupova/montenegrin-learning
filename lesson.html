@@ -299,6 +299,7 @@
             gap: 0.25rem;
             position: relative;
             transition: transform 0.2s;
+            cursor: pointer;
         }
 
         .vocab-card:hover {
@@ -1333,8 +1334,8 @@
                 <div class="modal-list" id="modal-note-text"></div>
             </div>
             <div class="modal-actions">
-                <button class="primary" id="modal-know-btn">I know this</button>
-                <button class="secondary" id="modal-dont-know-btn">I don't know yet</button>
+                <button class="primary" id="modal-know-btn">I know</button>
+                <button class="secondary" id="modal-dont-know-btn">Practice again</button>
             </div>
         </div>
     </div>
@@ -1592,7 +1593,7 @@
 
             const knowBtn = document.createElement('button');
             knowBtn.className = 'know';
-            knowBtn.textContent = 'Mark as known';
+            knowBtn.textContent = 'I know';
             knowBtn.addEventListener('click', event => {
                 event.stopPropagation();
                 setWordStatus(getWordKey(item.word), 'known');

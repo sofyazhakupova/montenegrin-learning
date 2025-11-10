@@ -12,8 +12,8 @@ _Last updated: 2025-11-07_
 |------|---------|-------|
 | `index.html` | Dashboard/home | Shows next lesson, progress stats, bar chart, quick actions. |
 | `lessons.html` | Lessons overview | Filterable list (all / not started / in progress / completed / locked). |
-| `lesson.html` | Lesson player | Lesson 1 with tabbed guide/vocab/practice/challenge sections, hero pronoun chips for quick review, shared vocab cards (know/practice), interactive click-based drills, and real-life challenge badge. |
-| `vocab.html` | Vocabulary trainer | Renders category tabs from `vocab/vocab-data.js`, tracks known/unknown status, shows conjugations, shared references, and modal details. |
+| `lesson.html` | Lesson player | Lesson 1 with tabbed guide/vocab/practice/challenge sections, pronoun cards injected directly under “Lesson Guide”, theory blocks paired with mini tasks, shared vocab cards (single toggle button), interactive click-based drills, and a real-life challenge badge. |
+| `vocab.html` | Vocabulary trainer | Renders category tabs from `vocab/vocab-data.js`, tracks known/unknown status with a single toggle button, shows conjugations, shared references, and modal details (level badge + category meta). |
 | `quiz.html` | Quiz hub (placeholder) | Coming-soon message, links back to lessons/vocab. |
 
 ## Shared Navigation
@@ -42,8 +42,8 @@ Shared utility module executed on all pages:
 5. **Error-handling**: sanitizes corrupted storage, wraps render calls in `try/catch`.
 
 ### Page-specific hooks
-- `lesson.html`: renders Lesson 1 guide notes, shared vocab with know/practice sync, interactive MCQ/matching/dialogue drills, flashcards, and a real-life challenge button inside tabbed guide / vocab / practice / challenge panels (progress status wiring TBD for other lessons).
-- `vocab.html`: aggregates all lessons into category tabs (verbs, nouns, etc.), renders cards with conjugations, supports known/unknown toggles, a global progress bar, and modal translations/notes.
+- `lesson.html`: renders Lesson 1 guide notes with inline pronoun cards and mini tasks, shared vocab with single toggle (“I know”/“Practice again”), interactive MCQ/matching/dialogue drills (including interrogative/negative practice), flashcards, and a real-life challenge button inside the tabbed guide / vocab / practice / challenge panels (progress status wiring TBD for other lessons).
+- `vocab.html`: aggregates all lessons into category tabs (verbs, nouns, etc.), renders cards with conjugations, supports one-button known/unknown toggles, a global progress bar, and updated modals (word + level badge, translation, optional conjugations, note).
 
 ## Styling (`styles.css`)
 - Global palette via CSS variables.

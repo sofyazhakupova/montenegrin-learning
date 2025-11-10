@@ -1849,7 +1849,7 @@
         }
 
         function updateLessonProgressUI() {
-            if (!lessonProgressCard || !lessonStatusText || !lessonCompletionBadge || !lessonProgressFill || !lessonCompletedCount || !lessonSuccessCount || !lessonMistakeCount) return;
+            if (!lessonProgressCard || !lessonStatusText || !lessonCompletionBadge || !lessonProgressFillSuccess || !lessonProgressFillMistake || !lessonCompletedCount || !lessonSuccessCount || !lessonMistakeCount) return;
             const total = trackedTaskIds.size;
             const tasks = lessonTaskProgress.tasks || {};
             let completed = 0;

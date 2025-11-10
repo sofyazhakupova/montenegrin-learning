@@ -191,82 +191,79 @@
             line-height: 1.55;
         }
 
-        .mini-task-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
+        .mini-task-intro {
+            color: rgba(15, 23, 42, 0.7);
+            margin-top: 0.35rem;
         }
 
-        .mini-task-item {
-            display: flex;
-            gap: 0.6rem;
-            align-items: flex-start;
-            border: 1px solid rgba(45, 90, 135, 0.15);
+        .mini-question {
+            margin-top: 0.75rem;
+            padding: 0.75rem 0.9rem;
             border-radius: 10px;
-            padding: 0.6rem 0.75rem;
-            background: rgba(255, 255, 255, 0.65);
-            transition: border-color 0.3s, background 0.3s;
+            background: rgba(45, 90, 135, 0.06);
+            border: 1px solid rgba(45, 90, 135, 0.18);
         }
 
-        .mini-task-item.completed {
+        .mini-question + .mini-question {
+            margin-top: 0.8rem;
+        }
+
+        .mini-question p {
+            margin: 0;
+            color: var(--text-light);
+        }
+
+        .mini-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+        }
+
+        .mini-option {
+            padding: 0.55rem 0.75rem;
+            border-radius: 10px;
+            border: 1px solid rgba(45, 90, 135, 0.2);
+            background: var(--white);
+            color: var(--text-dark);
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+
+        .mini-option:hover:not(.disabled) {
+            transform: translateY(-1px);
+            border-color: var(--primary-color);
+        }
+
+        .mini-option.correct {
             border-color: rgba(39, 174, 96, 0.4);
-            background: rgba(39, 174, 96, 0.1);
+            background: rgba(39, 174, 96, 0.12);
+            color: var(--success-color);
         }
 
-        .mini-task-item input[type="checkbox"] {
-            margin-top: 0.15rem;
-            width: 18px;
-            height: 18px;
+        .mini-option.incorrect {
+            border-color: rgba(231, 76, 60, 0.4);
+            background: rgba(231, 76, 60, 0.12);
+            color: #c0392b;
         }
 
-        .mini-task-item-content {
-            flex: 1;
+        .mini-option.disabled {
+            opacity: 0.55;
+            cursor: default;
+        }
+
+        .mini-feedback {
+            margin-top: 0.5rem;
+            font-weight: 600;
             color: var(--text-light);
         }
 
         .mini-task-actions {
+            margin-top: 0.75rem;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.35rem;
-        }
-
-        .mini-task-note {
-            width: 100%;
-            min-height: 70px;
-            border-radius: 8px;
-            border: 1px solid rgba(45, 90, 135, 0.15);
-            padding: 0.5rem 0.65rem;
-            font-family: inherit;
-            resize: vertical;
-        }
-
-        .mini-task-progress {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .mini-task-progress-meter {
-            flex: 1;
-            height: 8px;
-            border-radius: 999px;
-            background: rgba(45, 90, 135, 0.15);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .mini-task-progress-fill {
-            position: absolute;
-            inset: 0;
-            background: var(--success-color);
-            transform-origin: left center;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            justify-content: flex-end;
         }
 
         .mini-task-reset {
@@ -275,7 +272,7 @@
             color: var(--primary-color);
             font-weight: 600;
             cursor: pointer;
-            padding: 0.25rem 0.5rem;
+            padding: 0.25rem 0.6rem;
             border-radius: 6px;
             transition: background 0.2s;
         }
@@ -758,12 +755,32 @@
                             </tbody>
                         </table>
                         <p style="color: var(--text-light); margin-top: 0.75rem;">You’ll use <strong>sam/si/je/smo/ste/su</strong> constantly when introducing yourself or describing people.</p>
-                        <div class="mini-task">
-                            <h4>Mini task</h4>
-                            <ol>
-                                <li>Say aloud: “Ja sam ___.” then switch to “Mi smo ___.” using your name or team.</li>
-                                <li>Write one sentence for each form (sam, si, je, smo, ste, su) about people you know.</li>
-                            </ol>
+                        <div class="mini-task" data-task-id="biti-forms">
+                            <h4>Mini quiz</h4>
+                            <p class="mini-task-intro">Pick the correct form of <strong>biti</strong> for each sentence.</p>
+                            <div class="mini-question" data-question-id="biti-1">
+                                <p><strong>Q1.</strong> Ja ___ profesor.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">sam</button>
+                                    <button type="button" class="mini-option" data-correct="false">je</button>
+                                    <button type="button" class="mini-option" data-correct="false">ste</button>
+                                    <button type="button" class="mini-option" data-correct="false">su</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="biti-2">
+                                <p><strong>Q2.</strong> Mi ___ iz Podgorice.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">sam</button>
+                                    <button type="button" class="mini-option" data-correct="false">si</button>
+                                    <button type="button" class="mini-option" data-correct="true">smo</button>
+                                    <button type="button" class="mini-option" data-correct="false">su</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
                         </div>
                     </div>
 
@@ -791,12 +808,31 @@
                             <strong>Je l’ si?</strong> or just <strong>Je l’?</strong> with a raised tone. As a learner you can safely use <strong>Da li + verb</strong> everywhere,
                             but recognising the short forms will help you follow native conversations.
                         </p>
-                        <div class="mini-task">
+                        <div class="mini-task" data-task-id="biti-questions">
                             <h4>Quick check</h4>
-                            <ol>
-                                <li>Ask yourself in Serbian: “Da li si spreman/spremna za lekciju?” and answer with “Jesam” or “Nisam”.</li>
-                                <li>Make two more questions: one about someone’s origin and one about their job. Say them aloud.</li>
-                            </ol>
+                            <p class="mini-task-intro">Test how to build yes/no questions with <strong>biti</strong>.</p>
+                            <div class="mini-question" data-question-id="biti-q1">
+                                <p><strong>Q1.</strong> Which sentence means “Are you (formal) from Serbia?”</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">Da li si iz Srbije?</button>
+                                    <button type="button" class="mini-option" data-correct="true">Da li ste iz Srbije?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Je li iz Srbije?</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="biti-q2">
+                                <p><strong>Q2.</strong> Choose the short form that also means “Are you?” (informal).</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Jesi li?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Je li?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Jesmo li?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Jesam li?</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
                         </div>
                     </div>
 
@@ -819,12 +855,32 @@
                             </tbody>
                         </table>
                         <p style="color: var(--text-light); margin-top: 0.75rem;">Notice how <strong>ne + biti</strong> fuses into one word (<em>ne sam → nisam</em>). These forms are very common in everyday answers.</p>
-                        <div class="mini-task">
+                        <div class="mini-task" data-task-id="biti-negative">
                             <h4>Try this</h4>
-                            <ol>
-                                <li>Change three positive sentences into negatives (e.g. “Ja sam student” → “Nisam student”).</li>
-                                <li>Practice responding quickly with the correct negative form when someone asks “Da li ste…?”</li>
-                            </ol>
+                            <p class="mini-task-intro">Choose the correct negative form in each sentence.</p>
+                            <div class="mini-question" data-question-id="biti-neg-1">
+                                <p><strong>Q1.</strong> Ona ___ doktor.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">nisam</button>
+                                    <button type="button" class="mini-option" data-correct="true">nije</button>
+                                    <button type="button" class="mini-option" data-correct="false">nismo</button>
+                                    <button type="button" class="mini-option" data-correct="false">nisu</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="biti-neg-2">
+                                <p><strong>Q2.</strong> Turn “Mi smo studenti.” into the correct negative sentence.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Mi nismo studenti.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Mi nisu studenti.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Mi nisam studenti.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Mi niste studenti.</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
                         </div>
                     </div>
 
@@ -845,12 +901,30 @@
                                 <tr><td>Oni su prijatelji, zar ne?</td><td>They are friends, aren’t they?</td></tr>
                             </tbody>
                         </table>
-                        <div class="mini-task">
+                        <div class="mini-task" data-task-id="biti-dialogue">
                             <h4>Use it</h4>
-                            <ol>
-                                <li>Pick one question from the table and answer it in Serbian (positive and negative versions).</li>
-                                <li>Record yourself saying the mini-dialogue “Da li si ___? – Nisam, ja sam ___.”</li>
-                            </ol>
+                            <p class="mini-task-intro">Match questions and answers from everyday introductions.</p>
+                            <div class="mini-question" data-question-id="biti-dialogue-1">
+                                <p><strong>Q1.</strong> Best reply to “Da li si student?”</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Jesam, studiram jezike.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Nisam iz Crne Gore.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Mi smo prijatelji.</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="biti-dialogue-2">
+                                <p><strong>Q2.</strong> What does “Mi nismo turisti.” mean?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">We are tourists.</button>
+                                    <button type="button" class="mini-option" data-correct="true">We are not tourists.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Are we tourists?</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
                         </div>
                     </div>
 
@@ -874,12 +948,30 @@
                                 <tr><td>Doviđenja!</td><td>Goodbye</td><td>Polite/formal</td></tr>
                             </tbody>
                         </table>
-                        <div class="mini-task">
+                        <div class="mini-task" data-task-id="greetings-time">
                             <h4>Practice</h4>
-                            <ol>
-                                <li>Say each greeting aloud with the correct time of day.</li>
-                                <li>Write a short schedule: what greeting would you use at 8:00, 13:00, 19:30 and 22:00?</li>
-                            </ol>
+                            <p class="mini-task-intro">Choose the best greeting for each situation.</p>
+                            <div class="mini-question" data-question-id="greetings-1">
+                                <p><strong>Q1.</strong> It’s 08:00 in the morning. What do you say?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Dobro jutro!</button>
+                                    <button type="button" class="mini-option" data-correct="false">Dobro veče!</button>
+                                    <button type="button" class="mini-option" data-correct="false">Ćao!</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="greetings-2">
+                                <p><strong>Q2.</strong> You want to say goodbye politely in a shop.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Doviđenja!</button>
+                                    <button type="button" class="mini-option" data-correct="false">Zdravo!</button>
+                                    <button type="button" class="mini-option" data-correct="false">Laku noć!</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
                         </div>
                     </div>
 
@@ -900,12 +992,30 @@
                                 <tr><td>Drago mi je.</td><td>Nice to meet you.</td></tr>
                             </tbody>
                         </table>
-                        <div class="mini-task">
+                        <div class="mini-task" data-task-id="introductions">
                             <h4>Your turn</h4>
-                            <ol>
-                                <li>Introduce yourself in Serbian using lines from the table (name + country).</li>
-                                <li>Ask a friend: “Kako se zoveš?” and answer for them using “On/Ona je…”</li>
-                            </ol>
+                            <p class="mini-task-intro">Pick the sentences that match the English prompts.</p>
+                            <div class="mini-question" data-question-id="intro-1">
+                                <p><strong>Q1.</strong> Which sentence means “I am from England”?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Ja sam iz Engleske.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Ja sam Ana.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Kako se zoveš?</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="intro-2">
+                                <p><strong>Q2.</strong> How do you ask someone’s name politely (formal)?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">Kako se zoveš?</button>
+                                    <button type="button" class="mini-option" data-correct="true">Kako se zovete?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Gde živiš?</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
                         </div>
                     </div>
 
@@ -926,12 +1036,30 @@
                                 <tr><td>Odlično!</td><td>Excellent!</td></tr>
                             </tbody>
                         </table>
-                        <div class="mini-task">
+                        <div class="mini-task" data-task-id="feelings">
                             <h4>Check in</h4>
-                            <ol>
-                                <li>Ask yourself “Kako si?” and answer with two different moods from the table.</li>
-                                <li>Pair each response with a follow-up question (e.g. “Odlično! A ti?”).</li>
-                            </ol>
+                            <p class="mini-task-intro">Select the response or question that fits best.</p>
+                            <div class="mini-question" data-question-id="feelings-1">
+                                <p><strong>Q1.</strong> What’s a natural reply to “Kako si?”</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Dobro, hvala.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Ja sam iz Engleske.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Vidimo se!</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="feelings-2">
+                                <p><strong>Q2.</strong> Which version is formal?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">Kako si?</button>
+                                    <button type="button" class="mini-option" data-correct="true">Kako ste?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Kako sam?</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
                         </div>
                     </div>
 
@@ -951,12 +1079,30 @@
                                 <tr><td>Nema na čemu</td><td>Don’t mention it</td></tr>
                             </tbody>
                         </table>
-                        <div class="mini-task">
+                        <div class="mini-task" data-task-id="polite">
                             <h4>Mind your manners</h4>
-                            <ol>
-                                <li>Practice a short exchange: “Hvala!” – “Molim!” – “Nema na čemu.”</li>
-                                <li>Think of one situation where you’d say “Izvinite” and note it down.</li>
-                            </ol>
+                            <p class="mini-task-intro">Connect each polite word with its meaning.</p>
+                            <div class="mini-question" data-question-id="polite-1">
+                                <p><strong>Q1.</strong> Which word would you use for “Excuse me / Sorry”?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">Hvala</button>
+                                    <button type="button" class="mini-option" data-correct="false">Molim</button>
+                                    <button type="button" class="mini-option" data-correct="true">Izvinite</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="polite-2">
+                                <p><strong>Q2.</strong> Someone says “Hvala!” — what’s a friendly reply?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Nema na čemu.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Ćao!</button>
+                                    <button type="button" class="mini-option" data-correct="false">Drago mi je.</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
                         </div>
                     </div>
 
@@ -979,12 +1125,30 @@
                                 <tr><td>Doviđenja!</td><td>Goodbye!</td></tr>
                             </tbody>
                         </table>
-                        <div class="mini-task">
+                        <div class="mini-task" data-task-id="phrases">
                             <h4>Build a mini-dialogue</h4>
-                            <ol>
-                                <li>Combine at least four phrases to role-play meeting someone new.</li>
-                                <li>Write your own closing line using “Doviđenja” or “Vidimo se!”</li>
-                            </ol>
+                            <p class="mini-task-intro">Pick the phrase that fits each part of a first meeting.</p>
+                            <div class="mini-question" data-question-id="phrases-1">
+                                <p><strong>Q1.</strong> You want to introduce yourself at the start of a conversation.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Zdravo, ja sam Marko.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Doviđenja!</button>
+                                    <button type="button" class="mini-option" data-correct="false">Kako si?</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="phrases-2">
+                                <p><strong>Q2.</strong> Which question means “Where are you from?”</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">Kako se zoveš?</button>
+                                    <button type="button" class="mini-option" data-correct="true">Odakle si?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Drago mi je.</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -1198,14 +1362,12 @@
             b1: 'known-level-b1',
             b2: 'known-level-b2'
         };
-        const MINI_TASK_STORAGE_KEY = 'lesson1_mini_tasks_v1';
 
         let wordProgress = {};
         let cardRegistry = new Map();
         let allWordKeys = [];
         let currentModalWordKey = null;
         let currentModalLevel = null;
-        let miniTaskProgress = {};
 
         const vocabGrid = document.getElementById('vocab-grid');
         const progressLabelEl = document.getElementById('progress-label');
@@ -1752,16 +1914,15 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadProgress();
-            initMiniTasks();
             const fullVocab = collectLessonVocabulary();
             const pronounWords = ['ja', 'ti', 'on', 'ona', 'ono', 'mi', 'vi', 'oni', 'one', 'ona'];
             const pronouns = fullVocab.filter(item => pronounWords.includes(item.word.toLowerCase()));
-            const remaining = fullVocab.filter(item => !pronounWords.includes(item.word.toLowerCase()));
 
             renderVocabularyCards(fullVocab);
             updateProgressBar();
 
             initTabs();
+            initMiniTaskQuizzes();
             wireMultipleChoice();
             wireMatching();
             wireQuestionMatching();
@@ -1807,125 +1968,62 @@
             }
         });
 
-        function loadMiniTaskProgress() {
-            try {
-                const stored = localStorage.getItem(MINI_TASK_STORAGE_KEY);
-                const parsed = stored ? JSON.parse(stored) : {};
-                miniTaskProgress = (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};
-            } catch (error) {
-                miniTaskProgress = {};
-            }
-        }
+        function handleMiniOptionClick(option, question) {
+            if (question.dataset.completed === 'true') return;
+            const options = question.querySelectorAll('.mini-option');
+            const feedback = question.querySelector('.mini-feedback');
+            const isCorrect = option.dataset.correct === 'true';
 
-        function saveMiniTaskProgress() {
-            try {
-                localStorage.setItem(MINI_TASK_STORAGE_KEY, JSON.stringify(miniTaskProgress));
-            } catch (error) {
-                // ignore storage issues
-            }
-        }
-
-        function initMiniTasks() {
-            loadMiniTaskProgress();
-            const sections = document.querySelectorAll('.mini-task');
-            sections.forEach((section, sectionIndex) => {
-                const list = section.querySelector('ol, ul');
-                if (!list) return;
-
-                const items = Array.from(list.querySelectorAll('li'));
-                if (!items.length) return;
-
-                const sectionKey = `section-${sectionIndex}`;
-                if (!miniTaskProgress[sectionKey]) {
-                    miniTaskProgress[sectionKey] = {};
+            options.forEach(btn => {
+                const btnCorrect = btn.dataset.correct === 'true';
+                if (btnCorrect) {
+                    btn.classList.add('correct');
+                } else if (btn === option && !isCorrect) {
+                    btn.classList.add('incorrect');
+                } else if (btn !== option) {
+                    btn.classList.add('disabled');
                 }
-
-                const progressRow = document.createElement('div');
-                progressRow.className = 'mini-task-progress';
-
-                const statusLabel = document.createElement('span');
-                statusLabel.textContent = '0 of 0 completed';
-                progressRow.appendChild(statusLabel);
-
-                const meter = document.createElement('div');
-                meter.className = 'mini-task-progress-meter';
-                const meterFill = document.createElement('div');
-                meterFill.className = 'mini-task-progress-fill';
-                meter.appendChild(meterFill);
-                progressRow.appendChild(meter);
-
-                const resetBtn = document.createElement('button');
-                resetBtn.className = 'mini-task-reset';
-                resetBtn.type = 'button';
-                resetBtn.textContent = 'Reset';
-                progressRow.appendChild(resetBtn);
-
-                section.insertBefore(progressRow, list);
-
-                const interactiveList = document.createElement('div');
-                interactiveList.className = 'mini-task-list';
-
-                items.forEach((item, itemIndex) => {
-                    const stepKey = `step-${itemIndex}`;
-                    const stored = miniTaskProgress[sectionKey][stepKey];
-
-                    const label = document.createElement('label');
-                    label.className = 'mini-task-item';
-
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.checked = stored?.checked === true;
-
-                    const content = document.createElement('div');
-                    content.className = 'mini-task-item-content';
-                    content.innerHTML = item.innerHTML;
-
-                    label.appendChild(checkbox);
-                    label.appendChild(content);
-                    interactiveList.appendChild(label);
-
-                    if (checkbox.checked) {
-                        label.classList.add('completed');
-                    }
-
-                    checkbox.addEventListener('change', () => {
-                        if (checkbox.checked) {
-                            miniTaskProgress[sectionKey][stepKey] = {
-                                checked: true
-                            };
-                            label.classList.add('completed');
-                        } else {
-                            delete miniTaskProgress[sectionKey][stepKey];
-                            label.classList.remove('completed');
-                        }
-                        saveMiniTaskProgress();
-                        updateMiniTaskSummary(sectionKey, statusLabel, meterFill, items.length);
-                    });
-                });
-
-                list.after(interactiveList);
-                list.hidden = true;
-
-                resetBtn.addEventListener('click', () => {
-                    miniTaskProgress[sectionKey] = {};
-                    interactiveList.querySelectorAll('input[type="checkbox"]').forEach(input => {
-                        input.checked = false;
-                        input.dispatchEvent(new Event('change'));
-                    });
-                    saveMiniTaskProgress();
-                    updateMiniTaskSummary(sectionKey, statusLabel, meterFill, items.length);
-                });
-
-                updateMiniTaskSummary(sectionKey, statusLabel, meterFill, items.length);
+                btn.disabled = true;
             });
+
+            if (isCorrect) {
+                feedback.textContent = '✅ Bravo! You nailed it.';
+            } else {
+                feedback.textContent = '❌ Not quite. Look for the highlighted answer.';
+            }
+
+            question.dataset.completed = 'true';
         }
 
-        function updateMiniTaskSummary(sectionKey, labelEl, fillEl, total) {
-            const sectionState = miniTaskProgress[sectionKey] || {};
-            const completed = Object.values(sectionState).filter(value => value?.checked).length;
-            labelEl.textContent = `${completed} of ${total} completed`;
-            const ratio = total ? completed / total : 0;
-            fillEl.style.transform = `scaleX(${ratio})`;
+        function resetMiniQuestion(question) {
+            const options = question.querySelectorAll('.mini-option');
+            const feedback = question.querySelector('.mini-feedback');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect', 'disabled');
+                option.disabled = false;
+            });
+            if (feedback) feedback.textContent = '';
+            question.dataset.completed = 'false';
+        }
+
+        function initMiniTaskQuizzes() {
+            const tasks = document.querySelectorAll('.mini-task');
+            tasks.forEach(task => {
+                const questions = task.querySelectorAll('.mini-question');
+                questions.forEach(question => {
+                    resetMiniQuestion(question);
+                    question.querySelectorAll('.mini-option').forEach(option => {
+                        option.addEventListener('click', () => handleMiniOptionClick(option, question));
+                    });
+                });
+
+                const resetBtn = task.querySelector('.mini-task-reset');
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', () => {
+                        questions.forEach(question => resetMiniQuestion(question));
+                    });
+                }
+            });
         }
     </script>
 </body>

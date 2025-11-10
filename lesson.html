@@ -1315,6 +1315,7 @@
             </div>
             <div class="modal-translation" id="modal-translation"></div>
             <div class="modal-meta" id="modal-category" hidden></div>
+            <div class="modal-meta" id="modal-plural" hidden></div>
             <div class="modal-status" id="modal-status"></div>
             <div class="modal-section" id="modal-conjugations" hidden>
                 <h4>Present tense</h4>
@@ -1364,6 +1365,137 @@
             b2: 'known-level-b2'
         };
 
+        const NOUN_PLURAL_OVERRIDES = {
+            'apoteka': 'apoteke',
+            'autobus': 'autobusi',
+            'avion': 'avioni',
+            'banka': 'banke',
+            'bol': 'bolovi',
+            'brat': 'braća',
+            'cena': 'cene',
+            'crna gora': 'Crne Gore',
+            'čaj': 'čajevi',
+            'čovek': 'ljudi',
+            'dan': 'dani',
+            'dete': 'deca',
+            'doktor': 'doktori',
+            'engleska': 'Engleske',
+            'film': 'filmovi',
+            'glava': 'glave',
+            'gost': 'gosti',
+            'hleb': 'hlebovi',
+            'ime': 'imena',
+            'inženjer': 'inženjeri',
+            'jesen': 'jeseni',
+            'jezik': 'jezici',
+            'jutro': 'jutra',
+            'kafa': 'kafe',
+            'karta': 'karte',
+            'kiša': 'kiše',
+            'ključ': 'ključevi',
+            'knjiga': 'knjige',
+            'kompanija': 'kompanije',
+            'konobar': 'konobari',
+            'krevet': 'kreveti',
+            'kuća': 'kuće',
+            'lekar': 'lekari',
+            'leto': 'leta',
+            'majka': 'majke',
+            'mleko': 'mleka',
+            'muzika': 'muzike',
+            'narod': 'narodi',
+            'noga': 'noge',
+            'novine': 'novine',
+            'orman': 'ormani',
+            'otac': 'očevi',
+            'pivo': 'piva',
+            'porodica': 'porodice',
+            'posao': 'poslovi',
+            'pošta': 'pošte',
+            'povrće': 'povrća',
+            'prijatelj': 'prijatelji',
+            'prodavnica': 'prodavnice',
+            'proleće': 'proleća',
+            'putovanje': 'putovanja',
+            'radnik': 'radnici',
+            'restoran': 'restorani',
+            'ruka': 'ruke',
+            'rusija': 'Rusije',
+            'sestra': 'sestre',
+            'sir': 'sirevi',
+            'sneg': 'snegovi',
+            'soba': 'sobe',
+            'sok': 'sokovi',
+            'sport': 'sportovi',
+            'sprat': 'spratovi',
+            'srbija': 'Srbije',
+            'sto': 'stolovi',
+            'stolica': 'stolice',
+            'sunce': 'sunca',
+            'škola': 'škole',
+            'trg': 'trgovi',
+            'učenik': 'učenici',
+            'učitelj': 'učitelji',
+            'ulica': 'ulice',
+            'veče': 'večeri',
+            'voće': 'voća',
+            'voda': 'vode',
+            'voz': 'vozovi',
+            'vreme': 'vremena',
+            'zemlja': 'zemlje',
+            'zima': 'zime',
+            'žena': 'žene'
+        };
+
+        function matchPluralCasing(word, plural) {
+            if (!word || !plural) return plural || null;
+            const firstChar = word.charAt(0);
+            if (firstChar && firstChar === firstChar.toUpperCase()) {
+                return plural.charAt(0).toUpperCase() + plural.slice(1);
+            }
+            return plural;
+        }
+
+        function deriveNounPlural(word) {
+            if (!word) return null;
+            const lower = word.toLowerCase();
+            if (NOUN_PLURAL_OVERRIDES[lower]) {
+                return NOUN_PLURAL_OVERRIDES[lower];
+            }
+            let plural = null;
+            if (lower.endsWith('ac') || lower.endsWith('ak')) {
+                plural = lower.slice(0, -2) + 'ci';
+            } else if (lower.endsWith('ik')) {
+                plural = lower.slice(0, -2) + 'ici';
+            } else if (lower.endsWith('ok')) {
+                plural = lower + 'ovi';
+            } else if (lower.endsWith('aj') || lower.endsWith('oj') || lower.endsWith('ej')) {
+                plural = lower + 'evi';
+            } else if (lower.endsWith('ar') || lower.endsWith('er') || lower.endsWith('or') || lower.endsWith('ur')) {
+                plural = lower + 'i';
+            } else if (lower.endsWith('an') || lower.endsWith('en') || lower.endsWith('on')) {
+                plural = lower + 'i';
+            } else if (lower.endsWith('el') || lower.endsWith('ol') || lower.endsWith('al')) {
+                plural = lower + 'i';
+            } else if (lower.endsWith('a')) {
+                plural = lower.slice(0, -1) + 'e';
+            } else if (lower.endsWith('o')) {
+                plural = lower.slice(0, -1) + 'a';
+            } else if (lower.endsWith('e')) {
+                plural = lower.slice(0, -1) + 'a';
+            } else if (lower.endsWith('j') || lower.endsWith('ć') || lower.endsWith('č') || lower.endsWith('đ') || lower.endsWith('š') || lower.endsWith('ž')) {
+                plural = lower + 'evi';
+            } else {
+                plural = lower + 'i';
+            }
+            return matchPluralCasing(word, plural);
+        }
+
+        function resolveNounPlural(word, explicit) {
+            if (explicit) return explicit;
+            return deriveNounPlural(word);
+        }
+
         let wordProgress = {};
         let cardRegistry = new Map();
         let allWordKeys = [];
@@ -1379,6 +1511,7 @@
         const modalLevel = document.getElementById('modal-level');
         const modalTranslation = document.getElementById('modal-translation');
         const modalCategory = document.getElementById('modal-category');
+        const modalPlural = document.getElementById('modal-plural');
         const modalStatus = document.getElementById('modal-status');
         const modalConjugations = document.getElementById('modal-conjugations');
         const modalConjugationsBody = document.getElementById('modal-conjugations-body');
@@ -1468,7 +1601,8 @@
         function updateModalStatus(key) {
             if (currentModalWordKey !== key) return;
             const status = getWordStatus(key);
-            modalStatus.textContent = status === 'known' ? 'You marked this word as known.' : '';
+            modalStatus.textContent = '';
+            modalStatus.hidden = true;
             modalKnowBtn.hidden = status === 'known';
             modalDontKnowBtn.hidden = status !== 'known';
         }
@@ -1537,15 +1671,29 @@
                             conjugations: item.conjugations || null,
                             note: item.note || null,
                             reference: item.reference || null,
-                            levels: new Set([lessonData.level])
+                            levels: new Set([lessonData.level]),
+                            categories: new Set(),
+                            categoryTypes: new Set(),
+                            plural: typeKey === 'noun' ? resolveNounPlural(item.word, item.plural) : null
                         });
                     } else {
                         if (item.translation) master.get(key).translation = item.translation;
                         if (item.conjugations) master.get(key).conjugations = item.conjugations;
                         if (item.note) master.get(key).note = item.note;
                         if (item.reference) master.get(key).reference = item.reference;
+                        if (typeKey === 'noun') {
+                            const existingPlural = master.get(key).plural;
+                            const computedPlural = resolveNounPlural(item.word, item.plural);
+                            if (!existingPlural && computedPlural) {
+                                master.get(key).plural = computedPlural;
+                            }
+                        }
                         master.get(key).levels.add(lessonData.level);
                     }
+                    const entry = master.get(key);
+                    const categoryLabel = category.name || (CATEGORY_LABELS[typeKey] || (typeKey ? typeKey.charAt(0).toUpperCase() + typeKey.slice(1) : ''));
+                    if (categoryLabel) entry.categories.add(categoryLabel);
+                    if (typeKey) entry.categoryTypes.add(typeKey);
                 });
             });
 
@@ -1556,6 +1704,8 @@
                     const levels = Array.from(entry.levels);
                     return {
                         ...entry,
+                        categories: Array.from(entry.categories || []),
+                        categoryTypes: Array.from(entry.categoryTypes || []),
                         primaryLevel: primaryLevel(levels),
                         levels
                     };
@@ -1645,6 +1795,18 @@
                 modalCategory.hidden = false;
             } else {
                 modalCategory.hidden = true;
+            }
+
+            if (item.categoryTypes && item.categoryTypes.includes('noun')) {
+                const pluralForm = resolveNounPlural(item.word, item.plural);
+                if (pluralForm) {
+                    modalPlural.textContent = `Plural: ${pluralForm}`;
+                    modalPlural.hidden = false;
+                } else {
+                    modalPlural.hidden = true;
+                }
+            } else {
+                modalPlural.hidden = true;
             }
 
             if (item.conjugations) {

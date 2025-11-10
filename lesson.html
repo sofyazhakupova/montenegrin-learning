@@ -408,52 +408,107 @@
 
         .vocab-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.8rem;
         }
 
         .vocab-card {
             background: var(--white);
-            border: 1px solid rgba(45, 90, 135, 0.12);
-            border-radius: 14px;
-            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--bg-light);
             box-shadow: var(--shadow);
-            cursor: pointer;
+            padding: 1rem;
+            min-height: 110px;
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: 0.25rem;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .vocab-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .vocab-card.known {
+            border-width: 2px;
+        }
+
+        .vocab-card.known-level-a1 {
+            border-color: rgba(45, 90, 135, 0.45);
+            background: rgba(45, 90, 135, 0.12);
+        }
+
+        .vocab-card.known-level-a2 {
+            border-color: rgba(243, 156, 18, 0.45);
+            background: rgba(243, 156, 18, 0.12);
+        }
+
+        .vocab-card.known-level-b1 {
+            border-color: rgba(142, 68, 173, 0.45);
+            background: rgba(142, 68, 173, 0.12);
+        }
+
+        .vocab-card.known-level-b2 {
+            border-color: rgba(44, 62, 80, 0.45);
+            background: rgba(44, 62, 80, 0.12);
         }
 
         .vocab-word {
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--primary-color);
         }
 
+        .level-badge {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.6rem;
+            background: rgba(45, 90, 135, 0.08);
+            color: var(--primary-color);
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .note-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
         .card-actions {
-            margin-top: auto;
             display: flex;
             gap: 0.5rem;
+            margin-top: auto;
         }
 
         .card-actions button {
             flex: 1;
-            border: 1px solid rgba(45, 90, 135, 0.12);
             border-radius: 8px;
-            padding: 0.45rem 0.65rem;
+            border: 1px solid var(--bg-light);
             background: var(--white);
-            cursor: pointer;
+            padding: 0.4rem;
+            font-size: 0.85rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .card-actions button:hover:not(:disabled) {
+            background: var(--bg-light);
         }
 
         .card-actions button.know {
             color: var(--success-color);
-            border-color: rgba(39, 174, 96, 0.35);
+            border-color: rgba(39, 174, 96, 0.25);
         }
 
         .card-actions button.practice {
-            color: #c47a0f;
-            border-color: rgba(243, 156, 18, 0.35);
+            color: #f39c12;
+            border-color: rgba(243, 156, 18, 0.25);
         }
 
         .modal-backdrop {
@@ -1664,7 +1719,7 @@
 
             if (item.primaryLevel) {
                 const levelEl = document.createElement('div');
-                levelEl.className = 'lesson-progress-pill warning';
+                levelEl.className = 'level-badge';
                 levelEl.textContent = item.primaryLevel;
                 card.appendChild(levelEl);
             }

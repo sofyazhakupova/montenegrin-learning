@@ -109,8 +109,13 @@
             color: var(--success-color);
         }
 
+        .lesson-progress-card.has-mistake {
+            border-color: rgba(231, 76, 60, 0.35);
+            box-shadow: 0 0 0 1px rgba(231, 76, 60, 0.2), var(--shadow);
+        }
+
         .lesson-progress-bar {
-            position: relative;
+            display: flex;
             width: 100%;
             height: 10px;
             border-radius: 999px;
@@ -119,16 +124,17 @@
         }
 
         .lesson-progress-fill {
-            position: absolute;
-            inset: 0;
-            background: var(--primary-color);
-            transform-origin: left center;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
         }
 
-        .lesson-progress-card.completed .lesson-progress-fill {
+        .lesson-progress-fill-success {
             background: var(--success-color);
+        }
+
+        .lesson-progress-fill-mistake {
+            background: rgba(231, 76, 60, 0.75);
         }
 
         .lesson-progress-metrics {
@@ -330,6 +336,16 @@
             color: var(--text-light);
         }
 
+        .mini-question.completed-success {
+            background: rgba(39, 174, 96, 0.12);
+            border-color: rgba(39, 174, 96, 0.45);
+        }
+
+        .mini-question.has-mistake {
+            background: rgba(231, 76, 60, 0.08);
+            border-color: rgba(231, 76, 60, 0.35);
+        }
+
         .mini-options {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -375,6 +391,18 @@
             margin-top: 0.5rem;
             font-weight: 600;
             color: var(--text-light);
+        }
+
+        [data-task-id].completed-success {
+            box-shadow: inset 0 0 0 1px rgba(39, 174, 96, 0.35);
+            border-radius: 12px;
+            background: rgba(39, 174, 96, 0.08);
+        }
+
+        [data-task-id].has-mistake {
+            box-shadow: inset 0 0 0 1px rgba(231, 76, 60, 0.35);
+            border-radius: 12px;
+            background: rgba(231, 76, 60, 0.06);
         }
 
         .mini-task-actions {
@@ -663,6 +691,11 @@
             margin-bottom: 1.5rem;
         }
 
+        .activity-card.has-mistake {
+            border-color: rgba(231, 76, 60, 0.35);
+            box-shadow: 0 0 0 1px rgba(231, 76, 60, 0.25), var(--shadow);
+        }
+
         .activity-card h3 {
             color: var(--primary-color);
             margin-bottom: 1rem;
@@ -868,7 +901,8 @@
                 </div>
             </div>
             <div class="lesson-progress-bar">
-                <div class="lesson-progress-fill" id="lesson-progress-fill"></div>
+                <div class="lesson-progress-fill lesson-progress-fill-success" id="lesson-progress-fill-success"></div>
+                <div class="lesson-progress-fill lesson-progress-fill-mistake" id="lesson-progress-fill-mistake"></div>
             </div>
             <div class="lesson-progress-metrics">
                 <div class="metric">
@@ -1759,6 +1793,51 @@
             }
         }
 
+        function getTaskEntry(taskId) {
+            if (!taskId || !lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') return null;
+            return lessonTaskProgress.tasks[taskId] || null;
+        }
+
+        function applyTaskStyling(element, entry) {
+            if (!element) return;
+            const hasMistake = !!(entry && !entry.success && entry.mistakes > 0);
+            const isSuccess = !!(entry && entry.success);
+            element.classList.toggle('has-mistake', hasMistake);
+            element.classList.toggle('completed-success', isSuccess);
+        }
+
+        function applyMiniQuestionState(question) {
+            if (!question) return;
+            const taskId = question.dataset.questionId || question.dataset.taskId;
+            if (!taskId) return;
+            const entry = getTaskEntry(taskId);
+            applyTaskStyling(question, entry);
+            const options = question.querySelectorAll('.mini-option');
+            const feedback = question.querySelector('.mini-feedback');
+            if (!entry) {
+                question.dataset.completed = 'false';
+                return;
+            }
+
+            options.forEach(option => option.classList.remove('correct', 'incorrect', 'disabled'));
+            if (entry.success) {
+                question.dataset.completed = 'true';
+                options.forEach(option => {
+                    option.disabled = true;
+                    if (option.dataset.correct === 'true') {
+                        option.classList.add('correct');
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                });
+                if (feedback) feedback.textContent = '✅ Completed earlier';
+            } else if (entry.mistakes > 0) {
+                question.dataset.completed = 'false';
+                options.forEach(option => option.disabled = false);
+                if (feedback && !feedback.textContent) feedback.textContent = '❌ Needs another try';
+            }
+        }
+
         function updateVocabularyIndicator() {
             if (!lessonVocabIndicator) return;
             const { known = 0, total = 0, percent = 0 } = vocabularySummary || {};
@@ -1790,9 +1869,17 @@
             if (finished) status = 'Lesson completed (80% success reached)';
             lessonStatusText.textContent = status;
             lessonCompletionBadge.textContent = `${Math.round(clamped)}%`;
+            const pending = Math.max(0, completed - success);
+            const successPercent = total ? (success / total) * 100 : 0;
+            const pendingPercent = total ? (pending / total) * 100 : 0;
+            const mistakeExists = pending > 0;
             lessonCompletionBadge.classList.toggle('completed', finished);
             lessonProgressCard.classList.toggle('completed', finished);
-            lessonProgressFill.style.transform = `scaleX(${clamped / 100})`;
+            if (lessonProgressFillSuccess) lessonProgressFillSuccess.style.width = total ? `${successPercent}%` : '0%';
+            if (lessonProgressFillMistake) lessonProgressFillMistake.style.width = total ? `${pendingPercent}%` : '0%';
+            if (lessonProgressCard) {
+                lessonProgressCard.classList.toggle('has-mistake', mistakeExists);
+            }
             lessonCompletedCount.textContent = `${completed} / ${total}`;
             lessonSuccessCount.textContent = `${success} / ${total}`;
             lessonMistakeCount.textContent = `${mistakes}`;
@@ -1813,7 +1900,8 @@
         const lessonProgressCard = document.getElementById('lesson-progress-card');
         const lessonStatusText = document.getElementById('lesson-status-text');
         const lessonCompletionBadge = document.getElementById('lesson-completion-badge');
-        const lessonProgressFill = document.getElementById('lesson-progress-fill');
+        const lessonProgressFillSuccess = document.getElementById('lesson-progress-fill-success');
+        const lessonProgressFillMistake = document.getElementById('lesson-progress-fill-mistake');
         const lessonCompletedCount = document.getElementById('lesson-completed-count');
         const lessonSuccessCount = document.getElementById('lesson-success-count');
         const lessonMistakeCount = document.getElementById('lesson-mistake-count');
@@ -2189,15 +2277,24 @@
                         }
                     });
                     if (feedback) feedback.textContent = correct ? '✅ Correct!' : '❌ Not quite. The highlighted answer is correct.';
+                    if (correct) {
+                        container.classList.add('completed-success');
+                        container.classList.remove('has-mistake');
+                    } else {
+                        container.classList.add('has-mistake');
+                        container.classList.remove('completed-success');
+                    }
                     if (taskId) {
                         if (correct) {
                             markTaskSuccess(taskId);
                         } else {
                             recordTaskMistake(taskId);
                         }
+                        applyTaskStyling(container, getTaskEntry(taskId));
                     }
                 });
             });
+            restoreMultipleChoiceState();
         }
 
         function wireSelectOne() {
@@ -2213,15 +2310,24 @@
                     container.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
                     button.classList.add(correct ? 'correct' : 'incorrect');
                     if (feedback) feedback.textContent = correct ? '✅ Well done!' : '❌ Try again next time.';
+                    if (correct) {
+                        container.classList.add('completed-success');
+                        container.classList.remove('has-mistake');
+                    } else {
+                        container.classList.add('has-mistake');
+                        container.classList.remove('completed-success');
+                    }
                     if (taskId) {
                         if (correct) {
                             markTaskSuccess(taskId);
                         } else {
                             recordTaskMistake(taskId);
                         }
+                        applyTaskStyling(container, getTaskEntry(taskId));
                     }
                 });
             });
+            restoreSelectState();
         }
 
         function wireTrueFalse() {
@@ -2235,18 +2341,117 @@
                     group.querySelectorAll('.tf-btn').forEach(btn => btn.disabled = true);
                     if (correct) {
                         button.classList.add('correct');
-                        if (taskId) markTaskSuccess(taskId);
+                        group.classList.add('completed-success');
+                        group.classList.remove('has-mistake');
+                        if (taskId) {
+                            markTaskSuccess(taskId);
+                            applyTaskStyling(group, getTaskEntry(taskId));
+                        }
                     } else {
                         button.classList.add('incorrect');
                         const correctBtn = group.querySelector('.tf-btn[data-correct="true"]');
                         if (correctBtn) correctBtn.classList.add('correct');
-                        if (taskId) recordTaskMistake(taskId);
+                        group.classList.add('has-mistake');
+                        group.classList.remove('completed-success');
+                        if (taskId) {
+                            recordTaskMistake(taskId);
+                            applyTaskStyling(group, getTaskEntry(taskId));
+                        }
                     }
                 });
             });
+            restoreTrueFalseState();
         }
 
-        function setupMatchingGame(pairs, leftId, rightId, feedbackId, taskId) {
+        function restoreMultipleChoiceState() {
+            document.querySelectorAll('[data-activity="mc"] [data-task-id]').forEach(container => {
+                const taskId = container.dataset.taskId;
+                const entry = getTaskEntry(taskId);
+                const options = container.querySelectorAll('.option-btn');
+                const feedback = container.querySelector('.feedback');
+                options.forEach(btn => {
+                    btn.classList.remove('correct', 'incorrect');
+                    btn.disabled = false;
+                });
+                if (feedback) feedback.textContent = '';
+                applyTaskStyling(container, entry);
+                if (!entry) return;
+                if (entry.success) {
+                    options.forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.dataset.correct === 'true') {
+                            btn.classList.add('correct');
+                        } else {
+                            btn.classList.add('incorrect');
+                        }
+                    });
+                    if (feedback) feedback.textContent = '✅ Completed earlier';
+                } else {
+                    if (entry.mistakes > 0 && feedback) {
+                        feedback.textContent = '❌ Needs another try';
+                    }
+                }
+            });
+        }
+
+        function restoreSelectState() {
+            document.querySelectorAll('[data-activity="select"][data-task-id]').forEach(container => {
+                const taskId = container.dataset.taskId;
+                const entry = getTaskEntry(taskId);
+                const options = container.querySelectorAll('.option-btn');
+                const feedback = container.nextElementSibling;
+                options.forEach(btn => {
+                    btn.classList.remove('correct', 'incorrect');
+                    btn.disabled = false;
+                });
+                if (feedback && feedback.classList.contains('feedback')) feedback.textContent = '';
+                applyTaskStyling(container, entry);
+                if (!entry) return;
+                if (entry.success) {
+                    options.forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.dataset.correct === 'true') {
+                            btn.classList.add('correct');
+                        } else {
+                            btn.classList.add('incorrect');
+                        }
+                    });
+                    if (feedback && feedback.classList.contains('feedback')) feedback.textContent = '✅ Completed earlier';
+                } else {
+                    if (entry.mistakes > 0 && feedback && feedback.classList.contains('feedback')) {
+                        feedback.textContent = '❌ Needs another try';
+                    }
+                }
+            });
+        }
+
+        function restoreTrueFalseState() {
+            document.querySelectorAll('.tf-grid > div[data-task-id]').forEach(group => {
+                const taskId = group.dataset.taskId;
+                const entry = getTaskEntry(taskId);
+                const buttons = group.querySelectorAll('.tf-btn');
+                applyTaskStyling(group, entry);
+                buttons.forEach(btn => {
+                    btn.classList.remove('correct', 'incorrect');
+                    btn.disabled = false;
+                });
+                if (!entry) return;
+                if (entry.success) {
+                    buttons.forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.dataset.correct === 'true') {
+                            btn.classList.add('correct');
+                        } else {
+                            btn.classList.add('incorrect');
+                        }
+                    });
+                } else if (entry.mistakes > 0) {
+                    // leave buttons enabled, just indicate needs retry
+                }
+            });
+        }
+
+        function setupMatchingGame(pairs, leftId, rightId, feedbackId, taskId, containerId) {
             const leftContainer = document.getElementById(leftId);
             const rightContainer = document.getElementById(rightId);
             const feedbackEl = document.getElementById(feedbackId);
@@ -2261,6 +2466,7 @@
             let finished = false;
 
             if (taskId) registerTask(taskId);
+            const containerEl = containerId ? document.getElementById(containerId) : null;
 
             pairs.forEach((pair, index) => {
                 const btn = document.createElement('button');
@@ -2293,19 +2499,44 @@
                         matchedCount += 1;
                         if (matchedCount === pairs.length && feedbackEl) {
                             feedbackEl.textContent = '✅ Great job! All pairs matched.';
+                            if (containerEl) {
+                                containerEl.classList.add('completed-success');
+                                containerEl.classList.remove('has-mistake');
+                            }
                             if (taskId && !finished) {
                                 finished = true;
                                 markTaskSuccess(taskId);
+                                applyTaskStyling(containerEl, getTaskEntry(taskId));
                             }
                         }
                     } else {
                         btn.classList.add('incorrect');
+                        if (containerEl) {
+                            containerEl.classList.add('has-mistake');
+                            containerEl.classList.remove('completed-success');
+                        }
                         if (taskId && !finished) recordTaskMistake(taskId);
+                        if (taskId) applyTaskStyling(containerEl, getTaskEntry(taskId));
                         setTimeout(() => btn.classList.remove('incorrect'), 600);
                     }
                 });
                 rightContainer.appendChild(btn);
             });
+
+            if (taskId) {
+                const entry = getTaskEntry(taskId);
+                applyTaskStyling(containerEl, entry);
+                if (entry?.success) {
+                    finished = true;
+                    if (feedbackEl) feedbackEl.textContent = '✅ Completed earlier';
+                    [...leftContainer.querySelectorAll('button'), ...rightContainer.querySelectorAll('button')].forEach(btn => {
+                        btn.classList.add('correct', 'disabled');
+                        btn.disabled = true;
+                    });
+                } else if (entry && entry.mistakes > 0) {
+                    if (feedbackEl && !feedbackEl.textContent) feedbackEl.textContent = '❌ Needs another try';
+                }
+            }
         }
 
         function wireMatching() {
@@ -2317,7 +2548,7 @@
                 { left: 'Dobro jutro', right: 'Good morning' },
                 { left: 'Laku noć', right: 'Good night' }
             ];
-            setupMatchingGame(greetingPairs, 'matching-left', 'matching-right', 'matching-feedback', 'practice-match-greetings');
+            setupMatchingGame(greetingPairs, 'matching-left', 'matching-right', 'matching-feedback', 'practice-match-greetings', 'matching-section');
         }
 
         function wireQuestionMatching() {
@@ -2329,7 +2560,7 @@
                 { left: 'Da li smo spremni?', right: 'Nismo još, čekamo tebe.' },
                 { left: 'Da li su oni turisti?', right: 'Da, prvi put su u Podgorici.' }
             ];
-            setupMatchingGame(qaPairs, 'qa-left', 'qa-right', 'qa-feedback', 'practice-match-qa');
+            setupMatchingGame(qaPairs, 'qa-left', 'qa-right', 'qa-feedback', 'practice-match-qa', 'qa-section');
         }
 
         function wireDialogue() {
@@ -2344,6 +2575,7 @@
             const shuffled = [...sequence].sort(() => 0.5 - Math.random());
             const grid = document.getElementById('dialogue-grid');
             const feedback = document.getElementById('dialogue-feedback');
+            const card = document.getElementById('dialogue-section');
             let index = 0;
             let finished = false;
 
@@ -2363,17 +2595,34 @@
                             if (!finished) {
                                 finished = true;
                                 markTaskSuccess(taskId);
+                                applyTaskStyling(card, getTaskEntry(taskId));
                             }
                         }
                     } else {
                         btn.classList.add('incorrect');
-                        if (!finished) recordTaskMistake(taskId);
+                        if (!finished) {
+                            recordTaskMistake(taskId);
+                            applyTaskStyling(card, getTaskEntry(taskId));
+                        }
                         setTimeout(() => btn.classList.remove('incorrect'), 600);
                         feedback.textContent = '❌ Try selecting the cards in order.';
                     }
                 });
                 grid.appendChild(btn);
             });
+
+            const entry = getTaskEntry(taskId);
+            applyTaskStyling(card, entry);
+            if (entry?.success) {
+                finished = true;
+                if (feedback) feedback.textContent = '✅ Completed earlier';
+                grid.querySelectorAll('button').forEach(button => {
+                    button.classList.add('correct');
+                    button.disabled = true;
+                });
+            } else if (entry && entry.mistakes > 0) {
+                if (feedback && !feedback.textContent) feedback.textContent = '❌ Needs another try';
+            }
         }
 
         function wireFlashcards() {
@@ -2406,6 +2655,14 @@
             if (!btn) return;
             const taskId = 'practice-challenge';
             registerTask(taskId);
+            const card = document.querySelector('#tab-challenge .challenge-card');
+            const entry = getTaskEntry(taskId);
+            applyTaskStyling(card, entry);
+            if (entry?.success) {
+                btn.classList.add('done');
+                btn.textContent = 'Great job! ✅';
+                if (feedback) feedback.textContent = '🎉 Bravo! Keep practicing in real life.';
+            }
             btn.addEventListener('click', () => {
                 btn.classList.toggle('done');
                 const done = btn.classList.contains('done');
@@ -2416,6 +2673,7 @@
                 } else {
                     resetTaskProgress(taskId);
                 }
+                applyTaskStyling(card, getTaskEntry(taskId));
             });
         }
 
@@ -2525,9 +2783,13 @@
 
             if (isCorrect) {
                 feedback.textContent = '✅ Bravo! You nailed it.';
+                question.classList.add('completed-success');
+                question.classList.remove('has-mistake');
                 if (taskId) markTaskSuccess(taskId);
             } else {
                 feedback.textContent = '❌ Not quite. Look for the highlighted answer.';
+                question.classList.add('has-mistake');
+                question.classList.remove('completed-success');
                 if (taskId) recordTaskMistake(taskId);
             }
 
@@ -2543,6 +2805,7 @@
             });
             if (feedback) feedback.textContent = '';
             question.dataset.completed = 'false';
+            question.classList.remove('completed-success', 'has-mistake');
             if (resetProgress) {
                 const taskId = question.dataset.questionId || question.dataset.taskId;
                 if (taskId) resetTaskProgress(taskId);
@@ -2560,6 +2823,7 @@
                     question.querySelectorAll('.mini-option').forEach(option => {
                         option.addEventListener('click', () => handleMiniOptionClick(option, question));
                     });
+                    applyMiniQuestionState(question);
                 });
 
                 const resetBtn = task.querySelector('.mini-task-reset');

@@ -216,6 +216,53 @@ function updateDashboard() {
     }
 }
 
+function renderLessonProgressPill(lessonId, status, snapshot) {
+    if (snapshot && snapshot.total) {
+        const percent = snapshot.percent ?? Math.round((snapshot.success / snapshot.total) * 100);
+        if (snapshot.mistakes > 0 && snapshot.success < snapshot.total) {
+            return `${percent}% • Retry`;
+        }
+        return `${percent}% ready`;
+    }
+    if (status === 'completed') return '100% ready';
+    if (status === 'in_progress') return 'In progress';
+    if (status === 'not_started') return 'Let’s begin';
+    return status === 'locked' ? 'Locked' : 'Not started';
+}
+
+function progressPillClass(status) {
+    switch (status) {
+        case 'completed':
+            return 'completed';
+        case 'in_progress':
+            return 'warning';
+        case 'locked':
+            return 'danger';
+        default:
+            return '';
+    }
+}
+
+function updateLessonProgressPills() {
+    const pills = document.querySelectorAll('[data-lesson-progress]');
+    if (!pills.length) return;
+    const progress = ensureLessonProgress();
+    let overview = {};
+    try {
+        const stored = localStorage.getItem('lesson_overview_progress_v1');
+        overview = stored ? JSON.parse(stored) : {};
+    } catch (error) {
+        overview = {};
+    }
+    pills.forEach(pill => {
+        const lessonId = pill.dataset.lessonProgress;
+        const status = progress[lessonId] || 'not_started';
+        pill.textContent = renderLessonProgressPill(lessonId, status, overview?.[lessonId]);
+        pill.classList.remove('completed', 'warning', 'danger');
+        pill.classList.add(progressPillClass(status));
+    });
+}
+
 function renderLessonsList() {
     if (typeof lessonsData === 'undefined') {
         return;
@@ -273,8 +320,14 @@ function renderLessonsList() {
                 statusBadge.className = 'lesson-status ' + getStatusClass(status);
                 statusBadge.textContent = getStatusLabel(status);
 
+                const progressBadge = document.createElement('span');
+                progressBadge.className = 'lesson-progress-pill';
+                progressBadge.dataset.lessonProgress = lesson.id;
+                progressBadge.textContent = renderLessonProgressPill(lesson.id, status);
+
                 metaRow.appendChild(levelBadge);
                 metaRow.appendChild(statusBadge);
+                metaRow.appendChild(progressBadge);
 
                 const description = document.createElement('p');
                 description.className = 'lesson-row-description';
@@ -346,6 +399,7 @@ function renderLessonsList() {
     }
 
     drawLessons();
+    updateLessonProgressPills();
 }
 
 document.addEventListener('DOMContentLoaded', () => {

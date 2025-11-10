@@ -1,4 +1,5 @@
 const LESSON_PROGRESS_KEY = 'montenegrin_lesson_progress_v1';
+const LESSON_OVERVIEW_PROGRESS_KEY = 'lesson_overview_progress_v1';
 
 let lessonProgressCache = null;
 
@@ -230,7 +231,18 @@ function renderLessonProgressPill(lessonId, status, snapshot) {
     return status === 'locked' ? 'Locked' : 'Not started';
 }
 
-function progressPillClass(status) {
+function progressPillClass(status, snapshot) {
+    if (snapshot && snapshot.total) {
+        if (snapshot.success >= snapshot.total) {
+            return 'completed';
+        }
+        if (snapshot.mistakes > 0) {
+            return 'danger';
+        }
+        if (snapshot.success > 0) {
+            return 'warning';
+        }
+    }
     switch (status) {
         case 'completed':
             return 'completed';
@@ -249,7 +261,7 @@ function updateLessonProgressPills() {
     const progress = ensureLessonProgress();
     let overview = {};
     try {
-        const stored = localStorage.getItem('lesson_overview_progress_v1');
+        const stored = localStorage.getItem(LESSON_PROGRESS_KEY || LESSON_OVERVIEW_PROGRESS_KEY);
         overview = stored ? JSON.parse(stored) : {};
     } catch (error) {
         overview = {};
@@ -257,9 +269,10 @@ function updateLessonProgressPills() {
     pills.forEach(pill => {
         const lessonId = pill.dataset.lessonProgress;
         const status = progress[lessonId] || 'not_started';
-        pill.textContent = renderLessonProgressPill(lessonId, status, overview?.[lessonId]);
+        const snapshot = overview?.[lessonId];
+        pill.textContent = renderLessonProgressPill(lessonId, status, snapshot);
         pill.classList.remove('completed', 'warning', 'danger');
-        pill.classList.add(progressPillClass(status));
+        pill.classList.add(progressPillClass(status, snapshot));
     });
 }
 
@@ -291,6 +304,13 @@ function renderLessonsList() {
 
         try {
             const progress = ensureLessonProgress();
+            let overview = {};
+            try {
+                const stored = localStorage.getItem(LESSON_PROGRESS_KEY || LESSON_OVERVIEW_PROGRESS_KEY);
+                overview = stored ? JSON.parse(stored) : {};
+            } catch (error) {
+                overview = {};
+            }
 
             lessons.forEach(lesson => {
                 const status = lesson.available ? (progress[lesson.id] || 'not_started') : 'locked';
@@ -321,9 +341,9 @@ function renderLessonsList() {
                 statusBadge.textContent = getStatusLabel(status);
 
                 const progressBadge = document.createElement('span');
-                progressBadge.className = 'lesson-progress-pill';
+                progressBadge.className = 'lesson-progress-pill ' + progressPillClass(status, overview[lesson.id]);
                 progressBadge.dataset.lessonProgress = lesson.id;
-                progressBadge.textContent = renderLessonProgressPill(lesson.id, status);
+                progressBadge.textContent = renderLessonProgressPill(lesson.id, status, overview[lesson.id]);
 
                 metaRow.appendChild(levelBadge);
                 metaRow.appendChild(statusBadge);

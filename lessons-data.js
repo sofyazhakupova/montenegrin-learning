@@ -63,7 +63,7 @@ const lessonsData = {
             {"type": "listening", "description": "Identify items and prices from café audio snippets."}
         ],
         "order": 2,
-        "available": false
+        "available": true
     },
     "lesson3": {
         "id": "lesson3",

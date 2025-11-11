@@ -189,7 +189,7 @@ function updateDashboard() {
                         <span class="level-badge">${nextLesson.level}</span>
                         <span class="${statusClass}">${statusLabel}</span>
                     </div>
-                    <a class="pill-btn" href="lesson.html?lesson=${nextLesson.order}">Continue Lesson</a>
+                    <a class="pill-btn" href="${lessonHref(nextLesson)}">Continue Lesson</a>
                 `;
             } else {
                 nextLessonContent.innerHTML = `
@@ -363,7 +363,7 @@ function renderLessonsList() {
                 if (lesson.available) {
                     const actionLink = document.createElement('a');
                     actionLink.className = 'pill-btn';
-                    actionLink.href = `lesson.html?lesson=${lesson.order}`;
+                    actionLink.href = lessonHref(lesson);
                     actionLink.textContent = status === 'completed' ? 'Review Lesson' : 'Start Lesson';
                     actions.appendChild(actionLink);
                 } else {
@@ -420,6 +420,12 @@ function renderLessonsList() {
 
     drawLessons();
     updateLessonProgressPills();
+}
+
+function lessonHref(lesson) {
+    const id = typeof lesson === 'string' ? lesson : lesson?.id;
+    if (!id) return 'lessons.html';
+    return id === 'lesson1' ? 'lesson.html' : `${id}.html`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {

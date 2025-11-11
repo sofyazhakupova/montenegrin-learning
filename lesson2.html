@@ -1,0 +1,2441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2 – At the Café</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary-color: #2d5a87;
+            --secondary-color: #4a90a4;
+            --accent-color: #f39c12;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg-light: #f5f7fa;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(18, 38, 63, 0.07);
+            --shadow-hover: 0 12px 40px rgba(18, 38, 63, 0.12);
+        }
+
+        body {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .lesson-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .lesson-progress-floating {
+            position: sticky;
+            top: 64px;
+            z-index: 70;
+            padding: 0.55rem 0;
+            margin: 0 -2rem 1.5rem;
+            background: rgba(245, 247, 250, 0.92);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(45, 90, 135, 0.1);
+        }
+
+        .lesson-progress-floating .floating-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .lesson-progress-floating .progress-info {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .lesson-progress-bar {
+            display: flex;
+            width: 190px;
+            height: 7px;
+            border-radius: 999px;
+            background: rgba(45, 90, 135, 0.1);
+            overflow: hidden;
+        }
+
+        .lesson-progress-bar.compact {
+            height: 6px;
+        }
+
+        .lesson-progress-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .lesson-progress-fill-success {
+            background: var(--success-color);
+        }
+
+        .lesson-progress-fill-mistake {
+            background: rgba(231, 76, 60, 0.8);
+        }
+
+        .lesson-progress-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.35rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(45, 90, 135, 0.08);
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .lesson-progress-pill.completed {
+            background: rgba(39, 174, 96, 0.15);
+            color: var(--success-color);
+        }
+
+        .lesson-progress-pill.warning {
+            background: rgba(243, 156, 18, 0.18);
+            color: #c47a0f;
+        }
+
+        .lesson-progress-pill.danger {
+            background: rgba(231, 76, 60, 0.18);
+            color: #c0392b;
+        }
+
+        .hero {
+            margin-top: 1.5rem;
+            background: linear-gradient(125deg, rgba(45, 90, 135, 0.92), rgba(15, 32, 54, 0.75)), url('assets/lesson-hero.jpg') center/cover;
+            color: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .hero p {
+            max-width: 720px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .hero-highlights {
+            margin-top: 1.25rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .hero-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+        }
+
+        .lesson-progress-card {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            background: var(--white);
+            padding: 1.75rem 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(45, 90, 135, 0.08);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            transition: border-color 0.2s;
+        }
+
+        .lesson-progress-card.completed {
+            border-color: rgba(39, 174, 96, 0.3);
+        }
+
+        .lesson-progress-card.has-mistake {
+            border-color: rgba(231, 76, 60, 0.25);
+            box-shadow: 0 0 0 1px rgba(231, 76, 60, 0.1), var(--shadow);
+        }
+
+        .lesson-progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lesson-progress-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .lesson-progress-summary {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .lesson-progress-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.45rem 0.95rem;
+            border-radius: 999px;
+            background: rgba(45, 90, 135, 0.08);
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .lesson-progress-badge.compact {
+            padding: 0.25rem 0.65rem;
+            font-size: 0.85rem;
+        }
+
+        .lesson-progress-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+        }
+
+        .lesson-progress-metrics .metric {
+            background: rgba(45, 90, 135, 0.06);
+            border-radius: 14px;
+            padding: 0.85rem 1rem;
+        }
+
+        .lesson-progress-metrics .metric-label {
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .lesson-progress-metrics .metric-value {
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .lesson-tabs {
+            margin-top: 2.5rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .tab-button {
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            border: 1px solid rgba(45, 90, 135, 0.22);
+            background: var(--white);
+            color: var(--text-dark);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-button.active,
+        .tab-button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: var(--shadow);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.25rem;
+        }
+
+        .table-card {
+            background: var(--white);
+            border-radius: 18px;
+            border: 1px solid rgba(45, 90, 135, 0.08);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .table-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.85rem;
+        }
+
+        .table-card table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-card th,
+        .table-card td {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid rgba(45, 90, 135, 0.12);
+            text-align: left;
+        }
+
+        .table-card th {
+            background: rgba(45, 90, 135, 0.08);
+        }
+
+        .mini-task {
+            margin-top: 1.2rem;
+            padding: 1rem 1.1rem;
+            border-radius: 14px;
+            background: rgba(45, 90, 135, 0.06);
+            border: 1px dashed rgba(45, 90, 135, 0.25);
+        }
+
+        .mini-task h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .mini-options {
+            margin-top: 0.6rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.55rem;
+        }
+
+        .mini-option {
+            border: 1px solid rgba(45, 90, 135, 0.2);
+            border-radius: 10px;
+            background: var(--white);
+            padding: 0.55rem 0.75rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .mini-option:hover:not(.disabled) {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+        }
+
+        .mini-option.correct {
+            background: rgba(39, 174, 96, 0.14);
+            border-color: rgba(39, 174, 96, 0.45);
+            color: var(--success-color);
+        }
+
+        .mini-option.incorrect {
+            background: rgba(231, 76, 60, 0.12);
+            border-color: rgba(231, 76, 60, 0.45);
+            color: #c0392b;
+        }
+
+        .mini-question.completed-success {
+            background: rgba(39, 174, 96, 0.12);
+            border-color: rgba(39, 174, 96, 0.4);
+        }
+
+        .mini-question.has-mistake {
+            background: rgba(231, 76, 60, 0.08);
+            border-color: rgba(231, 76, 60, 0.35);
+        }
+
+        .mini-feedback {
+            margin-top: 0.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .mini-task-reset {
+            border: none;
+            background: transparent;
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+        }
+
+        .mini-task-reset:hover {
+            background: rgba(45, 90, 135, 0.12);
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.8rem;
+        }
+
+        .vocab-card {
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--bg-light);
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            min-height: 110px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .vocab-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .vocab-card.known {
+            border-width: 2px;
+        }
+
+        .vocab-card.known-level-a1 {
+            border-color: rgba(45, 90, 135, 0.45);
+            background: rgba(45, 90, 135, 0.12);
+        }
+
+        .vocab-card.known-level-a2 {
+            border-color: rgba(243, 156, 18, 0.45);
+            background: rgba(243, 156, 18, 0.12);
+        }
+
+        .vocab-card.known-level-b1 {
+            border-color: rgba(142, 68, 173, 0.45);
+            background: rgba(142, 68, 173, 0.12);
+        }
+
+        .vocab-card.known-level-b2 {
+            border-color: rgba(44, 62, 80, 0.45);
+            background: rgba(44, 62, 80, 0.12);
+        }
+
+        .vocab-word {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .level-badge {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.6rem;
+            background: rgba(45, 90, 135, 0.08);
+            color: var(--primary-color);
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .note-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .card-actions button {
+            flex: 1;
+            border-radius: 8px;
+            border: 1px solid var(--bg-light);
+            background: var(--white);
+            padding: 0.4rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .card-actions button:hover:not(:disabled) {
+            background: var(--bg-light);
+        }
+
+        .card-actions button.know {
+            color: var(--success-color);
+            border-color: rgba(39, 174, 96, 0.25);
+        }
+
+        .card-actions button.practice {
+            color: #f39c12;
+            border-color: rgba(243, 156, 18, 0.25);
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 1000;
+        }
+
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            width: min(520px, calc(100% - 2.5rem));
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            border: none;
+            background: transparent;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .modal-word {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .modal-translation {
+            margin-top: 0.35rem;
+            color: var(--text-light);
+        }
+
+        .modal-meta {
+            margin-top: 0.3rem;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .activity-card {
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid rgba(45, 90, 135, 0.12);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .activity-card.has-mistake {
+            border-color: rgba(231, 76, 60, 0.35);
+            box-shadow: 0 0 0 1px rgba(231, 76, 60, 0.25), var(--shadow);
+        }
+
+        .matching-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .matching-btn {
+            padding: 0.6rem 0.7rem;
+            border-radius: 10px;
+            border: 1px solid rgba(45, 90, 135, 0.18);
+            background: var(--white);
+            cursor: pointer;
+        }
+
+        .matching-btn.selected {
+            border-color: var(--primary-color);
+            background: rgba(45, 90, 135, 0.12);
+        }
+
+        .matching-btn.correct {
+            border-color: rgba(39, 174, 96, 0.35);
+            background: rgba(39, 174, 96, 0.12);
+            color: var(--success-color);
+            cursor: default;
+        }
+
+        .matching-btn.disabled {
+            opacity: 0.55;
+            cursor: default;
+        }
+
+        .dialogue-grid {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .dialogue-btn {
+            flex: 1;
+            min-width: 150px;
+            border: 1px solid rgba(45, 90, 135, 0.2);
+            border-radius: 12px;
+            padding: 0.65rem 1rem;
+            cursor: pointer;
+            background: var(--white);
+            transition: transform 0.2s;
+        }
+
+        .dialogue-btn:hover:not(.correct):not(.incorrect) {
+            transform: translateY(-2px);
+        }
+
+        .dialogue-btn.correct {
+            border-color: rgba(39, 174, 96, 0.35);
+            background: rgba(39, 174, 96, 0.12);
+            color: var(--success-color);
+        }
+
+        .dialogue-btn.incorrect {
+            border-color: rgba(231, 76, 60, 0.35);
+            background: rgba(231, 76, 60, 0.12);
+            color: #c0392b;
+        }
+
+        .flashcards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .flashcard {
+            border-radius: 14px;
+            border: 1px solid rgba(45, 90, 135, 0.12);
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+            background: rgba(45, 90, 135, 0.12);
+        }
+
+        .challenge-card {
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid rgba(45, 90, 135, 0.12);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .challenge-card button {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            background: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .challenge-card button.done {
+            background: var(--success-color);
+        }
+
+        .challenge-card button:hover {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .lesson-wrapper {
+                padding: 0 1.25rem 3rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .hero {
+                padding: 2rem;
+            }
+
+            .lesson-progress-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .lesson-progress-summary {
+                width: 100%;
+            }
+
+            .lesson-progress-floating {
+                top: 56px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🇲🇪 Learn Montenegrin</div>
+            <div class="nav-links">
+                <a href="index.html">Dashboard</a>
+                <a href="lessons.html">Lessons</a>
+                <a href="vocab.html">Vocabulary</a>
+                <a href="quiz.html">Quiz</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="lesson-wrapper">
+        <div class="lesson-progress-floating" id="floating-progress">
+            <div class="floating-content">
+                <div class="progress-info">
+                    <span class="lesson-progress-pill" id="floating-progress-pill">0% ready</span>
+                    <div class="lesson-progress-bar compact">
+                        <div class="lesson-progress-fill lesson-progress-fill-success" id="floating-progress-fill-success"></div>
+                        <div class="lesson-progress-fill lesson-progress-fill-mistake" id="floating-progress-fill-mistake"></div>
+                    </div>
+                </div>
+                <button type="button" class="pill-btn outline" id="floating-retake-btn">Retake</button>
+            </div>
+        </div>
+
+        <section class="hero">
+            <h1>Lesson 2: At the Café</h1>
+            <p><strong>Level:</strong> A1 &nbsp;•&nbsp; <strong>Goal:</strong> Order food and drinks politely, talk to café staff, and understand menu items.</p>
+            <div class="hero-highlights">
+                <span class="hero-chip">☕ Polite orders with "Ja bih…"</span>
+                <span class="hero-chip">🍰 Menu nouns & gender</span>
+                <span class="hero-chip">🧾 Asking for recommendations & prices</span>
+            </div>
+        </section>
+
+        <section class="lesson-progress-card" id="lesson-progress-card">
+            <div class="lesson-progress-header">
+                <div>
+                    <h2>Lesson Progress</h2>
+                    <p id="lesson-status-text">Not started</p>
+                </div>
+                <div class="lesson-progress-summary">
+                    <span class="lesson-progress-badge" id="lesson-completion-badge">0%</span>
+                    <div class="lesson-progress-bar">
+                        <div class="lesson-progress-fill lesson-progress-fill-success" id="lesson-progress-fill-success"></div>
+                        <div class="lesson-progress-fill lesson-progress-fill-mistake" id="lesson-progress-fill-mistake"></div>
+                    </div>
+                    <button type="button" class="pill-btn outline" id="lesson-retake-btn">Retake lesson</button>
+                </div>
+            </div>
+            <div class="lesson-progress-metrics">
+                <div class="metric">
+                    <span class="metric-label">Completed</span>
+                    <span class="metric-value" id="lesson-completed-count">0 / 0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Successfully completed</span>
+                    <span class="metric-value" id="lesson-success-count">0 / 0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Mistakes</span>
+                    <span class="metric-value" id="lesson-mistake-count">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Vocabulary</span>
+                    <span class="metric-value" id="lesson-vocab-indicator">0 / 0</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="lesson-tabs">
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="guide">Lesson Guide</button>
+                <button class="tab-button" data-tab="vocab">Vocabulary</button>
+                <button class="tab-button" data-tab="practice">Practice Lab</button>
+                <button class="tab-button" data-tab="challenge">Real-world Challenge</button>
+            </div>
+
+            <div class="tab-panel active" id="tab-guide">
+                <section>
+                    <h2>Lesson Guide</h2>
+
+                    <div class="table-card">
+                        <h3>0️⃣ Verb "imati" (to have)</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Ja imam</td><td>I have</td></tr>
+                                <tr><td>Ti imaš</td><td>You have (informal)</td></tr>
+                                <tr><td>On / Ona / Ono ima</td><td>He / She / It has</td></tr>
+                                <tr><td>Mi imamo</td><td>We have</td></tr>
+                                <tr><td>Vi imate</td><td>You have (formal / plural)</td></tr>
+                                <tr><td>Oni / One / Ona imaju</td><td>They have</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="color: var(--text-light); margin-top: 0.75rem;">Use <strong>imati</strong> to talk about what you have at your table or what ingredients are on the menu.</p>
+                        <div class="mini-task" data-task-id="imati-forms">
+                            <h4>Mini quiz</h4>
+                            <p class="mini-task-intro">Pick the correct form of <strong>imati</strong> for each sentence.</p>
+                            <div class="mini-question" data-question-id="imati-1">
+                                <p><strong>Q1.</strong> Ja ___ kafu i čaj.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">imam</button>
+                                    <button type="button" class="mini-option" data-correct="false">imaš</button>
+                                    <button type="button" class="mini-option" data-correct="false">imamo</button>
+                                    <button type="button" class="mini-option" data-correct="false">imaju</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="imati-2">
+                                <p><strong>Q2.</strong> Vi ___ odličan kolač?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">imam</button>
+                                    <button type="button" class="mini-option" data-correct="false">ima</button>
+                                    <button type="button" class="mini-option" data-correct="true">imate</button>
+                                    <button type="button" class="mini-option" data-correct="false">imaju</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>1️⃣ Verb "želeti" (to want)</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Ja želim</td><td>I want</td></tr>
+                                <tr><td>Ti želiš</td><td>You want (informal)</td></tr>
+                                <tr><td>On / Ona / Ono želi</td><td>He / She / It wants</td></tr>
+                                <tr><td>Mi želimo</td><td>We want</td></tr>
+                                <tr><td>Vi želite</td><td>You want (formal / plural)</td></tr>
+                                <tr><td>Oni / One / Ona žele</td><td>They want</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="color: var(--text-light); margin-top: 0.75rem;">Combine <strong>želIm</strong> with menu nouns and polite expressions like <strong>Molim</strong> or <strong>Ja bih</strong> to sound friendly.</p>
+                        <div class="mini-task" data-task-id="zeleti-forms">
+                            <h4>Quick check</h4>
+                            <p class="mini-task-intro">Choose the form of <strong>želeti</strong> that fits best.</p>
+                            <div class="mini-question" data-question-id="zeleti-1">
+                                <p><strong>Q1.</strong> Konobar, ja ___ kapućino.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">želiš</button>
+                                    <button type="button" class="mini-option" data-correct="true">želim</button>
+                                    <button type="button" class="mini-option" data-correct="false">žele</button>
+                                    <button type="button" class="mini-option" data-correct="false">želimo</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="zeleti-2">
+                                <p><strong>Q2.</strong> Oni ___ da sede napolju.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">želim</button>
+                                    <button type="button" class="mini-option" data-correct="false">želi</button>
+                                    <button type="button" class="mini-option" data-correct="true">žele</button>
+                                    <button type="button" class="mini-option" data-correct="false">želite</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>2️⃣ Polite Ordering Phrases</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>Usage</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Ja bih…</td><td>Softens a request</td><td>Ja bih espreso, molim.</td></tr>
+                                <tr><td>Molim vas</td><td>Polite "please"</td><td>Račun, molim vas.</td></tr>
+                                <tr><td>Šta preporučujete?</td><td>Ask for recommendation</td><td>Šta preporučujete danas?</td></tr>
+                                <tr><td>Koliko košta…?</td><td>Ask price</td><td>Koliko košta kolač?</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="mini-task" data-task-id="ordering-phrases">
+                            <h4>Try it</h4>
+                            <p class="mini-task-intro">Pick the phrase that sounds most natural.</p>
+                            <div class="mini-question" data-question-id="ordering-1">
+                                <p><strong>Q1.</strong> You want to ask for the bill.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Račun, molim vas.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Ja bih meni.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Gde je banka?</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="ordering-2">
+                                <p><strong>Q2.</strong> You'd like to hear today's special.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">Ja želim meni.</button>
+                                    <button type="button" class="mini-option" data-correct="true">Šta preporučujete danas?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Molim vas, voda.</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>3️⃣ Menu Essentials</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Gender</th>
+                                    <th>Example Order</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>kafa</td><td>feminine</td><td>Jednu kafu, molim.</td></tr>
+                                <tr><td>čaj</td><td>masculine</td><td>Dajte mi čaj od mente.</td></tr>
+                                <tr><td>voda</td><td>feminine</td><td>Imate li gaziranu vodu?</td></tr>
+                                <tr><td>sok</td><td>masculine</td><td>Ja bih sok od narandže.</td></tr>
+                                <tr><td>pivo</td><td>neuter</td><td>Jedno pivo, molim.</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="mini-task" data-task-id="menu-essentials">
+                            <h4>Check the menu</h4>
+                            <p class="mini-task-intro">Choose the sentence with the correct gender agreement.</p>
+                            <div class="mini-question" data-question-id="menu-1">
+                                <p><strong>Q1.</strong> Which form is correct?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">Jedan kafa, molim.</button>
+                                    <button type="button" class="mini-option" data-correct="true">Jednu kafu, molim.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Jedno kafu, molim.</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="menu-2">
+                                <p><strong>Q2.</strong> What's the best way to ask for beer?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">Dva pivo, molim.</button>
+                                    <button type="button" class="mini-option" data-correct="true">Jedno pivo, molim.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Jedna pivo, molim.</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <h3>4️⃣ Sample Dialogues</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serbian</th>
+                                    <th>English</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Konobar: Izvolite?</td><td>Waiter: How can I help?</td></tr>
+                                <tr><td>Gost: Ja bih espresso i čašu vode.</td><td>Guest: I'd like an espresso and a glass of water.</td></tr>
+                                <tr><td>Konobar: Još nešto?</td><td>Waiter: Anything else?</td></tr>
+                                <tr><td>Gost: Koliko košta kolač?</td><td>Guest: How much is the cake?</td></tr>
+                                <tr><td>Konobar: Račun dolazi odmah.</td><td>Waiter: The bill is coming right away.</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="mini-task" data-task-id="dialogue-cafe">
+                            <h4>Use it</h4>
+                            <p class="mini-task-intro">Match the situation with the natural line.</p>
+                            <div class="mini-question" data-question-id="dialogue-1">
+                                <p><strong>Q1.</strong> Waiter approaches—what do you say?</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="true">Ja bih espresso i čašu vode.</button>
+                                    <button type="button" class="mini-option" data-correct="false">Gde je pošta?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Laku noć!</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-question" data-question-id="dialogue-2">
+                                <p><strong>Q2.</strong> You want the price of dessert.</p>
+                                <div class="mini-options">
+                                    <button type="button" class="mini-option" data-correct="false">Još nešto?</button>
+                                    <button type="button" class="mini-option" data-correct="true">Koliko košta kolač?</button>
+                                    <button type="button" class="mini-option" data-correct="false">Račun, molim vas.</button>
+                                </div>
+                                <div class="mini-feedback"></div>
+                            </div>
+                            <div class="mini-task-actions">
+                                <button type="button" class="mini-task-reset">Try again</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-panel" id="tab-vocab">
+                <section>
+                    <h2>🧠 Core Vocabulary</h2>
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">Tap "I know" when a word feels comfortable. Progress is shared with the main vocabulary trainer.</p>
+                    <div class="progress-wrapper">
+                        <div class="progress-label lesson-progress-pill" id="progress-label">Loading progress…</div>
+                        <div class="lesson-progress-bar" style="width: 100%;">
+                            <div class="lesson-progress-fill lesson-progress-fill-success" id="progress-fill"></div>
+                        </div>
+                    </div>
+                    <div id="vocab-grid" class="vocab-grid"></div>
+                </section>
+            </div>
+
+            <div class="tab-panel" id="tab-practice">
+                <section>
+                    <h2>🎮 Practice Lab</h2>
+
+                    <div class="activity-card" id="mc-section">
+                        <h3>🧩 Multiple Choice</h3>
+                        <div class="options-grid" data-activity="mc">
+                            <div data-task-id="practice-mc-1">
+                                <p><strong>Q1.</strong> Which sentence politely orders coffee?</p>
+                                <button class="option-btn" data-correct="true">Ja bih jednu kafu, molim.</button>
+                                <button class="option-btn" data-correct="false">Ja kafu imaš.</button>
+                                <button class="option-btn" data-correct="false">Gde je kafa?</button>
+                                <button class="option-btn" data-correct="false">Hvala, kafa.</button>
+                                <div class="feedback"></div>
+                            </div>
+                            <div data-task-id="practice-mc-2">
+                                <p><strong>Q2.</strong> How do you ask for the bill?</p>
+                                <button class="option-btn" data-correct="false">Meni, molim.</button>
+                                <button class="option-btn" data-correct="true">Račun, molim vas.</button>
+                                <button class="option-btn" data-correct="false">Koliko kosta?</button>
+                                <button class="option-btn" data-correct="false">Ja bih račun.</button>
+                                <div class="feedback"></div>
+                            </div>
+                            <div data-task-id="practice-mc-3">
+                                <p><strong>Q3.</strong> Complete the sentence: "Mi ___ kolač."</p>
+                                <button class="option-btn" data-correct="false">imam</button>
+                                <button class="option-btn" data-correct="true">želimo</button>
+                                <button class="option-btn" data-correct="false">imaš</button>
+                                <button class="option-btn" data-correct="false">želi</button>
+                                <div class="feedback"></div>
+                            </div>
+                            <div data-task-id="practice-mc-4">
+                                <p><strong>Q4.</strong> Which sentence uses <strong>imati</strong> correctly?</p>
+                                <button class="option-btn" data-correct="true">Konobar ima meni na engleskom.</button>
+                                <button class="option-btn" data-correct="false">Ti imati stolove?</button>
+                                <button class="option-btn" data-correct="false">Mi imaš čaj.</button>
+                                <button class="option-btn" data-correct="false">Oni ima kolač.</button>
+                                <div class="feedback"></div>
+                            </div>
+                            <div data-task-id="practice-mc-5">
+                                <p><strong>Q5.</strong> Choose the best reply: "Želite li nešto da pijete?"</p>
+                                <button class="option-btn" data-correct="true">Ja bih sok od jabuke, molim.</button>
+                                <button class="option-btn" data-correct="false">Ja sam Ana.</button>
+                                <button class="option-btn" data-correct="false">Da li si konobar?</button>
+                                <button class="option-btn" data-correct="false">To je restoran.</button>
+                                <div class="feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-card" id="matching-section">
+                        <h3>🔁 Match the Pairs</h3>
+                        <p style="color: var(--text-light); margin-bottom: 0.75rem;">Tap one from the left column and then its match on the right.</p>
+                        <div class="matching-grid" id="matching-left"></div>
+                        <div class="matching-grid" id="matching-right" style="margin-top: 0.6rem;"></div>
+                        <div class="feedback" id="matching-feedback"></div>
+                    </div>
+
+                    <div class="activity-card" id="qa-section">
+                        <h3>🤝 Connect the Conversation</h3>
+                        <p style="color: var(--text-light); margin-bottom: 0.75rem;">Match the question with the most natural reply.</p>
+                        <div class="matching-grid" id="qa-left"></div>
+                        <div class="matching-grid" id="qa-right" style="margin-top: 0.6rem;"></div>
+                        <div class="feedback" id="qa-feedback"></div>
+                    </div>
+
+                    <div class="activity-card" id="select-section">
+                        <h3>🧩 Select the Correct Answer</h3>
+                        <p><strong>Q:</strong> "Koliko košta?" means…</p>
+                        <div class="options-grid" data-activity="select" data-task-id="practice-select-1">
+                            <button class="option-btn" data-correct="false">Where are you?</button>
+                            <button class="option-btn" data-correct="true">How much does it cost?</button>
+                            <button class="option-btn" data-correct="false">Do you have coffee?</button>
+                            <button class="option-btn" data-correct="false">Can I have the menu?</button>
+                        </div>
+                        <div class="feedback"></div>
+                    </div>
+
+                    <div class="activity-card" id="dialogue-section">
+                        <h3>💬 Dialogue Reconstruction</h3>
+                        <p style="color: var(--text-light); margin-bottom: 0.75rem;">Tap the cards in the correct order to make a friendly conversation.</p>
+                        <div class="dialogue-grid" id="dialogue-grid"></div>
+                        <div class="feedback" id="dialogue-feedback"></div>
+                    </div>
+
+                    <div class="activity-card" id="tf-section">
+                        <h3>🧩 True or False</h3>
+                        <div class="tf-grid">
+                            <div data-task-id="practice-tf-1">
+                                <p>"Ja bih" is a polite way to say "I would like".</p>
+                                <button class="tf-btn" data-correct="true">True ✅</button>
+                                <button class="tf-btn" data-correct="false">False</button>
+                            </div>
+                            <div data-task-id="practice-tf-2">
+                                <p>"Račun" means "menu".</p>
+                                <button class="tf-btn" data-correct="false">True</button>
+                                <button class="tf-btn" data-correct="true">False ✅</button>
+                            </div>
+                            <div data-task-id="practice-tf-3">
+                                <p>"Konobar" is the word for waiter.</p>
+                                <button class="tf-btn" data-correct="true">True ✅</button>
+                                <button class="tf-btn" data-correct="false">False</button>
+                            </div>
+                            <div data-task-id="practice-tf-4">
+                                <p>"Voda" is a feminine noun.</p>
+                                <button class="tf-btn" data-correct="true">True ✅</button>
+                                <button class="tf-btn" data-correct="false">False</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-card" id="flashcard-section">
+                        <h3>🕹 Flashcard Game</h3>
+                        <p style="color: var(--text-light); margin-bottom: 0.75rem;">Tap each card to reveal its Montenegrin meaning.</p>
+                        <div class="flashcards" id="flashcards"></div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-panel" id="tab-challenge">
+                <section>
+                    <h2>🌍 Real-Life Challenge</h2>
+                    <div class="challenge-card">
+                        <p>Ready for café time? Put your new ordering phrases to the test in real life or with a friend. ☕️</p>
+                        <ol style="text-align: left; margin: 1rem auto; color: var(--text-light); line-height: 1.7;">
+                            <li>Greet the waiter: "Dobar dan!" or "Zdravo!"</li>
+                            <li>Order two items using <strong>Ja bih…</strong> and <strong>Molim vas</strong>.</li>
+                            <li>Ask for the bill with confidence: "Račun, molim vas."</li>
+                        </ol>
+                        <button id="challenge-btn">I did it!!</button>
+                        <div class="feedback" id="challenge-feedback"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-backdrop">
+        <div class="modal">
+            <button class="modal-close" aria-label="Close">×</button>
+            <div class="modal-word-row">
+                <div class="modal-word" id="modal-word"></div>
+                <span class="modal-badge" id="modal-level" hidden></span>
+            </div>
+            <div class="modal-translation" id="modal-translation"></div>
+            <div class="modal-meta" id="modal-category" hidden></div>
+            <div class="modal-meta" id="modal-plural" hidden></div>
+            <div class="modal-status" id="modal-status"></div>
+            <div class="modal-section" id="modal-conjugations" hidden>
+                <h4>Present tense</h4>
+                <div class="verb-table">
+                    <table>
+                        <thead><tr><th>Pronoun</th><th>Form</th></tr></thead>
+                        <tbody id="modal-conjugations-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-section" id="modal-lessons" hidden>
+                <h4>Appears in lessons</h4>
+                <div class="modal-list" id="modal-lessons-list"></div>
+            </div>
+            <div class="modal-section" id="modal-notes" hidden>
+                <h4>Notes</h4>
+                <div class="modal-list" id="modal-note-text"></div>
+            </div>
+            <div class="modal-actions">
+                <button class="primary" id="modal-know-btn">I know</button>
+                <button class="secondary" id="modal-dont-know-btn">Practice again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="lessons-data.js"></script>
+    <script src="vocab/vocab-data.js"></script>
+    <script>
+        const CATEGORY_LABELS = {
+            pronoun: 'Pronouns',
+            verb: 'Verbs',
+            noun: 'Nouns',
+            adjective: 'Adjectives',
+            adverb: 'Adverbs & Particles',
+            phrase: 'Phrases',
+            reference: 'References',
+            note: 'Notes',
+            focus: 'Focus',
+            other: 'Other'
+        };
+        const CATEGORY_ORDER = ['pronoun', 'verb', 'noun', 'adjective', 'adverb', 'phrase', 'reference', 'focus', 'note', 'other'];
+        const PROGRESS_KEY = 'vocab_progress_all';
+        const LESSON_ID = 'lesson2';
+        const LESSON_TASK_PROGRESS_KEY = 'lesson2_task_progress_v1';
+        const LESSON_OVERVIEW_PROGRESS_KEY = 'lesson_overview_progress_v1';
+
+        let wordProgress = {};
+        let cardRegistry = new Map();
+        let allWordKeys = [];
+        let currentModalWordKey = null;
+        let currentModalLevel = null;
+        let lessonTaskProgress = { tasks: {} };
+        const trackedTaskIds = new Set();
+        let vocabularySummary = { known: 0, total: 0, percent: 0 };
+
+        const vocabGrid = document.getElementById('vocab-grid');
+        const progressLabelEl = document.getElementById('progress-label');
+        const progressFillEl = document.getElementById('progress-fill');
+        const lessonProgressCard = document.getElementById('lesson-progress-card');
+        const lessonStatusText = document.getElementById('lesson-status-text');
+        const lessonCompletionBadge = document.getElementById('lesson-completion-badge');
+        const lessonProgressFillSuccess = document.getElementById('lesson-progress-fill-success');
+        const lessonProgressFillMistake = document.getElementById('lesson-progress-fill-mistake');
+        const lessonCompletedCount = document.getElementById('lesson-completed-count');
+        const lessonSuccessCount = document.getElementById('lesson-success-count');
+        const lessonMistakeCount = document.getElementById('lesson-mistake-count');
+        const lessonVocabIndicator = document.getElementById('lesson-vocab-indicator');
+        const lessonRetakeBtn = document.getElementById('lesson-retake-btn');
+        const floatingProgress = document.getElementById('floating-progress');
+        const floatingProgressPill = document.getElementById('floating-progress-pill');
+        const floatingProgressFillSuccess = document.getElementById('floating-progress-fill-success');
+        const floatingProgressFillMistake = document.getElementById('floating-progress-fill-mistake');
+        const floatingRetakeBtn = document.getElementById('floating-retake-btn');
+
+        const modalBackdrop = document.querySelector('.modal-backdrop');
+        const modalWord = document.getElementById('modal-word');
+        const modalLevel = document.getElementById('modal-level');
+        const modalTranslation = document.getElementById('modal-translation');
+        const modalCategory = document.getElementById('modal-category');
+        const modalPlural = document.getElementById('modal-plural');
+        const modalStatus = document.getElementById('modal-status');
+        const modalConjugations = document.getElementById('modal-conjugations');
+        const modalConjugationsBody = document.getElementById('modal-conjugations-body');
+        const modalLessons = document.getElementById('modal-lessons');
+        const modalLessonsList = document.getElementById('modal-lessons-list');
+        const modalNotes = document.getElementById('modal-notes');
+        const modalNoteText = document.getElementById('modal-note-text');
+        const modalKnowBtn = document.getElementById('modal-know-btn');
+        const modalDontKnowBtn = document.getElementById('modal-dont-know-btn');
+        const modalCloseBtn = document.querySelector('.modal-close');
+
+        function getWordKey(word) {
+            return (word || '').toLowerCase();
+        }
+
+        function levelRank(level) {
+            if (!level) return 999;
+            const match = level.match(/^([A-Ca-c])(\d)/);
+            if (!match) return 999;
+            const groupMap = { A: 0, B: 10, C: 20 };
+            const major = groupMap[match[1].toUpperCase()] ?? 99;
+            const minor = parseInt(match[2], 10) || 0;
+            return major + minor;
+        }
+
+        function primaryLevel(levels) {
+            if (!levels || !levels.length) return null;
+            return [...levels].sort((a, b) => levelRank(a) - levelRank(b))[0];
+        }
+
+        function getLevelClass(level) {
+            if (!level) return null;
+            const key = level.slice(0, 2).toLowerCase();
+            return {
+                a1: 'known-level-a1',
+                a2: 'known-level-a2',
+                b1: 'known-level-b1',
+                b2: 'known-level-b2'
+            }[key] || null;
+        }
+
+        function loadProgress() {
+            try {
+                const stored = localStorage.getItem(PROGRESS_KEY);
+                const parsed = stored ? JSON.parse(stored) : {};
+                wordProgress = (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};
+            } catch (error) {
+                wordProgress = {};
+            }
+        }
+
+        function saveProgress() {
+            try {
+                localStorage.setItem(PROGRESS_KEY, JSON.stringify(wordProgress));
+            } catch (error) {}
+        }
+
+        function getWordStatus(key) {
+            return wordProgress[key] === 'known' ? 'known' : 'unknown';
+        }
+
+        function setWordStatus(key, status) {
+            wordProgress[key] = status === 'known' ? 'known' : 'unknown';
+            saveProgress();
+            updateCardGroup(key);
+            updateModalStatus(key);
+            updateProgressBar();
+        }
+
+        function updateCardVisual(card, status) {
+            card.classList.remove('known', 'known-level-a1', 'known-level-a2', 'known-level-b1', 'known-level-b2');
+            if (status === 'known') {
+                card.classList.add('known');
+                const levelClass = getLevelClass(card.dataset.level);
+                if (levelClass) card.classList.add(levelClass);
+            }
+            const knowBtn = card.querySelector('button.know');
+            const practiceBtn = card.querySelector('button.practice');
+            if (knowBtn) knowBtn.hidden = status === 'known';
+            if (practiceBtn) practiceBtn.hidden = status !== 'known';
+        }
+
+        function updateCardGroup(key) {
+            const status = getWordStatus(key);
+            (cardRegistry.get(key) || []).forEach(card => updateCardVisual(card, status));
+        }
+
+        function updateModalStatus(key) {
+            if (currentModalWordKey !== key) return;
+            const status = getWordStatus(key);
+            modalStatus.textContent = '';
+            modalStatus.hidden = true;
+            modalKnowBtn.hidden = status === 'known';
+            modalDontKnowBtn.hidden = status !== 'known';
+        }
+
+        function updateProgressBar() {
+            const total = allWordKeys.length;
+            if (!total) {
+                progressLabelEl.textContent = 'No vocabulary words available yet.';
+                if (progressFillEl) progressFillEl.style.width = '0%';
+                vocabularySummary = { known: 0, total: 0, percent: 0 };
+                updateVocabularyIndicator();
+                updateLessonProgressUI();
+                return;
+            }
+            let knownCount = 0;
+            allWordKeys.forEach(key => {
+                if (wordProgress[key] === 'known') knownCount += 1;
+            });
+            const percent = (knownCount / total) * 100;
+            progressLabelEl.textContent = `You already know ${percent.toFixed(2)}% (${knownCount} of ${total})`;
+            if (progressFillEl) progressFillEl.style.width = `${percent}%`;
+            vocabularySummary = { known: knownCount, total, percent };
+            updateVocabularyIndicator();
+            updateLessonProgressUI();
+        }
+
+        function normalizeCategory(category) {
+            const type = (category.type || '').toLowerCase();
+            if (['pronoun', 'verb', 'noun', 'adjective', 'adverb', 'phrase', 'reference', 'focus', 'note'].includes(type)) {
+                return type;
+            }
+            const name = (category.name || '').toLowerCase();
+            if (name.includes('pronoun')) return 'pronoun';
+            if (name.includes('verb')) return 'verb';
+            if (name.includes('noun')) return 'noun';
+            if (name.includes('adjective')) return 'adjective';
+            if (name.includes('adverb')) return 'adverb';
+            if (name.includes('phrase')) return 'phrase';
+            if (name.includes('reference')) return 'reference';
+            if (name.includes('focus')) return 'focus';
+            if (name.includes('note')) return 'note';
+            return 'other';
+        }
+
+        const NOUN_PLURAL_OVERRIDES = {
+            'apoteka': 'apoteke', 'autobus': 'autobusi', 'avion': 'avioni', 'banka': 'banke', 'bol': 'bolovi',
+            'brat': 'braća', 'cena': 'cene', 'crna gora': 'Crne Gore', 'čaj': 'čajevi', 'čovek': 'ljudi',
+            'dan': 'dani', 'dete': 'deca', 'doktor': 'doktori', 'engleska': 'Engleske', 'film': 'filmovi',
+            'glava': 'glave', 'gost': 'gosti', 'hleb': 'hlebovi', 'ime': 'imena', 'inženjer': 'inženjeri',
+            'jesen': 'jeseni', 'jezik': 'jezici', 'jutro': 'jutra', 'kafa': 'kafe', 'karta': 'karte', 'kiša': 'kiše',
+            'ključ': 'ključevi', 'knjiga': 'knjige', 'kompanija': 'kompanije', 'konobar': 'konobari', 'krevet': 'kreveti',
+            'kuća': 'kuće', 'lekar': 'lekari', 'leto': 'leta', 'majka': 'majke', 'mleko': 'mleka', 'muzika': 'muzike',
+            'narod': 'narodi', 'noga': 'noge', 'novine': 'novine', 'orman': 'ormani', 'otac': 'očevi', 'pivo': 'piva',
+            'porodica': 'porodice', 'posao': 'poslovi', 'pošta': 'pošte', 'povrće': 'povrća', 'prijatelj': 'prijatelji',
+            'prodavnica': 'prodavnice', 'proleće': 'proleća', 'putovanje': 'putovanja', 'radnik': 'radnici', 'restoran': 'restorani',
+            'ruka': 'ruke', 'rusija': 'Rusije', 'sestra': 'sestre', 'sir': 'sirevi', 'sneg': 'snegovi', 'soba': 'sobe',
+            'sok': 'sokovi', 'sport': 'sportovi', 'sprat': 'spratovi', 'srbija': 'Srbije', 'sto': 'stolovi', 'stolica': 'stolice',
+            'sunce': 'sunca', 'škola': 'škole', 'trg': 'trgovi', 'učenik': 'učenici', 'učitelj': 'učitelji', 'ulica': 'ulice',
+            'veče': 'večeri', 'voće': 'voća', 'voda': 'vode', 'voz': 'vozovi', 'vreme': 'vremena', 'zemlja': 'zemlje', 'zima': 'zime', 'žena': 'žene'
+        };
+
+        function matchPluralCasing(word, plural) {
+            if (!word || !plural) return plural || null;
+            const first = word.charAt(0);
+            if (first === first.toUpperCase()) {
+                return plural.charAt(0).toUpperCase() + plural.slice(1);
+            }
+            return plural;
+        }
+
+        function deriveNounPlural(word) {
+            if (!word) return null;
+            const lower = word.toLowerCase();
+            if (NOUN_PLURAL_OVERRIDES[lower]) return NOUN_PLURAL_OVERRIDES[lower];
+            let plural = null;
+            if (lower.endsWith('ac') || lower.endsWith('ak')) plural = lower.slice(0, -2) + 'ci';
+            else if (lower.endsWith('ik')) plural = lower.slice(0, -2) + 'ici';
+            else if (lower.endsWith('ok')) plural = lower + 'ovi';
+            else if (lower.endsWith('aj') || lower.endsWith('oj') || lower.endsWith('ej')) plural = lower + 'evi';
+            else if (lower.endsWith('ar') || lower.endsWith('er') || lower.endsWith('or') || lower.endsWith('ur')) plural = lower + 'i';
+            else if (lower.endsWith('an') || lower.endsWith('en') || lower.endsWith('on')) plural = lower + 'i';
+            else if (lower.endsWith('el') || lower.endsWith('ol') || lower.endsWith('al')) plural = lower + 'i';
+            else if (lower.endsWith('a')) plural = lower.slice(0, -1) + 'e';
+            else if (lower.endsWith('o') || lower.endsWith('e')) plural = lower.slice(0, -1) + 'a';
+            else if (lower.endsWith('j') || lower.endsWith('ć') || lower.endsWith('č') || lower.endsWith('đ') || lower.endsWith('š') || lower.endsWith('ž')) plural = lower + 'evi';
+            else plural = lower + 'i';
+            return matchPluralCasing(word, plural);
+        }
+
+        function resolveNounPlural(word, explicit) {
+            if (explicit) return explicit;
+            return deriveNounPlural(word);
+        }
+
+        function collectLessonVocabulary() {
+            const lessonData = lessonsData[LESSON_ID];
+            const vocabSet = lessonData.vocabularySet;
+            const vocabSource = vocabularyData[vocabSet];
+            if (!vocabSource) return [];
+
+            const master = new Map();
+            (vocabSource.categories || []).forEach(category => {
+                const typeKey = normalizeCategory(category);
+                (category.items || []).forEach(item => {
+                    if (!item || !item.word) return;
+                    const key = getWordKey(item.word);
+                    if (!master.has(key)) {
+                        master.set(key, {
+                            word: item.word,
+                            translation: item.translation || '',
+                            conjugations: item.conjugations || null,
+                            note: item.note || null,
+                            reference: item.reference || null,
+                            levels: new Set([lessonData.level]),
+                            categories: new Set([category.name || CATEGORY_LABELS[typeKey] || typeKey || 'Other']),
+                            categoryTypes: new Set([typeKey]),
+                            plural: typeKey === 'noun' ? resolveNounPlural(item.word, item.plural) : null
+                        });
+                    } else {
+                        const entry = master.get(key);
+                        if (item.translation) entry.translation = item.translation;
+                        if (item.conjugations) entry.conjugations = item.conjugations;
+                        if (item.note) entry.note = item.note;
+                        if (item.reference) entry.reference = item.reference;
+                        entry.levels.add(lessonData.level);
+                        if (category.name) entry.categories.add(category.name);
+                        entry.categoryTypes.add(typeKey);
+                        if (typeKey === 'noun' && !entry.plural) {
+                            entry.plural = resolveNounPlural(item.word, item.plural);
+                        }
+                    }
+                });
+            });
+
+            allWordKeys = Array.from(master.keys());
+
+            return Array.from(master.values())
+                .map(entry => {
+                    const levels = Array.from(entry.levels);
+                    return {
+                        ...entry,
+                        categories: Array.from(entry.categories || []),
+                        categoryTypes: Array.from(entry.categoryTypes || []),
+                        primaryLevel: primaryLevel(levels),
+                        levels
+                    };
+                })
+                .sort((a, b) => a.word.localeCompare(b.word, 'sr'));
+        }
+
+        function createVocabularyCard(item) {
+            const card = document.createElement('div');
+            card.className = 'vocab-card';
+            card.dataset.level = (item.primaryLevel || '').toLowerCase();
+            card.addEventListener('click', () => openModal(item));
+
+            const wordEl = document.createElement('div');
+            wordEl.className = 'vocab-word';
+            wordEl.textContent = item.word;
+            card.appendChild(wordEl);
+
+            if (item.primaryLevel) {
+                const levelEl = document.createElement('div');
+                levelEl.className = 'level-badge';
+                levelEl.textContent = item.primaryLevel;
+                card.appendChild(levelEl);
+            }
+
+            if (item.note || item.reference) {
+                const noteEl = document.createElement('div');
+                noteEl.className = 'note-text';
+                noteEl.textContent = item.note || item.reference;
+                card.appendChild(noteEl);
+            }
+
+            const actions = document.createElement('div');
+            actions.className = 'card-actions';
+
+            const knowBtn = document.createElement('button');
+            knowBtn.className = 'know';
+            knowBtn.textContent = 'I know';
+            knowBtn.addEventListener('click', event => {
+                event.stopPropagation();
+                setWordStatus(getWordKey(item.word), 'known');
+            });
+
+            const practiceBtn = document.createElement('button');
+            practiceBtn.className = 'practice';
+            practiceBtn.textContent = 'Practice again';
+            practiceBtn.addEventListener('click', event => {
+                event.stopPropagation();
+                setWordStatus(getWordKey(item.word), 'unknown');
+            });
+
+            actions.appendChild(knowBtn);
+            actions.appendChild(practiceBtn);
+            card.appendChild(actions);
+
+            const key = getWordKey(item.word);
+            if (!cardRegistry.has(key)) cardRegistry.set(key, []);
+            cardRegistry.get(key).push(card);
+            updateCardVisual(card, getWordStatus(key));
+
+            return card;
+        }
+
+        function renderVocabularyCards(vocabulary) {
+            vocabGrid.innerHTML = '';
+            cardRegistry = new Map();
+            vocabulary.forEach(item => {
+                vocabGrid.appendChild(createVocabularyCard(item));
+            });
+        }
+
+        function openModal(item) {
+            const key = getWordKey(item.word);
+            currentModalWordKey = key;
+            currentModalLevel = item.primaryLevel || null;
+
+            modalWord.textContent = item.word;
+            if (item.primaryLevel) {
+                modalLevel.textContent = item.primaryLevel;
+                modalLevel.hidden = false;
+            } else {
+                modalLevel.hidden = true;
+            }
+            modalTranslation.textContent = item.translation || '—';
+            modalCategory.hidden = true;
+            if (item.categoryTypes && item.categoryTypes.includes('noun')) {
+                const pluralForm = resolveNounPlural(item.word, item.plural);
+                if (pluralForm) {
+                    modalPlural.textContent = `pl: ${pluralForm}`;
+                    modalPlural.hidden = false;
+                } else {
+                    modalPlural.hidden = true;
+                }
+            } else {
+                modalPlural.hidden = true;
+            }
+
+            if (item.conjugations) {
+                modalConjugations.hidden = false;
+                modalConjugationsBody.innerHTML = '';
+                Object.entries(item.conjugations).forEach(([pronoun, form]) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${pronoun}</td><td>${form}</td>`;
+                    modalConjugationsBody.appendChild(row);
+                });
+            } else {
+                modalConjugations.hidden = true;
+            }
+
+            modalLessons.hidden = true;
+
+            if (item.note || item.reference) {
+                modalNotes.hidden = false;
+                modalNoteText.textContent = item.note || item.reference;
+            } else {
+                modalNotes.hidden = true;
+            }
+
+            updateModalStatus(key);
+            modalBackdrop.classList.add('open');
+        }
+
+        function closeModal() {
+            modalBackdrop.classList.remove('open');
+        }
+
+        modalCloseBtn.addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', event => {
+            if (event.target === modalBackdrop) closeModal();
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closeModal();
+        });
+
+        modalKnowBtn.addEventListener('click', () => {
+            if (currentModalWordKey) setWordStatus(currentModalWordKey, 'known');
+        });
+
+        modalDontKnowBtn.addEventListener('click', () => {
+            if (currentModalWordKey) setWordStatus(currentModalWordKey, 'unknown');
+        });
+
+        function ensureTaskEntry(taskId) {
+            if (!taskId) return null;
+            if (!lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') {
+                lessonTaskProgress.tasks = {};
+            }
+            if (!lessonTaskProgress.tasks[taskId]) {
+                lessonTaskProgress.tasks[taskId] = { completed: false, success: false, mistakes: 0 };
+            }
+            return lessonTaskProgress.tasks[taskId];
+        }
+
+        function registerTask(taskId) {
+            if (!taskId) return;
+            trackedTaskIds.add(taskId);
+            ensureTaskEntry(taskId);
+        }
+
+        function loadLessonTaskProgress() {
+            try {
+                const stored = localStorage.getItem(LESSON_TASK_PROGRESS_KEY);
+                if (!stored) {
+                    lessonTaskProgress = { tasks: {} };
+                    return;
+                }
+                const parsed = JSON.parse(stored);
+                if (parsed && typeof parsed === 'object') {
+                    const tasks = parsed.tasks && typeof parsed.tasks === 'object' ? parsed.tasks : parsed;
+                    lessonTaskProgress = { tasks: tasks || {} };
+                } else {
+                    lessonTaskProgress = { tasks: {} };
+                }
+            } catch (error) {
+                lessonTaskProgress = { tasks: {} };
+            }
+
+            if (!lessonTaskProgress.tasks || typeof lessonTaskProgress.tasks !== 'object') {
+                lessonTaskProgress.tasks = {};
+            }
+
+            Object.keys(lessonTaskProgress.tasks).forEach(key => {
+                const entry = lessonTaskProgress.tasks[key];
+                if (!entry || typeof entry !== 'object') {
+                    lessonTaskProgress.tasks[key] = { completed: false, success: false, mistakes: 0 };
+                } else {
+                    lessonTaskProgress.tasks[key] = {
+                        completed: entry.completed === true,
+                        success: entry.success === true,
+                        mistakes: Number(entry.mistakes) || 0
+                    };
+                }
+            });
+        }
+
+        function saveLessonTaskProgress() {
+            try {
+                localStorage.setItem(LESSON_TASK_PROGRESS_KEY, JSON.stringify(lessonTaskProgress));
+            } catch (error) {
+                console.warn('Could not persist task progress', error);
+            }
+        }
+
+        function markTaskSuccess(taskId) {
+            if (!taskId) return;
+            const entry = ensureTaskEntry(taskId);
+            if (!entry) return;
+            entry.completed = true;
+            entry.success = true;
+            saveLessonTaskProgress();
+            updateLessonProgressUI();
+        }
+
+        function recordTaskMistake(taskId) {
+            if (!taskId) return;
+            const entry = ensureTaskEntry(taskId);
+            if (!entry || entry.success) return;
+            entry.completed = true;
+            entry.mistakes = (entry.mistakes || 0) + 1;
+            saveLessonTaskProgress();
+            updateLessonProgressUI();
+        }
+
+        function resetTaskProgress(taskId) {
+            if (!taskId) return;
+            if (lessonTaskProgress.tasks && lessonTaskProgress.tasks[taskId]) {
+                delete lessonTaskProgress.tasks[taskId];
+                saveLessonTaskProgress();
+                updateLessonProgressUI();
+            }
+        }
+
+        function getTaskEntry(taskId) {
+            if (!taskId || !lessonTaskProgress.tasks) return null;
+            return lessonTaskProgress.tasks[taskId] || null;
+        }
+
+        function applyTaskStyling(element, entry) {
+            if (!element) return;
+            const hasMistake = !!(entry && entry.mistakes > 0 && !entry.success);
+            const isSuccess = !!(entry && entry.success);
+            element.classList.toggle('has-mistake', hasMistake);
+            element.classList.toggle('completed-success', isSuccess);
+        }
+
+        function applyMiniQuestionState(question) {
+            if (!question) return;
+            const taskId = question.dataset.questionId || question.dataset.taskId;
+            if (!taskId) return;
+            const entry = getTaskEntry(taskId);
+            applyTaskStyling(question, entry);
+            const options = question.querySelectorAll('.mini-option');
+            const feedback = question.querySelector('.mini-feedback');
+            if (feedback) feedback.textContent = '';
+
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect', 'disabled');
+                option.disabled = false;
+            });
+
+            if (!entry) {
+                question.dataset.completed = 'false';
+                return;
+            }
+
+            if (entry.success) {
+                question.dataset.completed = 'true';
+                options.forEach(option => {
+                    option.disabled = true;
+                    if (option.dataset.correct === 'true') {
+                        option.classList.add('correct');
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                });
+                if (feedback) feedback.textContent = '✅ Completed earlier';
+            } else if (entry.mistakes > 0) {
+                question.dataset.completed = 'false';
+                if (feedback) feedback.textContent = '❌ Needs another try';
+            }
+        }
+
+        function updateVocabularyIndicator() {
+            if (!lessonVocabIndicator) return;
+            const { known = 0, total = 0, percent = 0 } = vocabularySummary || {};
+            if (!total) {
+                lessonVocabIndicator.textContent = '0 / 0 known';
+            } else {
+                lessonVocabIndicator.textContent = `${known} / ${total} known (${Math.round(percent)}%)`;
+            }
+        }
+
+        function persistLessonOverviewSummary(snapshot) {
+            try {
+                const stored = localStorage.getItem(LESSON_OVERVIEW_PROGRESS_KEY);
+                const data = stored ? JSON.parse(stored) : {};
+                data[LESSON_ID] = snapshot;
+                localStorage.setItem(LESSON_OVERVIEW_PROGRESS_KEY, JSON.stringify(data));
+                if (typeof updateLessonProgressPills === 'function') {
+                    updateLessonProgressPills();
+                }
+            } catch (error) {
+                console.warn('Failed to persist lesson overview summary', error);
+            }
+        }
+
+        function updateLessonProgressUI() {
+            if (!lessonProgressCard || !lessonStatusText || !lessonCompletionBadge || !lessonProgressFillSuccess || !lessonProgressFillMistake || !lessonCompletedCount || !lessonSuccessCount || !lessonMistakeCount) return;
+            const total = trackedTaskIds.size;
+            const tasks = lessonTaskProgress.tasks || {};
+            let completed = 0;
+            let success = 0;
+            let mistakes = 0;
+            trackedTaskIds.forEach(id => {
+                const entry = tasks[id];
+                if (entry?.completed) completed += 1;
+                if (entry?.success) success += 1;
+                if (entry?.mistakes) mistakes += entry.mistakes;
+            });
+            const percent = total ? (success / total) * 100 : 0;
+            const clamped = Math.max(0, Math.min(100, percent));
+            const finished = total > 0 && percent >= 80;
+            const pending = Math.max(0, completed - success);
+            const successPercent = total ? (success / total) * 100 : 0;
+            const pendingPercent = total ? (pending / total) * 100 : 0;
+            const mistakeExists = pending > 0;
+
+            let status = 'Not started';
+            if (completed > 0 && !finished) status = `In progress — ${Math.round(clamped)}% success`;
+            if (finished) status = 'Lesson completed (80% success reached)';
+            lessonStatusText.textContent = status;
+            lessonCompletionBadge.textContent = `${Math.round(clamped)}%`;
+            lessonCompletionBadge.classList.toggle('completed', finished);
+            lessonProgressCard.classList.toggle('completed', finished);
+            lessonProgressCard.classList.toggle('has-mistake', mistakeExists);
+
+            if (lessonProgressFillSuccess) lessonProgressFillSuccess.style.width = total ? `${successPercent}%` : '0%';
+            if (lessonProgressFillMistake) lessonProgressFillMistake.style.width = total ? `${pendingPercent}%` : '0%';
+
+            lessonCompletedCount.textContent = `${completed} / ${total}`;
+            lessonSuccessCount.textContent = `${success} / ${total}`;
+            lessonMistakeCount.textContent = `${mistakes}`;
+            updateVocabularyIndicator();
+
+            if (floatingProgress) {
+                if (floatingProgressFillSuccess) floatingProgressFillSuccess.style.width = total ? `${successPercent}%` : '0%';
+                if (floatingProgressFillMistake) floatingProgressFillMistake.style.width = total ? `${pendingPercent}%` : '0%';
+                if (floatingProgressPill) {
+                    floatingProgressPill.textContent = finished ? 'Lesson completed' : `${Math.round(clamped)}% ready`;
+                    floatingProgressPill.classList.remove('completed', 'warning', 'danger');
+                    if (finished) {
+                        floatingProgressPill.classList.add('completed');
+                    } else if (mistakeExists) {
+                        floatingProgressPill.classList.add('danger');
+                    } else if (completed > 0) {
+                        floatingProgressPill.classList.add('warning');
+                    }
+                }
+            }
+
+            persistLessonOverviewSummary({
+                success,
+                total,
+                mistakes,
+                percent: Math.round(successPercent),
+                status
+            });
+        }
+
+        function resetMiniQuestion(question, resetProgress = false) {
+            const options = question.querySelectorAll('.mini-option');
+            const feedback = question.querySelector('.mini-feedback');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect', 'disabled');
+                option.disabled = false;
+            });
+            if (feedback) feedback.textContent = '';
+            question.dataset.completed = 'false';
+            question.classList.remove('completed-success', 'has-mistake');
+            if (resetProgress) {
+                const taskId = question.dataset.questionId || question.dataset.taskId;
+                if (taskId) resetTaskProgress(taskId);
+            }
+        }
+
+        function handleMiniOptionClick(option, question) {
+            if (question.dataset.completed === 'true') return;
+            const taskId = question.dataset.questionId || question.dataset.taskId;
+            const options = question.querySelectorAll('.mini-option');
+            const feedback = question.querySelector('.mini-feedback');
+            const isCorrect = option.dataset.correct === 'true';
+
+            options.forEach(btn => {
+                const btnCorrect = btn.dataset.correct === 'true';
+                if (btnCorrect) {
+                    btn.classList.add('correct');
+                } else if (btn === option && !isCorrect) {
+                    btn.classList.add('incorrect');
+                } else if (btn !== option) {
+                    btn.classList.add('disabled');
+                }
+                btn.disabled = true;
+            });
+
+            if (isCorrect) {
+                if (feedback) feedback.textContent = '✅ Bravo! You nailed it.';
+                question.classList.add('completed-success');
+                question.classList.remove('has-mistake');
+                if (taskId) markTaskSuccess(taskId);
+            } else {
+                if (feedback) feedback.textContent = '❌ Not quite. The highlighted answer is correct.';
+                question.classList.add('has-mistake');
+                question.classList.remove('completed-success');
+                if (taskId) recordTaskMistake(taskId);
+                setTimeout(() => {
+                    options.forEach(btn => {
+                        btn.disabled = false;
+                        btn.classList.remove('incorrect', 'disabled', 'correct');
+                    });
+                    question.dataset.completed = 'false';
+                }, 600);
+            }
+
+            if (isCorrect) {
+                question.dataset.completed = 'true';
+            }
+
+            if (taskId) {
+                applyTaskStyling(question, getTaskEntry(taskId));
+            }
+        }
+
+        function restoreMiniTasks() {
+            const tasks = document.querySelectorAll('.mini-task');
+            tasks.forEach(task => {
+                const questions = task.querySelectorAll('.mini-question');
+                questions.forEach(question => {
+                    const taskId = question.dataset.questionId || question.dataset.taskId;
+                    registerTask(taskId);
+                    applyMiniQuestionState(question);
+                    question.querySelectorAll('.mini-option').forEach(option => {
+                        option.addEventListener('click', () => handleMiniOptionClick(option, question));
+                    });
+                });
+
+                const resetBtn = task.querySelector('.mini-task-reset');
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', () => {
+                        questions.forEach(question => resetMiniQuestion(question, true));
+                    });
+                }
+            });
+        }
+
+        function restoreMultipleChoiceState() {
+            document.querySelectorAll('[data-activity="mc"] [data-task-id]').forEach(container => {
+                const taskId = container.dataset.taskId;
+                const entry = getTaskEntry(taskId);
+                applyTaskStyling(container, entry);
+                const feedback = container.querySelector('.feedback');
+                if (feedback) feedback.textContent = '';
+                container.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.remove('correct', 'incorrect');
+                    btn.disabled = false;
+                });
+                if (!entry) return;
+                if (entry.success) {
+                    container.querySelectorAll('.option-btn').forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.dataset.correct === 'true') btn.classList.add('correct');
+                        else btn.classList.add('incorrect');
+                    });
+                    if (feedback) feedback.textContent = '✅ Completed earlier';
+                } else if (entry.mistakes > 0) {
+                    if (feedback) feedback.textContent = '❌ Needs another try';
+                }
+            });
+        }
+
+        function restoreSelectState() {
+            document.querySelectorAll('[data-activity="select"][data-task-id]').forEach(container => {
+                const taskId = container.dataset.taskId;
+                const entry = getTaskEntry(taskId);
+                applyTaskStyling(container, entry);
+                const feedback = container.nextElementSibling;
+                if (feedback && feedback.classList.contains('feedback')) feedback.textContent = '';
+                container.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.remove('correct', 'incorrect');
+                    btn.disabled = false;
+                });
+                if (!entry) return;
+                if (entry.success) {
+                    container.querySelectorAll('.option-btn').forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.dataset.correct === 'true') btn.classList.add('correct');
+                        else btn.classList.add('incorrect');
+                    });
+                    if (feedback && feedback.classList.contains('feedback')) feedback.textContent = '✅ Completed earlier';
+                } else if (entry.mistakes > 0 && feedback && feedback.classList.contains('feedback')) {
+                    feedback.textContent = '❌ Needs another try';
+                }
+            });
+        }
+
+        function restoreTrueFalseState() {
+            document.querySelectorAll('.tf-grid > div[data-task-id]').forEach(group => {
+                const taskId = group.dataset.taskId;
+                const entry = getTaskEntry(taskId);
+                applyTaskStyling(group, entry);
+                const buttons = group.querySelectorAll('.tf-btn');
+                buttons.forEach(btn => {
+                    btn.classList.remove('correct', 'incorrect');
+                    btn.disabled = false;
+                });
+                if (!entry) return;
+                if (entry.success) {
+                    buttons.forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.dataset.correct === 'true') btn.classList.add('correct');
+                        else btn.classList.add('incorrect');
+                    });
+                }
+            });
+        }
+
+        function restoreMatchingState(containerId, leftId, rightId, feedbackId, taskId) {
+            const container = document.getElementById(containerId);
+            const left = document.getElementById(leftId);
+            const right = document.getElementById(rightId);
+            const feedback = document.getElementById(feedbackId);
+            if (!container || !left || !right) return;
+            const entry = getTaskEntry(taskId);
+            applyTaskStyling(container, entry);
+            if (feedback) feedback.textContent = '';
+            if (entry?.success && feedback) feedback.textContent = '✅ Completed earlier';
+        }
+
+        function wireMultipleChoice() {
+            document.querySelectorAll('[data-activity="mc"] [data-task-id]').forEach(container => registerTask(container.dataset.taskId));
+            document.querySelectorAll('[data-activity="mc"] .option-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
+                    const correct = button.dataset.correct === 'true';
+                    const container = button.closest('[data-task-id]');
+                    if (!container) return;
+                    const taskId = container.dataset.taskId;
+                    const feedback = container.querySelector('.feedback');
+                    container.querySelectorAll('.option-btn').forEach(btn => {
+                        btn.disabled = true;
+                        if (btn.dataset.correct === 'true') btn.classList.add('correct');
+                        else btn.classList.add('incorrect');
+                    });
+                    if (feedback) feedback.textContent = correct ? '✅ Correct!' : '❌ Not quite. The highlighted answer is correct.';
+                    if (correct) {
+                        container.classList.add('completed-success');
+                        container.classList.remove('has-mistake');
+                        if (taskId) markTaskSuccess(taskId);
+                    } else {
+                        container.classList.add('has-mistake');
+                        container.classList.remove('completed-success');
+                        if (taskId) recordTaskMistake(taskId);
+                    }
+                    if (taskId) applyTaskStyling(container, getTaskEntry(taskId));
+                });
+            });
+            restoreMultipleChoiceState();
+        }
+
+        function wireSelectOne() {
+            document.querySelectorAll('[data-activity="select"][data-task-id]').forEach(container => registerTask(container.dataset.taskId));
+            document.querySelectorAll('[data-activity="select"] .option-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
+                    const correct = button.dataset.correct === 'true';
+                    const container = button.closest('[data-activity="select"]');
+                    if (!container) return;
+                    const taskId = container.dataset.taskId;
+                    const feedback = container.nextElementSibling;
+                    container.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+                    button.classList.add(correct ? 'correct' : 'incorrect');
+                    if (feedback && feedback.classList.contains('feedback')) {
+                        feedback.textContent = correct ? '✅ Well done!' : '❌ Try again next time.';
+                    }
+                    if (correct) {
+                        container.classList.add('completed-success');
+                        container.classList.remove('has-mistake');
+                        if (taskId) markTaskSuccess(taskId);
+                    } else {
+                        container.classList.add('has-mistake');
+                        container.classList.remove('completed-success');
+                        if (taskId) recordTaskMistake(taskId);
+                    }
+                    if (taskId) applyTaskStyling(container, getTaskEntry(taskId));
+                });
+            });
+            restoreSelectState();
+        }
+
+        function wireTrueFalse() {
+            document.querySelectorAll('.tf-grid > div[data-task-id]').forEach(group => registerTask(group.dataset.taskId));
+            document.querySelectorAll('.tf-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    if (button.classList.contains('correct') || button.classList.contains('incorrect')) return;
+                    const correct = button.dataset.correct === 'true';
+                    const group = button.parentElement;
+                    const taskId = group?.dataset.taskId;
+                    group.querySelectorAll('.tf-btn').forEach(btn => btn.disabled = true);
+                    if (correct) {
+                        button.classList.add('correct');
+                        group.classList.add('completed-success');
+                        group.classList.remove('has-mistake');
+                        if (taskId) {
+                            markTaskSuccess(taskId);
+                            applyTaskStyling(group, getTaskEntry(taskId));
+                        }
+                    } else {
+                        button.classList.add('incorrect');
+                        const correctBtn = group.querySelector('.tf-btn[data-correct="true"]');
+                        if (correctBtn) correctBtn.classList.add('correct');
+                        group.classList.add('has-mistake');
+                        group.classList.remove('completed-success');
+                        if (taskId) {
+                            recordTaskMistake(taskId);
+                            applyTaskStyling(group, getTaskEntry(taskId));
+                        }
+                    }
+                });
+            });
+            restoreTrueFalseState();
+        }
+
+        function setupMatchingGame(pairs, leftId, rightId, feedbackId, taskId, containerId) {
+            const leftContainer = document.getElementById(leftId);
+            const rightContainer = document.getElementById(rightId);
+            const feedbackEl = document.getElementById(feedbackId);
+            if (!leftContainer || !rightContainer) return;
+
+            leftContainer.innerHTML = '';
+            rightContainer.innerHTML = '';
+            if (feedbackEl) feedbackEl.textContent = '';
+
+            let selectedLeftBtn = null;
+            let matchedCount = 0;
+            let finished = false;
+
+            if (taskId) registerTask(taskId);
+            const containerEl = containerId ? document.getElementById(containerId) : null;
+
+            pairs.forEach((pair, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'matching-btn';
+                btn.textContent = pair.left;
+                btn.dataset.matchKey = String(index);
+                btn.addEventListener('click', () => {
+                    if (btn.classList.contains('correct')) return;
+                    leftContainer.querySelectorAll('.matching-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedLeftBtn = btn;
+                });
+                leftContainer.appendChild(btn);
+            });
+
+            const shuffled = pairs.map((pair, index) => ({ ...pair, index })).sort(() => 0.5 - Math.random());
+            shuffled.forEach(({ right, index }) => {
+                const btn = document.createElement('button');
+                btn.className = 'matching-btn';
+                btn.textContent = right;
+                btn.dataset.matchKey = String(index);
+                btn.addEventListener('click', () => {
+                    if (!selectedLeftBtn || btn.classList.contains('correct')) return;
+                    const isMatch = selectedLeftBtn.dataset.matchKey === btn.dataset.matchKey;
+                    if (isMatch) {
+                        btn.classList.add('correct', 'disabled');
+                        selectedLeftBtn.classList.remove('selected');
+                        selectedLeftBtn.classList.add('correct', 'disabled');
+                        selectedLeftBtn = null;
+                        matchedCount += 1;
+                        if (matchedCount === pairs.length) {
+                            if (feedbackEl) feedbackEl.textContent = '✅ Great job! All pairs matched.';
+                            if (containerEl) {
+                                containerEl.classList.add('completed-success');
+                                containerEl.classList.remove('has-mistake');
+                            }
+                            if (taskId && !finished) {
+                                finished = true;
+                                markTaskSuccess(taskId);
+                                applyTaskStyling(containerEl, getTaskEntry(taskId));
+                            }
+                        }
+                    } else {
+                        btn.classList.add('incorrect');
+                        if (containerEl) {
+                            containerEl.classList.add('has-mistake');
+                            containerEl.classList.remove('completed-success');
+                        }
+                        if (taskId && !finished) recordTaskMistake(taskId);
+                        if (taskId) applyTaskStyling(containerEl, getTaskEntry(taskId));
+                        setTimeout(() => btn.classList.remove('incorrect'), 600);
+                    }
+                });
+                rightContainer.appendChild(btn);
+            });
+
+            if (taskId) {
+                const entry = getTaskEntry(taskId);
+                applyTaskStyling(containerEl, entry);
+                if (entry?.success) {
+                    finished = true;
+                    if (feedbackEl) feedbackEl.textContent = '✅ Completed earlier';
+                    [...leftContainer.querySelectorAll('button'), ...rightContainer.querySelectorAll('button')].forEach(btn => {
+                        btn.classList.add('correct', 'disabled');
+                        btn.disabled = true;
+                    });
+                } else if (entry && entry.mistakes > 0) {
+                    if (feedbackEl && !feedbackEl.textContent) feedbackEl.textContent = '❌ Needs another try';
+                }
+            }
+        }
+
+        function wireMatching() {
+            const orderPairs = [
+                { left: 'Espreso', right: 'Jedan espreso, molim.' },
+                { left: 'Kapucino', right: 'Ja bih kapucino, molim.' },
+                { left: 'Voda', right: 'Molim vas, jedna gazirana voda.' },
+                { left: 'Pivo', right: 'Možete li nam doneti pivo?' },
+                { left: 'Čaj', right: 'Dajte mi čaj od mente, molim.' },
+                { left: 'Kolač', right: 'Koliko košta čokoladni kolač?' }
+            ];
+            setupMatchingGame(orderPairs, 'matching-left', 'matching-right', 'matching-feedback', 'practice-match-orders', 'matching-section');
+        }
+
+        function wireQuestionMatching() {
+            const qaPairs = [
+                { left: 'Izvolite, šta želite?', right: 'Ja bih espresso i vodu.' },
+                { left: 'Želite li nešto da pojedete?', right: 'Da, jedan kolač, molim.' },
+                { left: 'Sa mlekom ili bez?', right: 'Sa malo mleka, hvala.' },
+                { left: 'Još nešto?', right: 'Za sada je to sve, hvala.' },
+                { left: 'Da li želite račun?', right: 'Da, donesite nam račun, molim.' },
+                { left: 'Sve je u redu?', right: 'Odlično je, hvala na pitanju.' }
+            ];
+            setupMatchingGame(qaPairs, 'qa-left', 'qa-right', 'qa-feedback', 'practice-match-qa', 'qa-section');
+        }
+
+        function wireDialogue() {
+            const sequence = ['Konobar: Izvolite?', 'Gost: Ja bih kapucino.', 'Konobar: Još nešto?', 'Gost: Molim vas jednu vodu.', 'Konobar: Račun dolazi odmah.'];
+            const taskId = 'practice-dialogue';
+            registerTask(taskId);
+            const grid = document.getElementById('dialogue-grid');
+            const feedback = document.getElementById('dialogue-feedback');
+            const card = document.getElementById('dialogue-section');
+            let index = 0;
+            let finished = false;
+
+            const shuffled = [...sequence].sort(() => 0.5 - Math.random());
+            shuffled.forEach(text => {
+                const btn = document.createElement('button');
+                btn.className = 'dialogue-btn';
+                btn.textContent = text;
+                btn.addEventListener('click', () => {
+                    if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) return;
+                    const expected = sequence[index];
+                    if (text === expected) {
+                        btn.classList.add('correct');
+                        btn.disabled = true;
+                        index += 1;
+                        if (index === sequence.length) {
+                            if (feedback) feedback.textContent = '✅ Conversation in perfect order!';
+                            if (!finished) {
+                                finished = true;
+                                markTaskSuccess(taskId);
+                                applyTaskStyling(card, getTaskEntry(taskId));
+                            }
+                        }
+                    } else {
+                        btn.classList.add('incorrect');
+                        if (!finished) {
+                            recordTaskMistake(taskId);
+                            applyTaskStyling(card, getTaskEntry(taskId));
+                        }
+                        setTimeout(() => btn.classList.remove('incorrect'), 600);
+                        if (feedback) feedback.textContent = '❌ Try selecting the cards in order.';
+                    }
+                });
+                grid.appendChild(btn);
+            });
+
+            const entry = getTaskEntry(taskId);
+            applyTaskStyling(card, entry);
+            if (entry?.success) {
+                finished = true;
+                if (feedback) feedback.textContent = '✅ Completed earlier';
+                grid.querySelectorAll('button').forEach(button => {
+                    button.classList.add('correct');
+                    button.disabled = true;
+                });
+            }
+        }
+
+        function wireFlashcards() {
+            const words = [
+                { front: 'Espresso', back: 'Espreso' },
+                { front: 'Waiter', back: 'Konobar' },
+                { front: 'Bill', back: 'Račun' },
+                { front: 'Menu', back: 'Meni' },
+                { front: 'Water', back: 'Voda' },
+                { front: 'I would like…', back: 'Ja bih…' }
+            ];
+            const container = document.getElementById('flashcards');
+            words.forEach(({ front, back }) => {
+                const card = document.createElement('div');
+                card.className = 'flashcard';
+                card.textContent = front;
+                card.dataset.front = front;
+                card.dataset.back = back;
+                card.addEventListener('click', () => {
+                    const flipped = card.classList.toggle('flipped');
+                    card.textContent = flipped ? back : front;
+                });
+                container.appendChild(card);
+            });
+        }
+
+        function wireChallenge() {
+            const btn = document.getElementById('challenge-btn');
+            const feedback = document.getElementById('challenge-feedback');
+            if (!btn) return;
+            const taskId = 'practice-challenge';
+            registerTask(taskId);
+            const card = document.querySelector('#tab-challenge .challenge-card');
+            const entry = getTaskEntry(taskId);
+            applyTaskStyling(card, entry);
+            if (entry?.success) {
+                btn.classList.add('done');
+                btn.textContent = 'Great job! ✅';
+                if (feedback) feedback.textContent = '🎉 Bravo! Keep practicing in real life.';
+            }
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('done');
+                const done = btn.classList.contains('done');
+                btn.textContent = done ? 'Great job! ✅' : 'I did it!!';
+                if (feedback) feedback.textContent = done ? '🎉 Bravo! Keep practicing in real life.' : '';
+                if (done) {
+                    markTaskSuccess(taskId);
+                } else {
+                    resetTaskProgress(taskId);
+                }
+                applyTaskStyling(card, getTaskEntry(taskId));
+            });
+        }
+
+        function initTabs() {
+            const buttons = document.querySelectorAll('.tab-button');
+            const panels = document.querySelectorAll('.tab-panel');
+            const activate = key => {
+                buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === key));
+                panels.forEach(panel => panel.classList.toggle('active', panel.id === `tab-${key}`));
+            };
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const target = button.dataset.tab;
+                    activate(target);
+                    const tabsTop = document.querySelector('.lesson-tabs');
+                    if (tabsTop) {
+                        tabsTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
+        function handleRetake() {
+            localStorage.removeItem(LESSON_TASK_PROGRESS_KEY);
+            lessonTaskProgress = { tasks: {} };
+            updateLessonProgressUI();
+            window.location.reload();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLessonTaskProgress();
+            loadProgress();
+            if (lessonRetakeBtn) lessonRetakeBtn.addEventListener('click', handleRetake);
+            if (floatingRetakeBtn) floatingRetakeBtn.addEventListener('click', handleRetake);
+
+            const fullVocab = collectLessonVocabulary();
+            renderVocabularyCards(fullVocab);
+            updateProgressBar();
+
+            restoreMiniTasks();
+            initTabs();
+            wireMultipleChoice();
+            wireMatching();
+            wireQuestionMatching();
+            wireSelectOne();
+            wireDialogue();
+            wireTrueFalse();
+            wireFlashcards();
+            wireChallenge();
+            updateLessonProgressUI();
+        });
+    </script>
+</body>
+</html>

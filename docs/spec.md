@@ -12,7 +12,8 @@ _Last updated: 2025-11-07_
 |------|---------|-------|
 | `index.html` | Dashboard/home | Shows next lesson, progress stats, bar chart, quick actions. |
 | `lessons.html` | Lessons overview | Filterable list (all / not started / in progress / completed / locked). |
-| `lesson.html` | Lesson player | Lesson 1 with tabbed guide/vocab/practice/challenge sections, pronoun cards injected directly under “Lesson Guide”, theory blocks paired with mini tasks, shared vocab cards (single toggle button), interactive click-based drills, and a real-life challenge badge. |
+| `lesson.html` | Lesson player | Lesson 1 with tabbed guide/vocab/practice/challenge sections, inline mini tasks, shared vocab cards, interactive drills, floating progress (card + sticky pill), and a real-life challenge badge. |
+| `lesson2.html` | Lesson player | Lesson 2 “At the Café” mirrors the Lesson 1 structure with café-specific theory tables, quizzes, practice lab, flashcards, challenge, and the same progress + vocabulary persistence. |
 | `vocab.html` | Vocabulary trainer | Renders category tabs from `vocab/vocab-data.js`, tracks known/unknown status with a single toggle button, shows conjugations, shared references, and modal details (level badge + category meta). |
 | `quiz.html` | Quiz hub (placeholder) | Coming-soon message, links back to lessons/vocab. |
 
@@ -32,17 +33,19 @@ Dashboard (index) | Lessons | Vocabulary | Quiz
 - Legacy JSON (`vocab/a1.json`) retained for reference; platform now reads from `vocab-data.js`.
 - Progress keys in `localStorage`:
   - `montenegrin_lesson_progress_v1` — statuses per lesson (`not_started`, `in_progress`, `completed`).
+  - `lesson_overview_progress_v1` — compact snapshot per lesson (success %, mistakes, total) for the lessons list/dash pills.
+  - `lesson{n}_task_progress_v1` — per-lesson task tracking (mini tasks, practice lab, challenge) currently for `lesson1` and `lesson2`.
 
 ## JavaScript (`script.js`)
 Shared utility module executed on all pages:
 1. **Progress helpers**: sanitize + cache lesson progress, update count summary, find next lesson.
 2. **Dashboard**: reads `lessonsData`, calculates completion, updates stat cards and mini bar chart.
-3. **Lessons list**: renders rows with status pill + CTA; supports filter chips.
+3. **Lessons list**: renders rows with status pill + CTA, applies snapshot-based pill styling (`lesson_overview_progress_v1`), and links directly to `lesson.html` / `lesson2.html` (via `lessonHref`).
 4. **UX helpers**: script toggle for hero (if present), smooth scrolling for anchor links.
 5. **Error-handling**: sanitizes corrupted storage, wraps render calls in `try/catch`.
 
 ### Page-specific hooks
-- `lesson.html`: renders Lesson 1 guide notes with inline pronoun cards and mini tasks, shared vocab with single toggle (“I know”/“Practice again”), interactive MCQ/matching/dialogue drills (including interrogative/negative practice), flashcards, and a real-life challenge button inside the tabbed guide / vocab / practice / challenge panels (progress status wiring TBD for other lessons).
+- `lesson.html` & `lesson2.html`: render lesson-specific guide tables with mini tasks, shared vocabulary cards (“I know” / “Practice again”), interactive MCQ/matching/dialogue drills, flashcards, and a real-life challenge. Each page persists task outcomes, mistake counts, and vocabulary progress, and exposes both full and floating progress bars plus a “Retake lesson” flow.
 - `vocab.html`: aggregates all lessons into category tabs (verbs, nouns, etc.), renders cards with conjugations, supports one-button known/unknown toggles, a global progress bar, and updated modals (word + level badge, translation, optional conjugations, note).
 
 ## Styling (`styles.css`)
@@ -52,13 +55,13 @@ Shared utility module executed on all pages:
 - Background color: `#f5f7fa` to frame cards.
 
 ## Current Content
-- **Lessons**: nineteen entries defined (course roadmap A1.1 → B1.1). `lesson1` is playable; `lesson2`–`lesson19` currently flagged `available: false` with theory/vocabulary/practice scaffolding ready for content builds.
-- **Vocabulary**: `vocab/vocab-data.js` lists lesson-by-lesson vocab (A1.1 → B1.1) with categories + conjugations; shared section tracks numbers/days/months.
-- **Lesson 1 exercises**: translation, MCQ, fill-in, matching, translation.
+- **Lessons**: nineteen entries defined (course roadmap A1.1 → B1.1). `lesson1` and `lesson2` are playable; `lesson3`–`lesson19` remain flagged `available: false` with theory/vocabulary/practice scaffolding ready for content builds.
+- **Vocabulary**: `vocab/vocab-data.js` lists lesson-by-lesson vocab (A1.1 → B1.1) with categories + conjugations; shared section tracks numbers/days/months; Lesson 2 entries include café verbs, drinks, and polite phrases.
+- **Lesson exercises**: Lesson 1 covers greetings/introductions; Lesson 2 covers café ordering (verbs imati/želeti, polite phrases, menu gender, dialogue practice).
 - **Course plan**: see `docs/course-plan-en.md` for the full 19-lesson roadmap (A1.1 → B1.1).
 
 ## Known Gaps / TODO
-- Parameterize `lesson.html` to render any lesson based on query string.
+- Parameterize lesson player to render any lesson from a single template + data rather than separate HTML files.
 - Build quiz generator to pull from completed lesson exercises.
 - Add vocabulary overview page (multi-set chooser) + progress rollup.
 - Add streak/XP logic to dashboard.

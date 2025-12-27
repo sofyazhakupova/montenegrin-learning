@@ -154,22 +154,146 @@
 
         .hero {
             margin-top: 1.5rem;
-            background: linear-gradient(125deg, rgba(45, 90, 135, 0.92), rgba(15, 32, 54, 0.75)), url('assets/lesson-hero.jpg') center/cover;
+            position: relative;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.3) 100%), url('assets/lesson-hero.jpg') center/cover;
             color: var(--white);
-            padding: 2.5rem;
+            padding: 3rem 2.5rem;
             border-radius: 20px;
             box-shadow: var(--shadow);
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .hero-badge {
+            position: relative;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background: rgba(39, 174, 96, 0.95);
+            color: var(--white);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            width: fit-content;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .hero h1 {
-            font-size: 2.4rem;
-            margin-bottom: 0.35rem;
+            position: relative;
+            z-index: 2;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .hero p {
+            position: relative;
+            z-index: 2;
             max-width: 720px;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.05rem;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-evaluation-section {
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .progress-bar-container {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .progress-bar-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .progress-bar-horizontal {
+            width: 100%;
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(45, 90, 135, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-horizontal-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-color), rgba(39, 174, 96, 0.8));
+            border-radius: 999px;
+            transition: width 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--white);
+            min-width: fit-content;
+            white-space: nowrap;
+        }
+
+        .evaluation-box {
+            background: var(--white);
+            border: 2px solid rgba(39, 174, 96, 0.2);
+            border-radius: 16px;
+            padding: 1.25rem 1.75rem;
+            min-width: 180px;
+            box-shadow: 0 2px 8px rgba(39, 174, 96, 0.1);
+        }
+
+        .evaluation-box h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .evaluation-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--success-color);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .evaluation-breakdown {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .retake-button-container {
+            display: flex;
+            align-items: center;
         }
 
         .lesson-progress-card {
@@ -757,11 +881,29 @@
         </div>
 
         <section class="hero">
-            <h1>Lesson 1: Greetings and Introductions</h1>
-            <p><strong>Level:</strong> A1 &nbsp;•&nbsp; <strong>Goal:</strong> Learn how to greet people, introduce yourself, and use basic polite expressions in Montenegrin/Serbian.</p>
+            <span class="hero-badge" id="hero-badge">A1 Lesson 1</span>
+            <h1>Greetings and Introductions</h1>
+            <p>Learn how to greet people, introduce yourself, and use basic polite expressions in Montenegrin.</p>
         </section>
 
-        <section class="lesson-progress-card" id="lesson-progress-card">
+        <section class="progress-evaluation-section">
+            <div class="progress-bar-container">
+                <div class="progress-bar-label" id="progress-bar-label">0% complete</div>
+                <div class="progress-bar-horizontal">
+                    <div class="progress-bar-horizontal-fill" id="progress-bar-horizontal-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div class="evaluation-box">
+                <h3>Evaluation</h3>
+                <div class="evaluation-score" id="evaluation-score">0.0</div>
+                <div class="evaluation-breakdown" id="evaluation-breakdown">0% tasks, 0% vocab</div>
+            </div>
+            <div class="retake-button-container">
+                <button type="button" class="pill-btn" id="lesson-retake-btn">Retake lesson</button>
+            </div>
+        </section>
+
+        <section class="lesson-progress-card" id="lesson-progress-card" style="display: none;">
             <div class="lesson-progress-header">
                 <div>
                     <h2>Lesson Progress</h2>
@@ -773,7 +915,6 @@
                         <div class="lesson-progress-fill lesson-progress-fill-success" id="lesson-progress-fill-success"></div>
                         <div class="lesson-progress-fill lesson-progress-fill-mistake" id="lesson-progress-fill-mistake"></div>
                     </div>
-                    <button type="button" class="pill-btn outline" id="lesson-retake-btn">Retake lesson</button>
                 </div>
             </div>
             <div class="lesson-progress-metrics">
@@ -1452,6 +1593,10 @@
         const lessonMistakeCount = document.getElementById('lesson-mistake-count');
         const lessonVocabIndicator = document.getElementById('lesson-vocab-indicator');
         const lessonRetakeBtn = document.getElementById('lesson-retake-btn');
+        const progressBarLabel = document.getElementById('progress-bar-label');
+        const progressBarHorizontalFill = document.getElementById('progress-bar-horizontal-fill');
+        const evaluationScore = document.getElementById('evaluation-score');
+        const evaluationBreakdown = document.getElementById('evaluation-breakdown');
         const floatingProgress = document.getElementById('floating-progress');
         const floatingProgressPill = document.getElementById('floating-progress-pill');
         const floatingProgressFillSuccess = document.getElementById('floating-progress-fill-success');
@@ -2042,6 +2187,30 @@
             lessonSuccessCount.textContent = `${success} / ${total}`;
             lessonMistakeCount.textContent = `${mistakes}`;
             updateVocabularyIndicator();
+
+            // Update new progress/evaluation section
+            const vocabPercent = vocabularySummary.percent || 0;
+            const taskPercent = total > 0 ? (success / total) * 100 : 0;
+            const overallPercent = total > 0 ? Math.round((taskPercent * 0.8 + vocabPercent * 0.2)) : Math.round(vocabPercent);
+            
+            if (progressBarLabel) {
+                progressBarLabel.textContent = `${overallPercent}% complete`;
+            }
+            if (progressBarHorizontalFill) {
+                progressBarHorizontalFill.style.width = `${overallPercent}%`;
+                progressBarHorizontalFill.textContent = overallPercent > 0 ? `${overallPercent}%` : '';
+            }
+            
+            // Calculate evaluation score (out of 5.0)
+            const evaluationValue = overallPercent > 0 ? (overallPercent / 100) * 5 : 0;
+            if (evaluationScore) {
+                evaluationScore.textContent = evaluationValue.toFixed(1);
+            }
+            if (evaluationBreakdown) {
+                const taskPercentRounded = Math.round(taskPercent);
+                const vocabPercentRounded = Math.round(vocabPercent);
+                evaluationBreakdown.textContent = `${taskPercentRounded}% tasks, ${vocabPercentRounded}% vocab`;
+            }
 
             if (floatingProgress) {
                 if (floatingProgressFillSuccess) floatingProgressFillSuccess.style.width = total ? `${successPercent}%` : '0%';

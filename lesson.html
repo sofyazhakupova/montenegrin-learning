@@ -77,34 +77,6 @@
             padding: 0 2rem 4rem;
         }
 
-        .lesson-progress-floating {
-            position: sticky;
-            top: 64px;
-            z-index: 70;
-            padding: 0.55rem 0;
-            margin: 0 -2rem 1.5rem;
-            background: rgba(245, 247, 250, 0.92);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(45, 90, 135, 0.1);
-        }
-
-        .lesson-progress-floating .floating-content {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .lesson-progress-floating .progress-info {
-            display: flex;
-            align-items: center;
-            gap: 0.9rem;
-            flex-wrap: wrap;
-        }
 
         .lesson-progress-bar {
             display: flex;
@@ -223,8 +195,15 @@
         }
 
         .progress-evaluation-section {
+            position: sticky;
+            top: 64px;
+            z-index: 70;
             margin-top: 1.5rem;
             margin-bottom: 2rem;
+            padding: 1rem 0;
+            background: rgba(245, 247, 250, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             gap: 1.5rem;
@@ -858,7 +837,7 @@
                 width: 100%;
             }
 
-            .lesson-progress-floating {
+            .progress-evaluation-section {
                 top: 56px;
             }
         }
@@ -878,19 +857,6 @@
     </header>
 
     <main class="lesson-wrapper">
-        <div class="lesson-progress-floating" id="floating-progress">
-            <div class="floating-content">
-                <div class="progress-info">
-                    <span class="lesson-progress-pill" id="floating-progress-pill">0% ready</span>
-                    <div class="lesson-progress-bar compact">
-                        <div class="lesson-progress-fill lesson-progress-fill-success" id="floating-progress-fill-success"></div>
-                        <div class="lesson-progress-fill lesson-progress-fill-mistake" id="floating-progress-fill-mistake"></div>
-                    </div>
-                </div>
-                <button type="button" class="pill-btn outline" id="floating-retake-btn">Retake</button>
-            </div>
-        </div>
-
         <section class="hero">
             <span class="hero-badge" id="hero-badge">A1 Lesson 1</span>
             <h1>Greetings and Introductions</h1>
@@ -1608,11 +1574,6 @@
         const progressBarHorizontalFill = document.getElementById('progress-bar-horizontal-fill');
         const evaluationScore = document.getElementById('evaluation-score');
         const evaluationBreakdown = document.getElementById('evaluation-breakdown');
-        const floatingProgress = document.getElementById('floating-progress');
-        const floatingProgressPill = document.getElementById('floating-progress-pill');
-        const floatingProgressFillSuccess = document.getElementById('floating-progress-fill-success');
-        const floatingProgressFillMistake = document.getElementById('floating-progress-fill-mistake');
-        const floatingRetakeBtn = document.getElementById('floating-retake-btn');
 
         const modalBackdrop = document.querySelector('.modal-backdrop');
         const modalWord = document.getElementById('modal-word');
@@ -2223,22 +2184,6 @@
                 evaluationBreakdown.textContent = `${taskPercentRounded}% tasks, ${vocabPercentRounded}% vocab`;
             }
 
-            if (floatingProgress) {
-                if (floatingProgressFillSuccess) floatingProgressFillSuccess.style.width = total ? `${successPercent}%` : '0%';
-                if (floatingProgressFillMistake) floatingProgressFillMistake.style.width = total ? `${pendingPercent}%` : '0%';
-                if (floatingProgressPill) {
-                    floatingProgressPill.textContent = finished ? 'Lesson completed' : `${Math.round(clamped)}% ready`;
-                    floatingProgressPill.classList.remove('completed', 'warning', 'danger');
-                    if (finished) {
-                        floatingProgressPill.classList.add('completed');
-                    } else if (mistakeExists) {
-                        floatingProgressPill.classList.add('danger');
-                    } else if (completed > 0) {
-                        floatingProgressPill.classList.add('warning');
-                    }
-                }
-            }
-
             persistLessonOverviewSummary({
                 success,
                 total,
@@ -2759,7 +2704,6 @@
             loadLessonTaskProgress();
             loadProgress();
             if (lessonRetakeBtn) lessonRetakeBtn.addEventListener('click', handleRetake);
-            if (floatingRetakeBtn) floatingRetakeBtn.addEventListener('click', handleRetake);
 
             const fullVocab = collectLessonVocabulary();
             renderVocabularyCards(fullVocab);
